@@ -1,0 +1,52 @@
+[
+  {
+    "price": 20900,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Famd0.jpeg?alt=media&token=8b0f3dde-d1b3-4d98-9461-84614423e03c",
+    "description": "Microprocesador Amd Ryzen 3 4100 AM4 4.0Ghz"
+  },
+  {
+    "price": 32900,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Famd1.jpeg?alt=media&token=de905ced-7ee9-42af-993c-709a65148dea",
+    "description": "Microprocesador Amd Ryzen 3 4350G AM4 4.0Ghz"
+  },
+  {
+    "price": 42400,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Famd2.jpeg?alt=media&token=1ae6f1f8-8a51-475b-8155-8f77a6343a11",
+    "description": "Microprocesador Amd Ryzen 5 3600 AM4 4.2Ghz"
+  },
+  {
+    "price": 46800,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Famd3.jpeg?alt=media&token=9246b54f-d28e-4292-9513-525c38af9ef2",
+    "description": "Microprocesador Amd Ryzen 5 5500 AM4 4.2Ghz"
+  },
+  {
+    "price": 66000,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Famd4.jpeg?alt=media&token=4cfa18fe-b2a8-4e4e-ac89-fa22a6c73c6e",
+    "description": "Microprocesador Amd Ryzen 7 5700X AM4 4.6Ghz"
+  },
+  {
+    "price": 110000,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Famd5.jpeg?alt=media&token=7f00bcd7-a27c-4efa-b8f6-72d0da870b3f",
+    "description": "Microprocesador Amd Ryzen 9 5900X AM4 4.8Ghz"
+  },
+  {
+    "price": 12000,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fintel0.jpeg?alt=media&token=60688d02-8681-4061-9067-93f27f845530",
+    "description": "Microprocesador Intel Celeron G6900 LGA1700 3.8Ghz"
+  },
+  {
+    "price": 15600,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fintel1.jpeg?alt=media&token=d8a0afa9-11cc-4e2f-90a3-dd70ddfd80bc",
+    "description": "Microprocesador Intel Pentium G7400 LGA1700 3.8Ghz"
+  },
+  {
+    "price": 34500,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fintel2.jpeg?alt=media&token=73670de4-900b-4e3a-b635-58d571df0484",
+    "description": "Microprocesador Intel Core i3 12100 LGA1700 4.3Ghz"
+  },
+  {
+    "price": 51000,
+    "imgScr": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fintel3.jpeg?alt=media&token=283e9e90-6dbc-4cec-bc9d-b8ac2d0f23a8",
+    "description": "Microprocesador Intel Core i5 12400 LGA1700 4.4Ghz"
+  }  
+]

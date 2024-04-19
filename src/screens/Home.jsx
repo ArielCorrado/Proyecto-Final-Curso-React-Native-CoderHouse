@@ -4,6 +4,7 @@ import CardHardware from '../components/cards/CardHardware';
 import productsList from "../data/productosList.json"
 
 const Home = () => {
+    
     return (
         <View style={styles.container}>
             <FlatList 

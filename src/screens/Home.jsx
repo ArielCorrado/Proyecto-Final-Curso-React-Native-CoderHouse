@@ -1,18 +1,41 @@
 import React from 'react';
-import {View, StyleSheet, Text, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, TextInput} from 'react-native';
+import { useState, useEffect } from 'react';
 import CardHardware from '../components/cards/CardHardware';
 import productsList from "../data/productosList.json"
 
+const ProductsList = ({searchText}) => {
+
+    const [result, setResult] = useState([]);
+
+    useEffect(() => {
+        const results = !searchText || searchText.length < 3 ? productsList.sort((producta, productb) => producta - productb) : productsList.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
+        results.length > 0 ? setResult(results) : setResult([]);
+    }, [searchText])
+    
+    return (
+        <FlatList
+            contentContainerStyle={styles.flatList}
+            showsVerticalScrollIndicator={false}
+            data={result}
+            renderItem={({ item }) => <CardHardware price={item.price} description={item.description} imgSrc={item.imgScr} />}
+        />
+    )
+}
+
+
 const Home = () => {
+
+    const [productsList, setProductsList] = useState(<ProductsList searchText=""/>);
+
+    const handleChangeText = (text) => {
+        setProductsList(<ProductsList searchText={text}/>);
+    }
     
     return (
         <View style={styles.container}>
-            <FlatList 
-                contentContainerStyle={styles.flatList}
-                showsVerticalScrollIndicator={false}
-                data={productsList.sort((producta, productb) => producta - productb)}
-                renderItem={({item}) => <CardHardware price={item.price} description={item.description} imgSrc={item.imgScr}/>}
-            />
+            <TextInput onChangeText={handleChangeText} style={styles.textInput} />
+            {productsList}
         </View>
     );
 }
@@ -27,6 +50,12 @@ const styles = StyleSheet.create({
         minHeight: '100%',
         padding: 20,
     },
+    textInput: {    
+        height: "10%",
+        width: "100%",
+        backgroundColor: "#cccccc",
+        padding: 10,
+    }
 })
 
 export default Home;

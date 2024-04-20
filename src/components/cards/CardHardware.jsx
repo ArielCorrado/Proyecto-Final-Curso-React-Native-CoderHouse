@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
 
-const CardHardware = ({price, description, imgSrc}) => {
+const CardHardware = ({price, description, imgSrc, showProductDetail}) => {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={showProductDetail}>
             <Image style={styles.image} src={imgSrc} ></Image>
             <Text style={styles.text}>{description}</Text>
-            <Text style={styles.text}>{price}</Text>
-        </View>
+            <Text style={[styles.text, styles.price]}>$ {price}</Text>
+        </TouchableOpacity>
     );
 }
 
@@ -17,10 +17,11 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: "center",
         width: "100%",
-        height: 400,
+        height: 500,
         marginBottom: 50,
         borderWidth: 1,
         borderColor: "#ccc",
+        padding: 10
     },
     image: {
         width: "100%",
@@ -33,6 +34,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
         padding: 10
     },
+    price: {
+        fontWeight: "bold",
+        fontSize: 17.5
+    }
 })
 
 export default CardHardware;

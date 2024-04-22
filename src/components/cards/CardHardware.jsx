@@ -1,12 +1,14 @@
 import React from 'react';
-import {StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Image, Text, TouchableOpacity, View} from 'react-native';
 
 const CardHardware = ({price, description, imgSrc, showProductDetail}) => {
     return (
         <TouchableOpacity style={styles.container} onPress={showProductDetail}>
             <Image style={styles.image} src={imgSrc} ></Image>
-            <Text style={styles.text}>{description}</Text>
-            <Text style={[styles.text, styles.price]}>$ {price}</Text>
+            <View style={styles.dataContainer}>
+                <Text style={styles.description}>{description}</Text>
+                <Text style={styles.price}>$ {price}</Text>
+            </View>
         </TouchableOpacity>
     );
 }
@@ -14,29 +16,35 @@ const CardHardware = ({price, description, imgSrc, showProductDetail}) => {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        justifyContent: 'flex-start',
+        justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
-        height: 500,
+        height: 350,
         marginBottom: 50,
         borderWidth: 1,
         borderColor: "#ccc",
-        padding: 10
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+    },
+    dataContainer: {
+        display: "flex",
+        justifyContent: 'flex-start',
+        alignItems: "center",
+        width: "100%",
     },
     image: {
         width: "100%",
-        height: "80%",
+        height: "70%",
         objectFit: "contain",
         
     },
-    text: {
-        height: "10%",
+    description: {
         textAlign: "center",
-        padding: 10
+        marginBottom: 5
     },
     price: {
         fontWeight: "bold",
-        fontSize: 17.5
+        fontSize: 20
     }
 })
 

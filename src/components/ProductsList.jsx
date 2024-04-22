@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet} from "react-native";
+import { FlatList, StyleSheet, Text} from "react-native";
 import productsList from "../data/productosList.json"
 import CardHardware from "./cards/CardHardware";
 import ProductDetail from "./ProductDetail";
@@ -24,21 +24,27 @@ const ProductsList = ({searchText}) => {
     
     return (
         <>
-            <FlatList
-                contentContainerStyle={styles.flatList}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.id}
-                data={result}
-                renderItem={({ item }) => 
-                    <CardHardware  
-                        price={item.price} 
-                        description={item.description} 
-                        imgSrc={item.imgScr} 
-                        showProductDetail={() => showProductDetail(item.id)}
+            {
+                result.length > 0 ?
+                <>
+                    <FlatList
+                        contentContainerStyle={styles.flatList}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={item => item.id}
+                        data={result}
+                        renderItem={({ item }) => 
+                            <CardHardware  
+                                price={item.price} 
+                                description={item.description} 
+                                imgSrc={item.imgScr} 
+                                showProductDetail={() => showProductDetail(item.id)}
+                            />
+                        }
                     />
-                }
-            />
-            {productDetail}  
+                    {productDetail}  
+                </> :
+                <Text style={styles.noResutsText}>No hay resultados</Text>
+            }
         </>
     )
 }
@@ -49,7 +55,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
-    }
+        height: "100vh"
+    }   
 })
 
 

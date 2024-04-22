@@ -13,7 +13,7 @@ const Home = () => {
     
     return (
         <View style={styles.container}>
-            <TextInput onChangeText={handleChangeText} style={styles.searchBar} />
+            <TextInput onChangeText={handleChangeText} style={styles.searchBar} placeholder='...Search'/>
             {productsList}
         </View>
     );
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         position: "relative",
         display: 'flex',
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: 'center',
         width: '100%',
         minHeight: '100%',

@@ -27,16 +27,14 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: 'center',
         width: '100%',
-        minHeight: '100%',
-        padding: 10,
     },
     searchBar: {    
         height: 60,
         width: "100%",
         backgroundColor: "#cccccc",
         padding: 10,
-        marginBottom: 30,
-        width: "100%"
+        marginBottom: 20,
+        width: "100%",
     }
 })
 

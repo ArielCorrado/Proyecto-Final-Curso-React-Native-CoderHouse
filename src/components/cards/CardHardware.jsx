@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Image, Text, TouchableOpacity, View} from 'react-native';
+import { colors } from '../../constants/coolors';
 
 const CardHardware = ({price, description, imgSrc, showProductDetail}) => {
     return (
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
         height: 350,
         marginBottom: 50,
         borderWidth: 1,
-        borderColor: "#ccc",
+        borderColor: colors.bordersColor,
         paddingHorizontal: 10,
         paddingVertical: 20,
     },

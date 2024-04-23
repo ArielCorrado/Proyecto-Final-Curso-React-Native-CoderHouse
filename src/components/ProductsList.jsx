@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text} from "react-native";
+import { FlatList, StyleSheet, Text, View} from "react-native";
 import productsList from "../data/productosList.json"
 import CardHardware from "./cards/CardHardware";
 import ProductDetail from "./ProductDetail";
+import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
 
 const ProductsList = ({searchText}) => {
 
@@ -43,7 +44,9 @@ const ProductsList = ({searchText}) => {
                     />
                     {productDetail}  
                 </> :
-                <Text style={styles.noResutsText}>No hay resultados</Text>
+                <View style={styles.noResultsTextCont}>
+                    <Text>No hay resultados</Text>
+                </View>
             }
         </>
     )
@@ -51,12 +54,17 @@ const ProductsList = ({searchText}) => {
 
 const styles = StyleSheet.create({
     flatList: {
-        width: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
-        height: "100vh"
-    }   
+        width: "100%",
+    },
+    noResultsTextCont: {
+        height: SCREEN_AVAILABLE_HEIGHT - 100,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    }
 })
 
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import productsList from "../data/productosList.json"
-import CardHardware from "./cards/CardHardware";
+import CardHardware from "../components/cards/CardHardware";
 import ProductDetail from "./ProductDetail";
 import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
 
@@ -39,6 +39,7 @@ const ProductsList = ({route}) => {
                                 price={item.price} 
                                 description={item.description} 
                                 imgSrc={item.imgScr} 
+                                id={item.id}
                                 showProductDetail={() => showProductDetail(item.id)}
                             />
                         }

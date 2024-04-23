@@ -5,13 +5,14 @@ import { colors } from '../constants/coolors';
 import { MAIN_PADDING, SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
 
-const ProductDetail = ({productId, closeProductDetail}) => {
+const ProductDetail = ({navigation, route}) => {
 
+    const {productId} = route.params;
     const product = productList.find(product => product.id === productId);
     
     return (
         <View style={styles.container} >
-            <TouchableOpacity onPress={closeProductDetail} style={styles.closeIconContainer}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeIconContainer}>
                 <Image style={styles.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </TouchableOpacity>
             <Image style={styles.productImage} src={product.imgScr}/>

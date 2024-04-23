@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Image} from 'react-native';
+import { colors } from '../constants/coolors';
 
-const Header = ({route, navigation}) => {
+const Header = ({navigation}) => {
 
     const [searchText, setSearchText] = useState("");
-
-    const handleChangeText = (text) => {
-        setSearchText(text);
-    }
-    
+       
     useEffect(() => {
         navigation.navigate("ProductsList", {searchText: searchText});
     }, [searchText]);
  
     return (
         <View style={styles.headerCont}>
-            <TextInput onChangeText={handleChangeText} placeholder='...Search' value={searchText} style={styles.searchBar} />
-            <TouchableOpacity style={styles.searchIconCont} onPress={() => navigation.navigate("ProductsList", {searchText: searchText})}>
-                <Image source={require('../../assets/images/icons/search.png')} style={styles.searchIcon}/>
+            <TouchableOpacity style={styles.headerIconsCont} >
+                <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
+            </TouchableOpacity>
+            <TextInput onChangeText={setSearchText} placeholder='...Search' value={searchText} style={styles.searchBar} />
+            <TouchableOpacity style={styles.headerIconsCont} >
+                <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
             </TouchableOpacity>
         </View>
     )
@@ -32,28 +32,29 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         height: 60,
-        width: "100%"
+        width: "100%",
+        backgroundColor: colors.color2,
     },  
     searchBar: {    
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
-        backgroundColor: "#cccccc",
+        backgroundColor: "white",
         padding: 10,
-        marginBottom: 20,
-        height: "100%",
-        width: "90%",
+        height: "80%",
+        width: "70%",
     },
-    searchIconCont: {
+    headerIconsCont: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         height: "100%",        
-        width: "10%",
+        width: "15%",
     },
-    searchIcon: {
-        width: "90%",
-        height: "90%",
+    headerIcons: {
+        width: "80%",
+        height: "50%",
         objectFit: "contain",
+        tintColor: "white"
     }   
 })

@@ -1,9 +1,7 @@
 import { StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
-import Home from './src/screens/Home';
-import { MAIN_PADDING, STATUS_BAR_HEIGHT } from './src/constants/dimensions';
+import { STATUS_BAR_HEIGHT } from './src/constants/dimensions';
 import Navigation  from './src/navigation/Navigation';
-
 
 export default function App() {
 
@@ -28,7 +26,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-        backgroundColor: 'white',
+        backgroundColor: '#ccc',
         marginTop: Platform.OS === 'android' ? STATUS_BAR_HEIGHT : 0,
     },
 });

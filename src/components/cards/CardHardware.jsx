@@ -3,9 +3,9 @@ import {StyleSheet, Image, Text, TouchableOpacity, View} from 'react-native';
 import { colors } from '../../constants/coolors';
 import { generalStyles } from '../../styles/generalStyles';
 
-const CardHardware = ({price, description, imgSrc, showProductDetail}) => {
+const CardHardware = ({price, description, imgSrc, id, navigation}) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={showProductDetail}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ProductDetail", {id: id})}>
             <Image style={styles.image} src={imgSrc} ></Image>
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>
@@ -22,11 +22,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         height: 350,
-        marginBottom: 50,
+        marginTop: 30,
         borderWidth: 1,
         borderColor: colors.bordersColor,
         paddingHorizontal: 10,
         paddingVertical: 20,
+        backgroundColor: colors.lightColor,
     },
     dataContainer: {
         display: "flex",

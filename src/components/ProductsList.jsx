@@ -5,8 +5,9 @@ import CardHardware from "./cards/CardHardware";
 import ProductDetail from "./ProductDetail";
 import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
 
-const ProductsList = ({searchText}) => {
+const ProductsList = ({route}) => {
 
+    const {searchText} = route.params || "";
     const [result, setResult] = useState([]);
     const [productDetail, setProductDetail] = useState(<></>);
 

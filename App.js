@@ -2,6 +2,7 @@ import { StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
 import Home from './src/screens/Home';
 import { MAIN_PADDING, STATUS_BAR_HEIGHT } from './src/constants/dimensions';
+import Navigation  from './src/navigation/Navigation';
 
 
 export default function App() {
@@ -17,7 +18,7 @@ export default function App() {
     if (fontsLoaded && !fontError) {
         return (
             <SafeAreaView style={styles.container}>
-                <Home/>    
+                <Navigation/>    
             </SafeAreaView>
         );
     }
@@ -25,12 +26,9 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        flex: 1,
         width: "100%",
         backgroundColor: 'white',
-        padding: MAIN_PADDING,
         marginTop: Platform.OS === 'android' ? STATUS_BAR_HEIGHT : 0,
     },
 });

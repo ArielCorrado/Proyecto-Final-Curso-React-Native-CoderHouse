@@ -3,6 +3,7 @@ import React from 'react';
 import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { MAIN_PADDING, SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
+import { generalStyles } from '../styles/generalStyles';
 
 const ProductDetail = ({productId, closeProductDetail}) => {
 
@@ -11,7 +12,7 @@ const ProductDetail = ({productId, closeProductDetail}) => {
     return (
         <View style={styles.container} >
             <TouchableOpacity onPress={closeProductDetail} style={styles.closeIconContainer}>
-                <Image style={styles.closeIcon} source={require("../images/icons/close.png")} />
+                <Image style={styles.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </TouchableOpacity>
             <Image style={styles.productImage} src={product.imgScr}/>
             <Text style={styles.text}>{product.description}</Text>
@@ -43,7 +44,8 @@ const styles = StyleSheet.create({
     text: {
         color: colors.textColor,
         fontSize: 17,
-        textAlign: "center"
+        textAlign: "center",
+        fontFamily: generalStyles.primaryFont
     },
     closeIconContainer: {
         position: "absolute",

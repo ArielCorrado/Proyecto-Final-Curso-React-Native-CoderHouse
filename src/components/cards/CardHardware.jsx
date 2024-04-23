@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Image, Text, TouchableOpacity, View} from 'react-native';
 import { colors } from '../../constants/coolors';
+import { generalStyles } from '../../styles/generalStyles';
 
 const CardHardware = ({price, description, imgSrc, showProductDetail}) => {
     return (
@@ -41,7 +42,8 @@ const styles = StyleSheet.create({
     },
     description: {
         textAlign: "center",
-        marginBottom: 5
+        marginBottom: 5,
+        fontFamily: generalStyles.primaryFont,
     },
     price: {
         fontWeight: "bold",

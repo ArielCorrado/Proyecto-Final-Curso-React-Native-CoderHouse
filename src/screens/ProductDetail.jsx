@@ -2,20 +2,27 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
-import { MAIN_PADDING, SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
+import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
+import { useEffect } from 'react';
 
 const ProductDetail = ({navigation, route}) => {
 
     const {productId} = route.params;
     const product = productList.find(product => product.id === productId);
-    
+
+    // useEffect(() => {
+    //     return navigation.addListener('beforeRemove', (e) => {
+    //         e.preventDefault();
+    //     });
+    // }, [])
+        
     return (
         <View style={styles.container} >
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeIconContainer}>
                 <Image style={styles.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </TouchableOpacity>
-            <Image style={styles.productImage} src={product.imgScr}/>
+            <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
             <Text style={styles.price}>$ {product.price}</Text>
         </View>
@@ -26,12 +33,6 @@ export default ProductDetail;
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        left: -MAIN_PADDING,
-        top: -MAIN_PADDING,
-        right: -MAIN_PADDING,
-        bottom: -MAIN_PADDING,
-        margin: "auto",
         height: SCREEN_AVAILABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',

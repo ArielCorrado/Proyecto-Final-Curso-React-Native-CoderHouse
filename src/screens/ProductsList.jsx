@@ -2,55 +2,39 @@ import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import productsList from "../data/productosList.json"
 import CardHardware from "../components/cards/CardHardware";
-import ProductDetail from "./ProductDetail";
 import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
 
-const ProductsList = ({route}) => {
+const ProductsList = ({route, navigation}) => {
 
     const {searchText} = route.params || "";
     const [result, setResult] = useState([]);
-    const [productDetail, setProductDetail] = useState(<></>);
-
-    const showProductDetail = (id) => {
-        setProductDetail (<ProductDetail productId={id} closeProductDetail={closeProductDetail}/>)
-    }
-    
-    const closeProductDetail = () => {
-        setProductDetail (<></>)
-    }
-
+       
     useEffect(() => {
         const results = !searchText || searchText.length < 3 ? productsList.sort((producta, productb) => producta - productb) : productsList.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
         results.length > 0 ? setResult(results) : setResult([]);
     }, [searchText])
     
     return (
-        <>
-            {
-                result.length > 0 ?
-                <>
-                    <FlatList
-                        contentContainerStyle={styles.flatList}
-                        showsVerticalScrollIndicator={false}
-                        keyExtractor={item => item.id}
-                        data={result}
-                        renderItem={({ item }) => 
-                            <CardHardware  
-                                price={item.price} 
-                                description={item.description} 
-                                imgSrc={item.imgScr} 
-                                id={item.id}
-                                showProductDetail={() => showProductDetail(item.id)}
-                            />
-                        }
-                    />
-                    {productDetail}  
-                </> :
-                <View style={styles.noResultsTextCont}>
-                    <Text>No hay resultados</Text>
-                </View>
+        result.length > 0 ?
+        <FlatList
+            contentContainerStyle={styles.flatList}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item.id}
+            data={result}
+            renderItem={({ item }) => 
+                <CardHardware  
+                    price={item.price} 
+                    description={item.description} 
+                    imgSrc={item.imgSrc} 
+                    id={item.id}
+                    navigation={navigation}
+                />
             }
-        </>
+        />
+        :
+        <View style={styles.noResultsTextCont}>
+            <Text>No hay resultados</Text>
+        </View>
     )
 }
 

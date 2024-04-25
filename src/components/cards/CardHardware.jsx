@@ -5,7 +5,7 @@ import { generalStyles } from '../../styles/generalStyles';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ProductDetail", {id: id})}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ProductDetail", {productId: id})}>
             <Image style={styles.image} src={imgSrc} ></Image>
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>

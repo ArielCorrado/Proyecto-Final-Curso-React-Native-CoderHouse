@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Image, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Image, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../constants/coolors';
 import { generalStyles } from '../../styles/generalStyles';
 
@@ -12,7 +12,7 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
                 <Text style={styles.price}>$ {price}</Text>
             </View>
         </TouchableOpacity>
-    );
+    )
 }
 
 const styles = StyleSheet.create({

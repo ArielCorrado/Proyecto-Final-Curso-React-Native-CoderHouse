@@ -4,6 +4,7 @@ import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
+import ButtonCard from '../components/buttons/ButtonCard';
 
 const ProductDetail = ({navigation, route}) => {
 
@@ -18,6 +19,7 @@ const ProductDetail = ({navigation, route}) => {
             <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
             <Text style={styles.price}>$ {product.price}</Text>
+            <ButtonCard text="Agregar al carrito" color={colors.color2} height={40} width={"50%"} />
         </View>
     )
 }
@@ -60,6 +62,7 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 25,
-        marginTop: 20,
+        marginTop: 10,
+        fontWeight: "600",
     }
 })

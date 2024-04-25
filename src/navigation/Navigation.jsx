@@ -14,7 +14,7 @@ const Navigation = () => {
             <Stack.Navigator
                 initialRouteName='ProductsList'
                 screenOptions={{
-                    header: ({navigation, route}) => route.name !== "ProductDetail" ? <Header navigation={navigation} route={route}/> : <></>
+                    header: ({navigation, route}) => <Header navigation={navigation} route={route}/>
                 }}
             >
 
@@ -22,12 +22,11 @@ const Navigation = () => {
                     component={ProductsList}
                     name='ProductsList'
                 />
-                
                 <Stack.Screen
                     component={ProductDetail}
                     name='ProductDetail'
                 />
-  
+
             </Stack.Navigator>
         </NavigationContainer>
     )

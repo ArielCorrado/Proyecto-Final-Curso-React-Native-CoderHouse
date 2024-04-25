@@ -7,7 +7,7 @@ const Header = ({navigation}) => {
     const [searchText, setSearchText] = useState("");
        
     useEffect(() => {
-        navigation.navigate("ProductsList", {searchText: searchText});
+        if (searchText) navigation.navigate("ProductsList", {searchText: searchText});
     }, [searchText]);
  
     return (

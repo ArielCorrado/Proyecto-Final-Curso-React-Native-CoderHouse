@@ -4,18 +4,11 @@ import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
-import { useEffect } from 'react';
 
 const ProductDetail = ({navigation, route}) => {
 
     const {productId} = route.params;
     const product = productList.find(product => product.id === productId);
-
-    // useEffect(() => {
-    //     return navigation.addListener('beforeRemove', (e) => {
-    //         e.preventDefault();
-    //     });
-    // }, [])
         
     return (
         <View style={styles.container} >
@@ -38,8 +31,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 5,
-        borderColor: colors.bordersColor,
+        borderWidth: 10,
+        borderColor: colors.borderColorGray,
         backgroundColor: colors.lightColor,
         padding: 20,
     },
@@ -51,8 +44,8 @@ const styles = StyleSheet.create({
     },
     closeIconContainer: {
         position: "absolute",
-        top: 10,
-        right: 10,
+        top: 15,
+        right: 15,
         width: 20,
         height: 20,
     },

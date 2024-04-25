@@ -4,5 +4,5 @@ export const colors = {
     color3: "#f77f00",
     textColor: "#222222",
     lightColor: "#ffffff",
-    bordersColor: "#ccc",
+    borderColorGray: "#ccc",
 }

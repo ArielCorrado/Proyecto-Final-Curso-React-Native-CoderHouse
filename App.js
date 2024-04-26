@@ -2,6 +2,8 @@ import { StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
 import { STATUS_BAR_HEIGHT } from './src/constants/dimensions';
 import Navigation  from './src/navigation/Navigation';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 export default function App() {
 
@@ -16,7 +18,9 @@ export default function App() {
     if (fontsLoaded && !fontError) {
         return (
             <SafeAreaView style={styles.container}>
-                <Navigation/>    
+                <Provider store={store}>
+                    <Navigation/>    
+                </Provider>
             </SafeAreaView>
         );
     }

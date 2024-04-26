@@ -1,15 +1,18 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
 import React from 'react';
 import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
 import ButtonCard from '../components/buttons/ButtonCard';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../features/cartSlice';
 
 const ProductDetail = ({navigation, route}) => {
 
     const {productId} = route.params;
     const product = productList.find(product => product.id === productId);
+    const dispatch = useDispatch();
         
     return (
         <View style={styles.container} >
@@ -19,7 +22,7 @@ const ProductDetail = ({navigation, route}) => {
             <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
             <Text style={styles.price}>$ {product.price}</Text>
-            <ButtonCard text="Agregar al carrito" color={colors.color2} height={40} width={"50%"} />
+            <ButtonCard text="Agregar al carrito" color={colors.color2} height={40} width={"50%"} onPressFunction={() => dispatch(addToCart({id: product.id}))}/>
         </View>
     )
 }

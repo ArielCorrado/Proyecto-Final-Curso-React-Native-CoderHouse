@@ -1,8 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/coolors'
 
-const ButtonCard = ({text, color}) => {
+const ButtonCard = ({text, color, onPressFunction}) => {
 
     const styles = StyleSheet.create({
         button: {
@@ -22,9 +22,9 @@ const ButtonCard = ({text, color}) => {
     })
 
     return (
-        <TouchableOpacity style={styles.button}>
+        <Pressable style={styles.button} onPress={onPressFunction}>
             <Text style={styles.text}>{text}</Text>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 

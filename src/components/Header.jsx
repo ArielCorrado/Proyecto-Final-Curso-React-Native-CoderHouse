@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text } from 'react-native';
 import { colors } from '../constants/coolors';
 import { HEADER_HEIGHT } from '../constants/dimensions';
+import { useSelector } from 'react-redux';
 
 const Header = ({navigation, route}) => {
 
     const [searchText, setSearchText] = useState("");
-       
+    const cart = useSelector(state => state.cart);
+
+    useEffect(() => {
+        console.log(cart)
+    }, [cart.length])
+    
     useEffect(() => {
         if (route.name !== "ProductDetail") navigation.navigate("ProductsList", {searchText: searchText});
     }, [searchText]);
@@ -24,6 +30,9 @@ const Header = ({navigation, route}) => {
             </View>
             <TouchableOpacity style={styles.headerIconsCont} >
                 <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
+                <View style={styles.cartItemsAmountCont}>
+                    <Text style={styles.cartItemsAmountText}>{cart.length}</Text>
+                </View>
             </TouchableOpacity>
         </View>
     )
@@ -88,5 +97,20 @@ const styles = StyleSheet.create({
         height: "50%",
         objectFit: "contain",
         tintColor: "white"
-    }   
+    },
+    cartItemsAmountCont: {
+        position: "absolute",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: 25,
+        width: 25,
+        borderRadius: 12.5,
+        top: 5,
+        right: 5,
+        backgroundColor: colors.color3,
+    },
+    cartItemsAmountText: {
+        color: colors.lightColor
+    }
 })

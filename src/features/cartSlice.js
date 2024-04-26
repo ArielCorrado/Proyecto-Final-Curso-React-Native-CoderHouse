@@ -5,7 +5,12 @@ export const cartSlice = createSlice({
     initialState: [],
     reducers: {
         addToCart: (state, {payload}) => {
-            state.push(payload);
+            const itemExist = state.find((item) => item.id === payload.id);
+            if (itemExist) {
+                itemExist.quantity += 1;
+            } else {
+                state.push(payload);
+            }
         },
     },
 }); 

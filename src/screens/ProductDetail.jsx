@@ -22,7 +22,7 @@ const ProductDetail = ({navigation, route}) => {
             <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
             <Text style={styles.price}>$ {product.price}</Text>
-            <ButtonCard text="Agregar al carrito" color={colors.color2} height={40} width={"50%"} onPressFunction={() => dispatch(addToCart({id: product.id}))}/>
+            <ButtonCard text="Agregar al carrito" color={colors.color2} height={40} width={"50%"} onPressFunction={() => dispatch(addToCart({id: product.id, quantity: 1}))}/>
         </View>
     )
 }

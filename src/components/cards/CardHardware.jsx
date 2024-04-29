@@ -1,17 +1,20 @@
 import React from 'react';
-import { StyleSheet, Image, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 import { colors } from '../../constants/coolors';
 import { generalStyles } from '../../styles/generalStyles';
+import ButtonCard from '../buttons/ButtonCard';
+import { insertDotsInPrice } from '../../functions/utils';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("ProductDetail", {productId: id})}>
+        <View style={styles.container}>
             <Image style={styles.image} src={imgSrc} ></Image>
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>
-                <Text style={styles.price}>$ {price}</Text>
+                <Text style={styles.price}>$ {insertDotsInPrice(price)}</Text>
+                <ButtonCard text="Ver detalles" color={colors.color2} height={55} width={"50%"} onPressFunction={() => navigation.navigate("ProductDetail", {productId: id})}/>
             </View>
-        </TouchableOpacity>
+        </View>
     )
 }
 
@@ -21,7 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
-        height: 350,
+        height: 450,
         marginTop: 30,
         borderWidth: 1,
         borderColor: colors.borderColorGray,
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: "100%",
-        height: "70%",
+        height: "60%",
         objectFit: "contain",
         
     },
@@ -48,7 +51,8 @@ const styles = StyleSheet.create({
     },
     price: {
         fontWeight: "bold",
-        fontSize: 20
+        fontSize: 20,
+        marginBottom: 20
     }
 })
 

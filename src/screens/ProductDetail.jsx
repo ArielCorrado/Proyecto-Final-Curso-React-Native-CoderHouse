@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
@@ -7,13 +7,14 @@ import { generalStyles } from '../styles/generalStyles';
 import ButtonCard from '../components/buttons/ButtonCard';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../features/cartSlice';
+import { insertDotsInPrice } from '../functions/utils';
 
 const ProductDetail = ({navigation, route}) => {
 
     const {productId} = route.params;
     const product = productList.find(product => product.id === productId);
     const dispatch = useDispatch();
-        
+   
     return (
         <View style={styles.container} >
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeIconContainer}>
@@ -21,8 +22,9 @@ const ProductDetail = ({navigation, route}) => {
             </TouchableOpacity>
             <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
-            <Text style={styles.price}>$ {product.price}</Text>
-            <ButtonCard text="Agregar al carrito" color={colors.color2} height={40} width={"50%"} onPressFunction={() => dispatch(addToCart({id: product.id, quantity: 1}))}/>
+            <Text style={styles.price}>$ {insertDotsInPrice(product.price)}</Text>
+            <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => dispatch(addToCart({id: product.id, quantity: 1}))}/>
+            <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null}/>
         </View>
     )
 }
@@ -66,6 +68,7 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 25,
         marginTop: 10,
+        marginBottom: 50,
         fontWeight: "600",
     }
 })

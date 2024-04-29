@@ -10,14 +10,33 @@ const Cart = ({navigation}) => {
 
     const cart = useSelector(state => state.cart);
     const itemsInCartDataArr = cart.map((productInCart) => ({...productInCart, ...productList.find((productInList) => productInList.id === productInCart.id)}));
+    const itemsInCartTotalQuantity = itemsInCartDataArr.reduce((acc, product) => acc + product.quantity, 0);
+
+    const style = StyleSheet.create({
+        container: {
+            height: SCREEN_AVAILABLE_HEIGHT,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 10,
+            borderColor: colors.borderColorGray,
+            backgroundColor: colors.lightColor,
+            paddingTop: itemsInCartTotalQuantity ? 50 : 0,
+        },
+        emptyCartText: {
+            fontSize: 17.5,
+        }
+    })
 
     return (
-        <View style={cartStyle.container} >
+        itemsInCartTotalQuantity > 0 ?
+        <View style={style.container} >
             <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                 <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </Pressable>
             <FlatList
-                contentContainerStyle={cartStyle.flatList}
+                contentContainerStyle={style.flatList}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={item => item.id}
                 data={itemsInCartDataArr}
@@ -31,25 +50,14 @@ const Cart = ({navigation}) => {
                     />
                 }
             />
+        </View> :
+        <View style={style.container}>
+            <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
+                <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
+            </Pressable>
+            <Text style={style.emptyCartText}>No hay productos en el carrito</Text>
         </View>
     )
 }
 
 export default Cart;
-
-const cartStyle = StyleSheet.create({
-    container: {
-        height: SCREEN_AVAILABLE_HEIGHT,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 10,
-        borderColor: colors.borderColorGray,
-        backgroundColor: colors.lightColor,
-        paddingTop: 50
-    },
-    flatList: {
-   
-    }
-})

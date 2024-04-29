@@ -1,8 +1,12 @@
 import { StyleSheet, View, Image, Text, Pressable} from 'react-native';
 import { colors } from '../../constants/coolors';
 import { insertDotsInPrice } from '../../functions/utils';
+import { useDispatch } from 'react-redux';
+import { addToCart, subtractToCart, deleteItem } from '../../features/cartSlice';
 
-export const CardCart = ({imgSrc, description, price, quantity}) => {
+export const CardCart = ({imgSrc, description, price, quantity, id}) => {
+
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container} >
@@ -13,9 +17,9 @@ export const CardCart = ({imgSrc, description, price, quantity}) => {
                 <View style={[styles.descriptionCont, styles.column2]}>
                     <Text style={styles.descriptionText}>{description}</Text>
                 </View>
-                <View style={[styles.trashIconCont, styles.column3]}>
+                <Pressable style={[styles.trashIconCont, styles.column3]} onPress={() => dispatch(deleteItem({id: id}))}>
                     <Image source={require("../../../assets/images/icons/trash.png")} style={styles.trashIcon}/>
-                </View>
+                </Pressable>
             </View>
             <View style={styles.line2Container}>
                 <View style={[styles.column1]}>
@@ -33,11 +37,11 @@ export const CardCart = ({imgSrc, description, price, quantity}) => {
                     <Text style={styles.price}>$ {insertDotsInPrice(price)}</Text>
                 </View>
                 <View style={[styles.column2, styles.quantityCont]}>
-                    <Pressable style={styles.quantityButton}>
+                    <Pressable style={styles.quantityButton} onPress={() => dispatch(subtractToCart({id: id}))}>
                         <Text style={[styles.quantityButtonText]}>-</Text>
                     </Pressable>
                     <Text style={styles.quantity}>{quantity}</Text>
-                    <Pressable style={[styles.quantityButton]}>
+                    <Pressable style={[styles.quantityButton]} onPress={() => dispatch(addToCart({id: id}))}>
                         <Text style={[styles.quantityButtonText]}>+</Text>
                     </Pressable>
                 </View>

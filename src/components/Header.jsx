@@ -4,10 +4,11 @@ import { colors } from '../constants/coolors';
 import { HEADER_HEIGHT } from '../constants/dimensions';
 import { useSelector } from 'react-redux';
 
-const Header = ({navigation, route}) => {
+const Header = ({navigation}) => {
 
     const [searchText, setSearchText] = useState("");
     const cart = useSelector(state => state.cart);
+    const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
     
     useEffect(() => {
         if (searchText.length < 3) {
@@ -28,11 +29,15 @@ const Header = ({navigation, route}) => {
                     <Image source={require('../../assets/images/icons/search.png')} style={styles.searchBarIcon}/>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.headerIconsCont} onPress={() => navigation.navigate("Cart")}>
+            <TouchableOpacity style={styles.headerIconsCont} onPress={() => itemsInCartTotalQuantity > 0 ? navigation.navigate("Cart") : null}>
                 <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
-                <View style={styles.cartItemsAmountCont}>
-                    <Text style={styles.cartItemsAmountText}>{cart.reduce((acc, product) => product.quantity + acc, 0)}</Text>
-                </View>
+                {  
+                    itemsInCartTotalQuantity > 0
+                    && 
+                    <View style={styles.cartItemsAmountCont}>
+                        <Text style={styles.cartItemsAmountText}>{cart.reduce((acc, product) => product.quantity + acc, 0)}</Text>
+                    </View>
+                }
             </TouchableOpacity>
         </View>
     )

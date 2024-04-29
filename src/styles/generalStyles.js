@@ -11,6 +11,7 @@ export const closeIconStyle = StyleSheet.create({
         right: 15,
         width: 20,
         height: 20,
+        zIndex: 10,
     },
     closeIcon: {
         width: "100%",

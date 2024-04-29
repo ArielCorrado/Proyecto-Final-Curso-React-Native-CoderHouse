@@ -17,9 +17,11 @@ export const CardCart = ({imgSrc, description, price, quantity, id}) => {
                 <View style={[styles.descriptionCont, styles.column2]}>
                     <Text style={styles.descriptionText}>{description}</Text>
                 </View>
-                <Pressable style={[styles.trashIconCont, styles.column3]} onPress={() => dispatch(deleteItem({id: id}))}>
-                    <Image source={require("../../../assets/images/icons/trash.png")} style={styles.trashIcon}/>
-                </Pressable>
+                <View style={[styles.trashIconCont, styles.column3]}>
+                    <Pressable  onPress={() => dispatch(deleteItem({id: id}))}>
+                        <Image source={require("../../../assets/images/icons/trash.png")} style={styles.trashIcon}/>
+                    </Pressable>
+                </View>
             </View>
             <View style={styles.line2Container}>
                 <View style={[styles.column1]}>
@@ -126,8 +128,8 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     trashIcon: {
-        width: "50%",
-        height: "50%",
+        width: 50,
+        height: 50,
         objectFit: "contain",
         tintColor: colors.color3,
         opacity: 0.85,

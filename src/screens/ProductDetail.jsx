@@ -8,6 +8,7 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../features/cartSlice';
 import { insertDotsInPrice } from '../functions/utils';
+import { closeIconStyle } from '../styles/generalStyles';
 
 const ProductDetail = ({navigation, route}) => {
 
@@ -17,8 +18,8 @@ const ProductDetail = ({navigation, route}) => {
    
     return (
         <View style={styles.container} >
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeIconContainer}>
-                <Image style={styles.closeIcon} source={require("../../assets/images/icons/close.png")} />
+            <TouchableOpacity onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
+                <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </TouchableOpacity>
             <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
@@ -48,17 +49,6 @@ const styles = StyleSheet.create({
         fontSize: 17,
         textAlign: "center",
         fontFamily: generalStyles.primaryFont
-    },
-    closeIconContainer: {
-        position: "absolute",
-        top: 15,
-        right: 15,
-        width: 20,
-        height: 20,
-    },
-    closeIcon: {
-        width: "100%",
-        height: "100%",
     },
     productImage: {
         width: "90%",

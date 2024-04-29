@@ -10,7 +10,11 @@ const Header = ({navigation, route}) => {
     const cart = useSelector(state => state.cart);
     
     useEffect(() => {
-        if (route.name !== "ProductDetail") navigation.navigate("ProductsList", {searchText: searchText});
+        if (searchText.length < 3) {
+            return;
+        } else {
+            navigation.navigate("ProductsList", {searchText: searchText});
+        }
     }, [searchText]);
  
     return (
@@ -24,7 +28,7 @@ const Header = ({navigation, route}) => {
                     <Image source={require('../../assets/images/icons/search.png')} style={styles.searchBarIcon}/>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.headerIconsCont} >
+            <TouchableOpacity style={styles.headerIconsCont} onPress={() => navigation.navigate("Cart")}>
                 <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
                 <View style={styles.cartItemsAmountCont}>
                     <Text style={styles.cartItemsAmountText}>{cart.reduce((acc, product) => product.quantity + acc, 0)}</Text>

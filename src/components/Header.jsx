@@ -1,34 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text, Pressable } from 'react-native';
 import { colors } from '../constants/coolors';
 import { HEADER_HEIGHT } from '../constants/dimensions';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchText } from '../features/searchSlice';
 
-const Header = ({navigation}) => {
-
-    const [searchText, setSearchText] = useState("");
+const Header = ({navigation, route}) => {
+ 
+    const dispatch = useDispatch();
+    const [searchTextInput, setSearchTextInput] = useState("");
     const cart = useSelector(state => state.cart);
     const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
-    
+       
     useEffect(() => {
-        if (searchText.length < 3) {
-            return;
-        } else {
-            navigation.navigate("ProductsList", {searchText: searchText});
-        }
-    }, [searchText]);
- 
+        dispatch(searchText(searchTextInput));
+    }, [searchTextInput]);
+       
     return (
         <View style={styles.headerCont}>
             <TouchableOpacity style={styles.headerIconsCont} >
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
             </TouchableOpacity>
-            <View style={styles.searchBarCont}>
-                <TextInput onChangeText={setSearchText} placeholder='...Search' value={searchText} style={styles.searchBarInput} />
-                <TouchableOpacity style={styles.searchBarIconCont} onPress={() => navigation.navigate("ProductsList", {searchText: searchText})}>
-                    <Image source={require('../../assets/images/icons/search.png')} style={styles.searchBarIcon}/>
-                </TouchableOpacity>
-            </View>
+            {
+                route.name === "ProductsList" ?
+                <View style={styles.searchBarCont}>
+                    <TextInput onChangeText={setSearchTextInput} placeholder='...Search' value={searchTextInput} style={styles.searchBarInput} />
+                    <TouchableOpacity style={styles.searchBarIconCont} onPress={() => null}>
+                        <Image source={require('../../assets/images/icons/search.png')} style={styles.searchBarIcon}/>
+                    </TouchableOpacity>
+                </View>
+                :
+                <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
+                    <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
+                </Pressable>
+            }
             <TouchableOpacity style={styles.headerIconsCont} onPress={() => itemsInCartTotalQuantity > 0 ? navigation.navigate("Cart") : null}>
                 <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
                 {  
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        height: "80%",
+        height: "70%",
         width: "70%",
         backgroundColor: colors.lightColor,
     },
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         backgroundColor: "white",
         padding: 10,
-        height: "80%",
+        height: "100%",
         width: "80%",
     },
     searchBarIconCont: {
@@ -117,5 +122,19 @@ const styles = StyleSheet.create({
     },
     cartItemsAmountText: {
         color: colors.lightColor
+    },
+    backIconCont: {
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        height: "100%",
+        width: 30,
+        paddingBottom: 10,
+    },
+    backIcon: {
+        width: 30,
+        height: 30,
+        objectFit: "contain",
+        tintColor: "white",
     }
 })

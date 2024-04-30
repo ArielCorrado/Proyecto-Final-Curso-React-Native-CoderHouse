@@ -11,6 +11,7 @@ import ButtonCard from '../components/buttons/ButtonCard';
 const Cart = ({navigation}) => {
 
     const cart = useSelector(state => state.cart);
+
     const itemsInCartDataArr = cart.map((productInCart) => ({...productInCart, ...productList.find((productInList) => productInList.id === productInCart.id)}));
     const itemsInCartTotalQuantity = itemsInCartDataArr.reduce((acc, product) => acc + product.quantity, 0);
     const totalPrice = itemsInCartDataArr.reduce((acc, item) => (item.quantity * item.price) + acc, 0);
@@ -41,7 +42,8 @@ const Cart = ({navigation}) => {
                 <Text style={styles.totalPrice}>$ {insertDotsInPrice(totalPrice)}</Text>
             </View>
             <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null}/>
-        </View> :
+        </View> 
+        :
         <View style={styles.container}>
             <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                 <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />

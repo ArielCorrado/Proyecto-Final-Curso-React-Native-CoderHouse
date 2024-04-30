@@ -3,12 +3,13 @@ import { FlatList, StyleSheet, Text, View} from "react-native";
 import productsList from "../data/productosList.json"
 import CardHardware from "../components/cards/CardHardware";
 import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
+import { useSelector } from "react-redux";
 
-const ProductsList = ({route, navigation}) => {
+const ProductsList = ({navigation}) => {
 
-    const {searchText} = route.params || "";
     const [result, setResult] = useState([]);
-       
+    const searchText = useSelector(state => state.search.value);
+
     useEffect(() => {
         const results = !searchText || searchText.length < 3 ? productsList.sort((producta, productb) => producta - productb) : productsList.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
         results.length > 0 ? setResult(results) : setResult([]);

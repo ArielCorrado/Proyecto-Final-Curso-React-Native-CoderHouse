@@ -18,7 +18,7 @@ export const CardCart = ({imgSrc, description, price, quantity, id}) => {
                     <Text style={styles.descriptionText}>{description}</Text>
                 </View>
                 <View style={[styles.trashIconCont, styles.column3]}>
-                    <Pressable  onPress={() => dispatch(deleteItem({id: id}))}>
+                    <Pressable  onPress={() => dispatch(deleteItem(id))}>
                         <Image source={require("../../../assets/images/icons/trash.png")} style={styles.trashIcon}/>
                     </Pressable>
                 </View>
@@ -39,11 +39,11 @@ export const CardCart = ({imgSrc, description, price, quantity, id}) => {
                     <Text style={styles.price}>$ {insertDotsInPrice(price)}</Text>
                 </View>
                 <View style={[styles.column2, styles.quantityCont]}>
-                    <Pressable style={styles.quantityButton} onPress={() => dispatch(subtractToCart({id: id}))}>
+                    <Pressable style={styles.quantityButton} onPress={() => dispatch(subtractToCart(id))}>
                         <Text style={[styles.quantityButtonText]}>-</Text>
                     </Pressable>
                     <Text style={styles.quantity}>{quantity}</Text>
-                    <Pressable style={[styles.quantityButton]} onPress={() => dispatch(addToCart({id: id}))}>
+                    <Pressable style={[styles.quantityButton]} onPress={() => dispatch(addToCart(id))}>
                         <Text style={[styles.quantityButtonText]}>+</Text>
                     </Pressable>
                 </View>
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
         borderTopColor: colors.borderColorGray,
         paddingVertical: 10,
         paddingHorizontal: 20,
+        backgroundColor: colors.lightColor,
     },
     line1Container: {
         display: "flex",
@@ -128,8 +129,8 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     trashIcon: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         objectFit: "contain",
         tintColor: colors.color3,
         opacity: 0.85,

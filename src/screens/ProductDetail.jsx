@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
@@ -24,7 +24,7 @@ const ProductDetail = ({navigation, route}) => {
             <Image style={styles.productImage} src={product.imgSrc}/>
             <Text style={styles.text}>{product.description}</Text>
             <Text style={styles.price}>$ {insertDotsInPrice(product.price)}</Text>
-            <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => dispatch(addToCart({id: product.id, quantity: 1}))}/>
+            <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => dispatch(addToCart(product.id))}/>
             <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null}/>
         </View>
     )

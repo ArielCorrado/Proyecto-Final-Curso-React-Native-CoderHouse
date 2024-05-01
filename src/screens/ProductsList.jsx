@@ -12,18 +12,27 @@ const ProductsList = ({navigation}) => {
     const {data: products, error, isLoading} = useGetProductsQuery();
 
     useEffect(() => {
-        if (products || error || isLoading) {
-            if (products) {
-                let productsToFilter = [...products];
-                const productsFiltered = !searchText || searchText.length < 3 ? productsToFilter.sort((producta, productb) => producta - productb) : productsToFilter.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
-                productsFiltered.length > 0 ? setResult(productsFiltered) : setResult([]);
-            } 
-        }
-    }, [products, error, searchText, isLoading])
-               
-    return (
-        !isLoading && result ? (
-            result.length > 0 ?
+        if (products) {
+            let productsToFilter = [...products];
+            const productsFiltered = !searchText || searchText.length < 3 ? productsToFilter.sort((producta, productb) => producta - productb) : productsToFilter.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
+            productsFiltered.length > 0 ? setResult(productsFiltered) : setResult([]);
+        } 
+    }, [products, searchText])
+
+    if (isLoading) {
+        return  (
+            <View style={styles.noResultsTextCont}>
+                <Text>Cargando...</Text>
+            </View>
+        )
+    } else if (error) {
+        return (
+            <View style={styles.noResultsTextCont}>
+                <Text>Error al obtener datos de productos</Text>
+            </View>
+        )
+    } else if (result && result.length) {
+        return (
             <FlatList
                 contentContainerStyle={styles.flatList}
                 showsVerticalScrollIndicator={false}
@@ -39,16 +48,14 @@ const ProductsList = ({navigation}) => {
                     />
                 }
             />
-            :
+        )
+    } else if (result && !result.length) {
+        return (
             <View style={styles.noResultsTextCont}>
                 <Text>No hay resultados</Text>
             </View>
-        ) 
-        : 
-        <View style={styles.noResultsTextCont}>
-            <Text>Cargando...</Text>
-        </View>
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({

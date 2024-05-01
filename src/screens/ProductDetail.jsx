@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Pressable } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import productList from "../data/productosList.json";
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
@@ -9,23 +9,41 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../features/cartSlice';
 import { insertDotsInPrice } from '../functions/utils';
 import { closeIconStyle } from '../styles/generalStyles';
+import { useGetProductByIdQuery } from '../services/firebaseDB';
+import { useEffect } from 'react';
 
 const ProductDetail = ({navigation, route}) => {
 
     const {productId} = route.params;
-    const product = productList.find(product => product.id === productId);
+    // const product = productList.find(product => product.id === productId);
+    const [result, setResult] = useState(null);
     const dispatch = useDispatch();
+    const {data: product, error, isLoading} = useGetProductByIdQuery(productId);
+
+    useEffect(() => {
+        if (product || error || isLoading) {
+            if (product) {
+                setResult(product);
+            }
+        }
+    }, [product, error, isLoading])
+    
    
     return (
+        !isLoading && result ? 
         <View style={styles.container} >
             <TouchableOpacity onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                 <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </TouchableOpacity>
-            <Image style={styles.productImage} src={product.imgSrc}/>
-            <Text style={styles.text}>{product.description}</Text>
-            <Text style={styles.price}>$ {insertDotsInPrice(product.price)}</Text>
-            <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => dispatch(addToCart(product.id))}/>
+            <Image style={styles.productImage} src={result.imgSrc}/>
+            <Text style={styles.text}>{result.description}</Text>
+            <Text style={styles.price}>$ {insertDotsInPrice(result.price)}</Text>
+            <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => dispatch(addToCart(result.id))}/>
             <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null}/>
+        </View>
+        :
+        <View style={styles.container}>
+            <Text>Cargando...</Text>    
         </View>
     )
 }

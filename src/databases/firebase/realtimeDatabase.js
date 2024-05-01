@@ -1,0 +1,1 @@
+export const firebaseRealtimeDbUrl = "https://curso-react-native-coderhouse-default-rtdb.firebaseio.com/";

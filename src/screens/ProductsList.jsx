@@ -1,40 +1,52 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
-import productsList from "../data/productosList.json"
 import CardHardware from "../components/cards/CardHardware";
 import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
 import { useSelector } from "react-redux";
+import { useGetProductsQuery } from "../services/firebaseDB";
 
 const ProductsList = ({navigation}) => {
 
-    const [result, setResult] = useState([]);
+    const [result, setResult] = useState(null);
     const searchText = useSelector(state => state.search.value);
+    const {data: products, error, isLoading} = useGetProductsQuery();
 
     useEffect(() => {
-        const results = !searchText || searchText.length < 3 ? productsList.sort((producta, productb) => producta - productb) : productsList.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
-        results.length > 0 ? setResult(results) : setResult([]);
-    }, [searchText])
-    
+        if (products || error || isLoading) {
+            if (products) {
+                let productsToFilter = [...products];
+                const productsFiltered = !searchText || searchText.length < 3 ? productsToFilter.sort((producta, productb) => producta - productb) : productsToFilter.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
+                productsFiltered.length > 0 ? setResult(productsFiltered) : setResult([]);
+            } 
+        }
+    }, [products, error, searchText, isLoading])
+               
     return (
-        result.length > 0 ?
-        <FlatList
-            contentContainerStyle={styles.flatList}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item.id}
-            data={result}
-            renderItem={({ item }) => 
-                <CardHardware  
-                    price={item.price} 
-                    description={item.description} 
-                    imgSrc={item.imgSrc} 
-                    id={item.id}
-                    navigation={navigation}
-                />
-            }
-        />
-        :
+        !isLoading && result ? (
+            result.length > 0 ?
+            <FlatList
+                contentContainerStyle={styles.flatList}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={item => item.id}
+                data={result}
+                renderItem={({ item }) => 
+                    <CardHardware  
+                        price={item.price} 
+                        description={item.description} 
+                        imgSrc={item.imgSrc} 
+                        id={item.id}
+                        navigation={navigation}
+                    />
+                }
+            />
+            :
+            <View style={styles.noResultsTextCont}>
+                <Text>No hay resultados</Text>
+            </View>
+        ) 
+        : 
         <View style={styles.noResultsTextCont}>
-            <Text>No hay resultados</Text>
+            <Text>Cargando...</Text>
         </View>
     )
 }

@@ -41,7 +41,8 @@ const Header = ({navigation, route}) => {
             </TouchableOpacity>
             {
                 route.name !== "ProductsList" || menu ?
-                (   !menu &&
+                (   
+                    !menu &&
                     <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
                         <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
                     </Pressable>

@@ -16,7 +16,7 @@ const Navigation = () => {
                 initialRouteName='ProductsList'
                 screenOptions={{
                     header: ({navigation, route}) => <Header navigation={navigation} route={route}/>,
-                    headerTransparent: true
+                    headerTransparent: true,
                 }}
                 
             >

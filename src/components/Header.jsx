@@ -18,13 +18,13 @@ const Header = ({navigation, route}) => {
     useEffect(() => {
         dispatch(searchText(searchTextInput));
     }, [searchTextInput]);
-       
+           
     return (
         <>
         <View style={styles.headerCont}>
-            <Pressable style={styles.headerIconsCont} onPress={() => setMenu(<Menu/>)}>
+            <TouchableOpacity style={styles.headerIconsCont} onPress={() => setMenu( <Menu closeMenu={() => setMenu(<></>)}/> )}>
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
-            </Pressable>
+            </TouchableOpacity>
             {
                 route.name === "ProductsList" ?
                 <View style={styles.searchBarCont}>
@@ -58,6 +58,7 @@ export default Header
 
 const styles = StyleSheet.create({
     headerCont: {
+        position: "relative",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",

@@ -45,9 +45,9 @@ const Cart = ({navigation}) => {
         return (
             cartData.itemsInCartTotalQuantity > 0 ?
             <View style={styles.container} >
-                <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
+                {/* <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                     <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-                </Pressable>
+                </Pressable> */}
                 <FlatList
                     contentContainerStyle={styles.flatList}
                     showsVerticalScrollIndicator={false}

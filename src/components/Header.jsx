@@ -9,8 +9,7 @@ import { menuFadeIn, menuFadeOut } from '../animations/animations';
 
 const Header = ({navigation, route}) => {
 
-    const [menu, setMenu] = useState(<></>);
-    let menuShowing = useRef(false);
+    const [menu, setMenu] = useState(null);
     let menuAnimating = useRef(false);
  
     const dispatch = useDispatch();
@@ -25,10 +24,9 @@ const Header = ({navigation, route}) => {
     const handleMenu = () => {
         if (!menuAnimating.current) {
             menuAnimating.current = true;
-            menuShowing.current ? 
-            setMenu( <Menu closeMenu={() => setMenu(<></>)} handleFunction={menuFadeOut} /> ) :
-            setMenu( <Menu closeMenu={() => setMenu(<></>)} handleFunction={menuFadeIn} /> );
-            menuShowing.current = !menuShowing.current;
+            menu ? 
+            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeOut} menuFadeOut={menuFadeOut}/> ) :
+            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeIn} menuFadeOut={menuFadeOut}/> );
             setTimeout(() => {
                 menuAnimating.current = false;
             }, 500);
@@ -42,28 +40,33 @@ const Header = ({navigation, route}) => {
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
             </TouchableOpacity>
             {
-                route.name === "ProductsList" ?
+                route.name !== "ProductsList" || menu ?
+                (   !menu &&
+                    <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
+                        <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
+                    </Pressable>
+                )
+                :
                 <View style={styles.searchBarCont}>
                     <TextInput onChangeText={setSearchTextInput} placeholder='...Search' value={searchTextInput} style={styles.searchBarInput} />
                     <TouchableOpacity style={styles.searchBarIconCont} onPress={() => null}>
-                        <Image source={require('../../assets/images/icons/search.png')} style={styles.searchBarIcon}/>
+                        <Image source={require('../../assets/images/icons/search.png')} style={styles.searchBarIcon} />
                     </TouchableOpacity>
                 </View>
-                :
-                <Pressable onPress={menuShowing.current ? handleMenu : () => navigation.goBack()} style={styles.backIconCont}>
-                    <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
-                </Pressable>
             }
-            <TouchableOpacity style={styles.headerIconsCont} onPress={() => itemsInCartTotalQuantity > 0 ? navigation.navigate("Cart") : null}>
-                <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
-                {  
-                    itemsInCartTotalQuantity > 0
-                    && 
-                    <View style={styles.cartItemsAmountCont}>
-                        <Text style={styles.cartItemsAmountText}>{cart.reduce((acc, product) => product.quantity + acc, 0)}</Text>
-                    </View>
-                }
-            </TouchableOpacity>
+            {
+                !menu &&
+                <TouchableOpacity style={styles.headerIconsCont} onPress={() => itemsInCartTotalQuantity > 0 ? navigation.navigate("Cart") : null}>
+                    <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
+                    {  
+                        itemsInCartTotalQuantity > 0
+                        && 
+                        <View style={styles.cartItemsAmountCont}>
+                            <Text style={styles.cartItemsAmountText}>{cart.reduce((acc, product) => product.quantity + acc, 0)}</Text>
+                        </View>
+                    }
+                </TouchableOpacity>
+            }
         </View>
         {menu}        
         </>

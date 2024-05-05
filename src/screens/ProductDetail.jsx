@@ -31,9 +31,9 @@ const ProductDetail = ({navigation, route}) => {
     } else if (product) {
         return (
             <View style={styles.container} >
-                <TouchableOpacity onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
+                {/* <TouchableOpacity onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                     <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <Image style={styles.productImage} src={product.imgSrc} />
                 <Text style={styles.text}>{product.description}</Text>
                 <Text style={styles.price}>$ {insertDotsInPrice(product.price)}</Text>

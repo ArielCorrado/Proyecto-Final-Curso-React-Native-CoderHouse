@@ -1,6 +1,5 @@
 import { StyleSheet, View, Image, Text, Pressable, FlatList } from 'react-native';
 import { colors } from '../constants/coolors';
-import { SCREEN_AVAILABLE_HEIGHT, HEADER_HEIGHT } from '../constants/dimensions';
 import { useSelector } from 'react-redux';
 import { closeIconStyle, generalStyles } from '../styles/generalStyles';
 import { CardCart } from '../components/cards/CardCart';

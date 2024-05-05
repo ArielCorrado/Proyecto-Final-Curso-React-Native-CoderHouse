@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text, Pressable } from 'react-native';
 import { colors } from '../constants/coolors';
 import { HEADER_HEIGHT } from '../constants/dimensions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import Menu from '../screens/Menu';
 import { menuFadeIn, menuFadeOut } from '../animations/animations';
 
 const Header = ({navigation, route}) => {
-
+   
     const [menu, setMenu] = useState(null);
     let menuAnimating = useRef(false);
  
@@ -25,8 +25,8 @@ const Header = ({navigation, route}) => {
         if (!menuAnimating.current) {
             menuAnimating.current = true;
             menu ? 
-            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeOut} menuFadeOut={menuFadeOut} navigation={navigation} route={route}/> ) :
-            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeIn} menuFadeOut={menuFadeOut} navigation={navigation} route={route}/> );
+            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeOut} menuFadeOut={menuFadeOut} navigation={navigation} route={route} /> ) :
+            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeIn} menuFadeOut={menuFadeOut} navigation={navigation} route={route} /> );
             setTimeout(() => {
                 menuAnimating.current = false;
             }, 500);

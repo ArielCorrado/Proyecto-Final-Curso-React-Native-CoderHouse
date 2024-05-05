@@ -9,7 +9,7 @@ const Menu = () => {
     const opacityOn = () => {
         Animated.timing(opacity, {
             toValue: 1,
-            duration: 1,
+            duration: 2000,
             useNativeDriver: true
         }).start();
     }

@@ -5,8 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import ProductsList from '../screens/ProductsList';
 import ProductDetail from '../screens/ProductDetail';
 import Cart from '../screens/Cart';
-import LogIn from '../screens/LogIn';
+import SignIn from '../screens/SignIn';
 import Header from '../components/Header';
+import SignUp from '../screens/SignUp';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,8 +35,12 @@ const Navigation = () => {
                     name='Cart'
                 />
                  <Stack.Screen
-                    component={LogIn}
-                    name='LogIn'
+                    component={SignIn}
+                    name='SignIn'
+                />
+                <Stack.Screen
+                    component={SignUp}
+                    name='SignUp'
                 />
                
             </Stack.Navigator>

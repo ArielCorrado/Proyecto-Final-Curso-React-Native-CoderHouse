@@ -28,8 +28,8 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route }) 
             <Pressable onPress={() => menuFadeOut(opacity, translateX, closeMenu)} style={closeIconStyle.closeIconContainer}>
                 <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </Pressable>
-            <ButtonCard text="Iniciar Sesión" color={colors.color2} onPressFunction={() => handleNavigation("LogIn")}/>
-            <ButtonCard text="Crear Cuenta" color={colors.color3}/>
+            <ButtonCard text="Iniciar Sesión" color={colors.color2} onPressFunction={() => handleNavigation("SignIn")}/>
+            <ButtonCard text="Crear Cuenta" color={colors.color3} onPressFunction={() => handleNavigation("SignUp")}/>
         </Animated.View>
     )
 }

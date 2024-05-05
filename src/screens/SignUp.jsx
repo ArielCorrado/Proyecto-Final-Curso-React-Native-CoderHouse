@@ -4,17 +4,18 @@ import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
 
-const LogIn = () => {
+const SignUp = () => {
     return (
         <View style={generalStyles.screensContainer}>
             <TextInput placeholder='E-Mail'style={styles.input}/>
             <TextInput placeholder='Contraseña' secureTextEntry={true} style={styles.input}/>
+            <TextInput placeholder='Repetir Contraseña' secureTextEntry={true} style={styles.input}/>
             <ButtonCard color={colors.color3} text="Iniciar Sesión" buttonStyle={styles.button}/>
         </View>
     )
 }
 
-export default LogIn
+export default SignUp
 
 const styles = StyleSheet.create({
     input: {

@@ -6,6 +6,7 @@ import ProductsList from '../screens/ProductsList';
 import ProductDetail from '../screens/ProductDetail';
 import Cart from '../screens/Cart';
 import Header from '../components/Header';
+import Menu from '../screens/Menu';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,6 @@ const Navigation = () => {
                 }}
                 
             >
-
                 <Stack.Screen
                     component={ProductsList}
                     name='ProductsList'
@@ -31,6 +31,10 @@ const Navigation = () => {
                 <Stack.Screen
                     component={Cart}
                     name='Cart'
+                />
+                <Stack.Screen
+                    component={Menu}
+                    name='Menu'
                 />
 
             </Stack.Navigator>

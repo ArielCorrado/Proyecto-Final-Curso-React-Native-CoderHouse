@@ -18,9 +18,9 @@ const Header = ({navigation, route}) => {
        
     return (
         <View style={styles.headerCont}>
-            <TouchableOpacity style={styles.headerIconsCont} >
+            <Pressable style={styles.headerIconsCont} onPress={() => navigation.navigate("Menu")}>
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
-            </TouchableOpacity>
+            </Pressable>
             {
                 route.name === "ProductsList" ?
                 <View style={styles.searchBarCont}>

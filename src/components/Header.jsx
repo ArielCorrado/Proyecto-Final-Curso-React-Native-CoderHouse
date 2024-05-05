@@ -5,6 +5,7 @@ import { HEADER_HEIGHT } from '../constants/dimensions';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchText } from '../features/searchSlice';
 import Menu from '../screens/Menu';
+import { menuFadeIn, menuFadeOut } from '../animations/animations';
 
 const Header = ({navigation, route}) => {
 
@@ -22,7 +23,7 @@ const Header = ({navigation, route}) => {
     return (
         <>
         <View style={styles.headerCont}>
-            <TouchableOpacity style={styles.headerIconsCont} onPress={() => setMenu( <Menu closeMenu={() => setMenu(<></>)}/> )}>
+            <TouchableOpacity style={styles.headerIconsCont} onPress={() => setMenu( <Menu closeMenu={() => setMenu(<></>)} menuFadeIn={menuFadeIn} menuFadeOut={menuFadeOut}/> )}>
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
             </TouchableOpacity>
             {

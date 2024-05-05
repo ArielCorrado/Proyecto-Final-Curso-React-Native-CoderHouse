@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react'
 import { SCREEN_AVAILABLE_HEIGHT, SCREEN_WIDTH } from '../constants/dimensions'
 import { closeIconStyle } from '../styles/generalStyles'
 
-const Menu = ({closeMenu, menuFadeIn, menuFadeOut}) => {
+const Menu = ({closeMenu, handleFunction, menuFadeOut}) => {
 
     const opacity = useRef(new Animated.Value(0)).current;
     const translateX = useRef(new Animated.Value(-SCREEN_WIDTH)).current;
@@ -14,8 +14,8 @@ const Menu = ({closeMenu, menuFadeIn, menuFadeOut}) => {
     };
 
     useEffect(() => {
-        menuFadeIn(opacity, translateX);
-    }, [])
+        handleFunction(opacity, translateX);
+    }, [handleFunction])
     
     return (
         <Animated.View style={[styles.container, animatedStyles1]}>

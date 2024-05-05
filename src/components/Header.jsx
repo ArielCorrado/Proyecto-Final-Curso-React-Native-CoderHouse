@@ -23,7 +23,7 @@ const Header = ({navigation, route}) => {
     return (
         <>
         <View style={styles.headerCont}>
-            <TouchableOpacity style={styles.headerIconsCont} onPress={() => setMenu( <Menu closeMenu={() => setMenu(<></>)} menuFadeIn={menuFadeIn} menuFadeOut={menuFadeOut}/> )}>
+            <TouchableOpacity style={styles.headerIconsCont} onPress={() => setMenu( <Menu closeMenu={() => setMenu(<></>)} handleFunction={menuFadeIn} menuFadeOut={menuFadeOut}/> )}>
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
             </TouchableOpacity>
             {

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text, Pressable } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
 import { colors } from '../constants/coolors';
 import { HEADER_HEIGHT } from '../constants/dimensions';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchText } from '../features/searchSlice';
+import Menu from '../screens/Menu';
 
 const Header = ({navigation, route}) => {
+
+    const [menu, setMenu] = useState(<></>);
  
     const dispatch = useDispatch();
     const [searchTextInput, setSearchTextInput] = useState("");
@@ -17,8 +20,9 @@ const Header = ({navigation, route}) => {
     }, [searchTextInput]);
        
     return (
+        <>
         <View style={styles.headerCont}>
-            <Pressable style={styles.headerIconsCont} onPress={() => navigation.navigate("Menu")}>
+            <Pressable style={styles.headerIconsCont} onPress={() => setMenu(<Menu/>)}>
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
             </Pressable>
             {
@@ -45,6 +49,8 @@ const Header = ({navigation, route}) => {
                 }
             </TouchableOpacity>
         </View>
+        {menu}        
+        </>
     )
 }
 

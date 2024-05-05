@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: "100%",
-        backgroundColor: '#ccc',
         marginTop: Platform.OS === 'android' ? STATUS_BAR_HEIGHT : 0,
     },
 });

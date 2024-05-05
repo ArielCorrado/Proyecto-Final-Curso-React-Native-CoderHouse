@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import CardHardware from "../components/cards/CardHardware";
-import { SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions";
+import { SCREEN_AVAILABLE_HEIGHT, HEADER_HEIGHT } from "../constants/dimensions";
 import { useSelector } from "react-redux";
 import { useGetProductsQuery } from "../services/firebaseDB";
 
@@ -60,12 +60,14 @@ const ProductsList = ({navigation}) => {
 
 const styles = StyleSheet.create({
     flatList: {
+        marginTop: HEADER_HEIGHT,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         width: "100%",
     },
     noResultsTextCont: {
+        marginTop: HEADER_HEIGHT,
         height: SCREEN_AVAILABLE_HEIGHT - 100,
         display: "flex",
         justifyContent: "center",

@@ -12,7 +12,7 @@ export const closeIconStyle = StyleSheet.create({
         width: 20,
         height: 20,
         zIndex: 10,
-        // display: "none",
+        display: "none",
     },
     closeIcon: {
         width: "100%",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Image, Text, Pressable, Animated } from 'react-native';
 import { colors } from '../constants/coolors';
 import { HEADER_HEIGHT } from '../constants/dimensions';
@@ -10,6 +10,8 @@ import { menuFadeIn, menuFadeOut } from '../animations/animations';
 const Header = ({navigation, route}) => {
 
     const [menu, setMenu] = useState(<></>);
+    let menuShowing = useRef(false);
+    let menuAnimating = useRef(false);
  
     const dispatch = useDispatch();
     const [searchTextInput, setSearchTextInput] = useState("");
@@ -19,11 +21,24 @@ const Header = ({navigation, route}) => {
     useEffect(() => {
         dispatch(searchText(searchTextInput));
     }, [searchTextInput]);
+
+    const handleMenu = () => {
+        if (!menuAnimating.current) {
+            menuAnimating.current = true;
+            menuShowing.current ? 
+            setMenu( <Menu closeMenu={() => setMenu(<></>)} handleFunction={menuFadeOut} /> ) :
+            setMenu( <Menu closeMenu={() => setMenu(<></>)} handleFunction={menuFadeIn} /> );
+            menuShowing.current = !menuShowing.current;
+            setTimeout(() => {
+                menuAnimating.current = false;
+            }, 500);
+        }
+    }
            
     return (
         <>
         <View style={styles.headerCont}>
-            <TouchableOpacity style={styles.headerIconsCont} onPress={() => setMenu( <Menu closeMenu={() => setMenu(<></>)} handleFunction={menuFadeIn} menuFadeOut={menuFadeOut}/> )}>
+            <TouchableOpacity style={styles.headerIconsCont} onPress={handleMenu}>
                 <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
             </TouchableOpacity>
             {
@@ -35,7 +50,7 @@ const Header = ({navigation, route}) => {
                     </TouchableOpacity>
                 </View>
                 :
-                <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
+                <Pressable onPress={menuShowing.current ? handleMenu : () => navigation.goBack()} style={styles.backIconCont}>
                     <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
                 </Pressable>
             }
@@ -59,7 +74,6 @@ export default Header
 
 const styles = StyleSheet.create({
     headerCont: {
-        position: "relative",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",

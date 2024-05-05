@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { colors } from '../constants/coolors';
-import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
+import { HEADER_HEIGHT, SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
 import ButtonCard from '../components/buttons/ButtonCard';
 import { useDispatch } from 'react-redux';
@@ -52,6 +52,7 @@ export default ProductDetail;
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: HEADER_HEIGHT,
         height: SCREEN_AVAILABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',

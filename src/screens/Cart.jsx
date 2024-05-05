@@ -1,6 +1,6 @@
 import { StyleSheet, View, Image, Text, Pressable, FlatList } from 'react-native';
 import { colors } from '../constants/coolors';
-import { SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
+import { SCREEN_AVAILABLE_HEIGHT, HEADER_HEIGHT } from '../constants/dimensions';
 import { useSelector } from 'react-redux';
 import { closeIconStyle } from '../styles/generalStyles';
 import { CardCart } from '../components/cards/CardCart';
@@ -78,46 +78,11 @@ const Cart = ({navigation}) => {
             </View>
         )
     } 
-          
-    // return (
-    //     cartData.itemsInCartTotalQuantity > 0 ?
-    //     <View style={styles.container} >
-    //         <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
-    //             <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-    //         </Pressable>
-    //         <FlatList
-    //             contentContainerStyle={styles.flatList}
-    //             showsVerticalScrollIndicator={false}
-    //             keyExtractor={item => item.id}
-    //             data={cartData.cartItemsData}
-    //             renderItem={({ item }) =>
-    //                 <CardCart
-    //                     price={item.price}
-    //                     description={item.description}
-    //                     imgSrc={item.imgSrc}
-    //                     id={item.id}
-    //                     quantity={item.quantity}
-    //                 />
-    //             }
-    //         />
-    //         <View style={styles.totalPriceCont}>
-    //             <Text style={[styles.totalPrice, styles.totalPriceText]}>Total:  </Text>
-    //             <Text style={styles.totalPrice}>$ {insertDotsInPrice(cartData.totalPrice)}</Text>
-    //         </View>
-    //         <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null}/>
-    //     </View> 
-    //     :
-    //     <View style={styles.container}>
-    //         <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
-    //             <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-    //         </Pressable>
-    //         <Text style={styles.emptyCartText}>No hay productos en el carrito</Text>
-    //     </View>
-    // )
 }
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: HEADER_HEIGHT,
         height: SCREEN_AVAILABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',

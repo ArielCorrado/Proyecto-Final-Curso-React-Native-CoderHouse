@@ -1,27 +1,22 @@
-import { StyleSheet, Text, Animated, Pressable, Image } from 'react-native'
+import { StyleSheet, Text, Animated } from 'react-native'
 import React, { useRef, useEffect } from 'react'
 import { SCREEN_AVAILABLE_HEIGHT, SCREEN_WIDTH } from '../constants/dimensions'
-import { closeIconStyle } from '../styles/generalStyles'
 
-const Menu = ({closeMenu, handleFunction, menuFadeOut}) => {
-
+const Menu = ({closeMenu, handleFunction }) => {
     const opacity = useRef(new Animated.Value(0)).current;
     const translateX = useRef(new Animated.Value(-SCREEN_WIDTH)).current;
-      
+    
     const animatedStyles1 = {
         opacity: opacity,
         translateX: translateX
     };
-
+    
     useEffect(() => {
-        handleFunction(opacity, translateX);
+        handleFunction(opacity, translateX, closeMenu);
     }, [handleFunction])
     
     return (
         <Animated.View style={[styles.container, animatedStyles1]}>
-            <Pressable onPress={() => menuFadeOut(opacity, translateX, closeMenu)} style={closeIconStyle.closeIconContainer}>
-                <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-            </Pressable>
             <Text>Menu</Text>
         </Animated.View>
     )

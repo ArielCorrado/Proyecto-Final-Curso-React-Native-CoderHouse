@@ -2,7 +2,7 @@ import { StyleSheet, View, Image, Text, Pressable, FlatList } from 'react-native
 import { colors } from '../constants/coolors';
 import { SCREEN_AVAILABLE_HEIGHT, HEADER_HEIGHT } from '../constants/dimensions';
 import { useSelector } from 'react-redux';
-import { closeIconStyle } from '../styles/generalStyles';
+import { closeIconStyle, generalStyles } from '../styles/generalStyles';
 import { CardCart } from '../components/cards/CardCart';
 import { insertDotsInPrice } from '../functions/utils';
 import ButtonCard from '../components/buttons/ButtonCard';
@@ -44,7 +44,7 @@ const Cart = ({navigation}) => {
     } else if (cartData.cartItemsData) {
         return (
             cartData.itemsInCartTotalQuantity > 0 ?
-            <View style={styles.container} >
+            <View style={generalStyles.screensContainer} >
                 {/* <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                     <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
                 </Pressable> */}
@@ -81,17 +81,6 @@ const Cart = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: HEADER_HEIGHT,
-        height: SCREEN_AVAILABLE_HEIGHT,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 10,
-        borderColor: colors.borderColorGray,
-        // paddingTop: itemsInCartTotalQuantity ? 50 : 0,
-    },
     emptyCartText: {
         fontSize: 17.5,
     },

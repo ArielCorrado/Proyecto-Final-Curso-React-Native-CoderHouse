@@ -4,6 +4,7 @@ import CardHardware from "../components/cards/CardHardware";
 import { SCREEN_AVAILABLE_HEIGHT, HEADER_HEIGHT } from "../constants/dimensions";
 import { useSelector } from "react-redux";
 import { useGetProductsQuery } from "../services/firebaseDB";
+import { generalStyles } from "../styles/generalStyles";
 
 const ProductsList = ({navigation}) => {
 
@@ -33,21 +34,23 @@ const ProductsList = ({navigation}) => {
         )
     } else if (result && result.length) {
         return (
-            <FlatList
-                contentContainerStyle={styles.flatList}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.id}
-                data={result}
-                renderItem={({ item }) => 
-                    <CardHardware  
-                        price={item.price} 
-                        description={item.description} 
-                        imgSrc={item.imgSrc} 
-                        id={item.id}
-                        navigation={navigation}
-                    />
-                }
-            />
+            <View style={generalStyles.screensContainer}>
+                <FlatList
+                    contentContainerStyle={styles.flatList}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={item => item.id}
+                    data={result}
+                    renderItem={({ item }) => 
+                        <CardHardware  
+                            price={item.price} 
+                            description={item.description} 
+                            imgSrc={item.imgSrc} 
+                            id={item.id}
+                            navigation={navigation}
+                        />
+                    }
+                />
+            </View>
         )
     } else if (result && !result.length) {
         return (
@@ -60,7 +63,6 @@ const ProductsList = ({navigation}) => {
 
 const styles = StyleSheet.create({
     flatList: {
-        marginTop: HEADER_HEIGHT,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",

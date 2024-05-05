@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React from 'react';
 import { colors } from '../constants/coolors';
-import { HEADER_HEIGHT, SCREEN_AVAILABLE_HEIGHT } from '../constants/dimensions';
 import { generalStyles } from '../styles/generalStyles';
 import ButtonCard from '../components/buttons/ButtonCard';
 import { useDispatch } from 'react-redux';
@@ -30,10 +29,10 @@ const ProductDetail = ({navigation, route}) => {
         )
     } else if (product) {
         return (
-            <View style={styles.container} >
-                {/* <TouchableOpacity onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
+            <View style={generalStyles.screensContainer} >
+                <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                     <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-                </TouchableOpacity> */}
+                </Pressable>
                 <Image style={styles.productImage} src={product.imgSrc} />
                 <Text style={styles.text}>{product.description}</Text>
                 <Text style={styles.price}>$ {insertDotsInPrice(product.price)}</Text>
@@ -51,18 +50,6 @@ const ProductDetail = ({navigation, route}) => {
 export default ProductDetail;
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: HEADER_HEIGHT,
-        height: SCREEN_AVAILABLE_HEIGHT,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 10,
-        borderColor: colors.borderColorGray,
-        backgroundColor: colors.lightColor,
-        padding: 20,
-    },
     text: {
         color: colors.textColor,
         fontSize: 17,

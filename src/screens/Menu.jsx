@@ -1,7 +1,9 @@
 import { StyleSheet, Text, Animated, Pressable, Image } from 'react-native'
 import React, { useRef, useEffect } from 'react'
 import { SCREEN_AVAILABLE_HEIGHT, SCREEN_WIDTH } from '../constants/dimensions'
-import { closeIconStyle } from '../styles/generalStyles'
+import { closeIconStyle } from '../styles/generalStyles';
+import { colors } from '../constants/coolors';
+import ButtonCard from '../components/buttons/ButtonCard';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut }) => {
     const opacity = useRef(new Animated.Value(0)).current;
@@ -21,7 +23,8 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut }) => {
             <Pressable onPress={() => menuFadeOut(opacity, translateX, closeMenu)} style={closeIconStyle.closeIconContainer}>
                 <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </Pressable>
-            <Text>Menu</Text>
+            <ButtonCard text="Iniciar Sesión" color={colors.color2}/>
+            <ButtonCard text="Crear Cuenta" color={colors.color3}/>
         </Animated.View>
     )
 }
@@ -35,6 +38,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: SCREEN_AVAILABLE_HEIGHT,
         width: "100%",
-        backgroundColor: "pink"
+        backgroundColor: colors.lightColor,
+        borderWidth: 10,
+        borderColor: colors.borderColorGray,
+        padding: 20,
     }
 })

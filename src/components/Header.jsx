@@ -25,8 +25,8 @@ const Header = ({navigation, route}) => {
         if (!menuAnimating.current) {
             menuAnimating.current = true;
             menu ? 
-            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeOut} menuFadeOut={menuFadeOut}/> ) :
-            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeIn} menuFadeOut={menuFadeOut}/> );
+            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeOut} menuFadeOut={menuFadeOut} navigation={navigation} route={route}/> ) :
+            setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeIn} menuFadeOut={menuFadeOut} navigation={navigation} route={route}/> );
             setTimeout(() => {
                 menuAnimating.current = false;
             }, 500);

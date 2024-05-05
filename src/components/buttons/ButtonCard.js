@@ -2,7 +2,7 @@ import { StyleSheet, Text, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../../constants/coolors'
 
-const ButtonCard = ({text, color, height = 60, width = "70%", onPressFunction}) => {
+const ButtonCard = ({text, color, height = 60, width = "70%", onPressFunction, buttonStyle={}}) => {
 
     const styles = StyleSheet.create({
         button: {
@@ -24,7 +24,7 @@ const ButtonCard = ({text, color, height = 60, width = "70%", onPressFunction}) 
     })
 
     return (
-        <Pressable style={styles.button} onPress={onPressFunction}>
+        <Pressable style={{...styles.button, ...buttonStyle}} onPress={onPressFunction}>
             <Text style={styles.text}>{text}</Text>
         </Pressable>
     )

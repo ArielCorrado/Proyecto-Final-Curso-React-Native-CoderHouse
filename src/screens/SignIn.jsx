@@ -7,18 +7,19 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '../features/userSlice'
 import { useSignInMutation } from '../services/firebaseAuth'
 import { useEffect, useState } from 'react'
+import { modal } from '../features/modal'
 
 const SignIn = ({navigation}) => {
+    const dispatch = useDispatch();
+    const [triggerSignIn, result] = useSignInMutation();
 
     const [signInData, setSignInData] = useState({
         email: '',
         password: '',
     });
 
-    const dispatch = useDispatch();
-    const [triggerSignIn, result] = useSignInMutation();
-
     const signIn = () => {
+        dispatch(modal({show: true, text: "Tienes que ingresar algún dato", icon: "Info"}));
         try {
             triggerSignIn({email: signInData.email, password: signInData.password, returnSecureToken: true});
         } catch (error) {

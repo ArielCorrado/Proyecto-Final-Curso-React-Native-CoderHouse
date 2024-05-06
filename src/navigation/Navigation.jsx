@@ -8,12 +8,14 @@ import Cart from '../screens/Cart';
 import SignIn from '../screens/SignIn';
 import Header from '../components/Header';
 import SignUp from '../screens/SignUp';
+import MainModal from '../components/modals/MainModal';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     return (
         <NavigationContainer>
+                <MainModal/>
             <Stack.Navigator
                 initialRouteName='ProductsList'
                 screenOptions={{

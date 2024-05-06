@@ -28,6 +28,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
     container: {
+        position: "relative",
         flex: 1,
         width: "100%",
         marginTop: Platform.OS === 'android' ? STATUS_BAR_HEIGHT : 0,

@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "../features/cartSlice";
 import searchReducer from "../features/searchSlice";
+import userReducer from "../features/userSlice";
+import modalReducer from "../features/modal";
 import { shopApi } from "../services/firebaseDB";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import userReducer from "../features/userSlice";
 import { authApi } from "../services/firebaseAuth";
 
 export default store = configureStore({
@@ -11,6 +12,7 @@ export default store = configureStore({
         cart: cartReducer,
         search: searchReducer,
         user: userReducer,
+        modal : modalReducer,
         [shopApi.reducerPath]: shopApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
     },

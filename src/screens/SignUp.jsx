@@ -36,7 +36,6 @@ const SignUp = () => {
                 expiresIn: result.data.expiresIn,
                 registered: result.data.registered
             }));
-            console.log(result.data);
         } else if (result.isError) {
             console.log(result.error);
         }

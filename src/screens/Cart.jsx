@@ -43,7 +43,7 @@ const Cart = ({navigation}) => {
     } else if (cartData.cartItemsData) {
         return (
             cartData.itemsInCartTotalQuantity > 0 ?
-            <View style={generalStyles.screensContainer} >
+            <View style={[generalStyles.screensContainer, styles.cartContainer]} >
                 {/* <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                     <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
                 </Pressable> */}
@@ -80,6 +80,9 @@ const Cart = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+    cartContainer: {
+        padding: 0,
+    },
     emptyCartText: {
         fontSize: 17.5,
     },

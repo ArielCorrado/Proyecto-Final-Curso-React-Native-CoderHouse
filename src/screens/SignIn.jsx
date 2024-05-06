@@ -37,7 +37,6 @@ const SignIn = ({navigation}) => {
             }));
             setSignInData({email: '', password: ''});
             navigation.navigate('ProductsList');
-            console.log("Registro exitoso:", result.data.email);
         } else if (result.isError) {
             console.log(result.error);
         }

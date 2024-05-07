@@ -17,15 +17,15 @@ export const shopApi = createApi({
             }
         }),
         updateUserData: builder.mutation({
-            query: ({userData, userId}) => ({
-                url: `usersData/${userId}.json`,
+            query: ({userId, field, data}) => ({
+                url: `usersData/${userId}/${field}.json`,
                 method: "PUT",
-                body: userData,
+                body: data,
             }),
             invalidatesTags: ['userData']                                                           //<---- Para recibir datos actualizados con el get si los datos en la base cambian   
         }),
         getUserData: builder.query({
-            query: (userId) => `usersData/${userId}.json`,
+            query: ({userId, field}) => `usersData/${userId}/${field}.json`,
             providesTags: ['userData']                                                              //<---- Para recibir datos actualizados con el get si los datos en la base cambian   
         }),
     })

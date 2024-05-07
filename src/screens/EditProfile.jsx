@@ -5,11 +5,14 @@ import { useEffect } from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
+import { modal } from '../features/modal'
+import { useDispatch } from 'react-redux'
 
 const EditProfile = ({navigation, route}) => {
 
+    const dispatch = useDispatch();
     const {userId} = route.params;
-    const {data: userDataFromDB, error, isLoading} = useGetUserDataQuery(userId);
+    const {data: userProfileFromDB, error, isLoading} = useGetUserDataQuery({userId, field: "profile"});
     const [triggerUpdateUserData, result] = useUpdateUserDataMutation();
     const [userProfile, setUserProfile] = useState({
         firstName: "",
@@ -20,12 +23,27 @@ const EditProfile = ({navigation, route}) => {
     })
 
     useEffect(() => {
-        if (userDataFromDB) setUserProfile(userDataFromDB.profile)
-    }, [userDataFromDB])
+        if (userProfileFromDB) setUserProfile(userProfileFromDB)
+    }, [userProfileFromDB])
 
     const saveChanges = () => {
-        triggerUpdateUserData({userData: {...(userDataFromDB ? userDataFromDB : {}), profile: userProfile}, userId: userId})
+        triggerUpdateUserData({userId: userId, field: "profile", data: userProfile});
     }
+
+    useEffect(() => {
+        if (result) {
+            if(result.isSuccess) {
+                dispatch(modal({show: true, text: "Datos de perfil actualizados con éxito", icon: "Success"}));
+            } else if (result.isLoading) {
+
+            } else if (result.isError) {
+                const errorMessage = result.error.data.error.message;
+                dispatch(modal({show: true, text: `Error al actualizar datos de perfil: ${errorMessage}`, icon: "Error"}));
+            }
+        } 
+     
+    }, [result])
+    
      
     if (isLoading) {
         return (

@@ -19,11 +19,14 @@ const SignIn = ({navigation}) => {
     });
 
     const signIn = () => {
-        dispatch(modal({show: true, text: "Tienes que ingresar algún dato", icon: "Info"}));
+        if (signInData.email.trim() === "" || signInData.password.trim() === "") {
+            dispatch(modal({show: true, text: "Los campos no pueden estar vacíos, intenta nuevamente", icon: "Warning"}));
+            return;
+        }
         try {
             triggerSignIn({email: signInData.email, password: signInData.password, returnSecureToken: true});
         } catch (error) {
-            console.log(error);
+            dispatch(modal({show: true, text: "Error de incio de sesión, intenta nuevamente", icon: "Error"}));
         }
     }   
     
@@ -37,9 +40,15 @@ const SignIn = ({navigation}) => {
                 registered: result.data.registered
             }));
             setSignInData({email: '', password: ''});
+            dispatch(modal({show: true, text: "Inicio de sesión exitoso", icon: "Success"}));
             navigation.navigate('ProductsList');
         } else if (result.isError) {
-            console.log(result.error);
+            const errorMessage = result.error.data.error.message;
+            if (errorMessage === "INVALID_LOGIN_CREDENTIALS") {
+                dispatch(modal({show: true, text: "Credenciales incorrectas, intenta nuevamente", icon: "Warning"}));
+            } else {
+                dispatch(modal({show: true, text: `Error de inicio de sesión: ${errorMessage}`, icon: "Error"}));
+            }
         }
     }, [result])
     

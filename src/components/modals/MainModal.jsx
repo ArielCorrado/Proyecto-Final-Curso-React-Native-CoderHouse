@@ -63,14 +63,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 35,
         paddingVertical: 25,
         alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
         width: "75%",
     },
     button: {
@@ -92,6 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 17.5,
         marginBottom: 25,
         textAlign: 'center',
+        lineHeight: 22.5,
     },
     icon: {
         width: 50,

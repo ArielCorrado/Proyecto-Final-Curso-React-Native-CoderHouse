@@ -7,8 +7,10 @@ import { useDispatch } from 'react-redux'
 import { useSignUpMutation } from '../services/firebaseAuth'
 import { useEffect } from 'react'
 import { setUser } from '../features/userSlice'
+import { validateEmail, validatePassword } from '../validations/signForm'
+import { modal } from '../features/modal'
 
-const SignUp = () => {
+const SignUp = ({navigation}) => {
 
     const dispatch = useDispatch();
     const [triggerSignUp, result] = useSignUpMutation();
@@ -20,10 +22,23 @@ const SignUp = () => {
     });
 
     const signUp = () => {
+        if (!validateEmail(signUpData.email)) {
+            dispatch(modal({show: true, text: "E-mail no válido", icon: "Warning"}));
+            return;
+        } else if (!validatePassword(signUpData.password)) {
+            dispatch(modal({show: true, text: "Password no válido: Debe tener al menos 8 caracteres y combinar letras mayúsculas con minúsculas, números y caracteres especiales (Ejemplo: Ariel@1202)", icon: "Warning"}));
+            return;
+        } else if (signUpData.password !== signUpData.repeatPassword) {
+            dispatch(modal({show: true, text: "Los passwords ingresados no coinciden", icon: "Warning"}));
+            return;
+        }
         try {
             triggerSignUp({email: signUpData.email, password: signUpData.password, returnSecureToken: true});
+            setSignUpData({email: "", password: "", repeatPassword: ""});
+            dispatch(modal({show: true, text: "Cuenta creada con éxito", icon: "Success"}));
+            navigation.navigate("ProductsList");
         } catch (error) {
-            console.log(error);
+            dispatch(modal({show: true, text: "Error al crear cuenta, intenta nuevamente", icon: "Error"}));
         }   
     }
     
@@ -34,10 +49,11 @@ const SignUp = () => {
                 idToken: result.data.idToken,
                 refreshToken: result.data.refreshToken,
                 expiresIn: result.data.expiresIn,
-                registered: result.data.registered
+                registered: true
             }));
         } else if (result.isError) {
-            console.log(result.error);
+            const errorMessage = result.error.data.error.message;
+            dispatch(modal({show: true, text: `Error al crear cuenta: ${errorMessage}`, icon: "Error"}));
         }
     }, [result])
     
@@ -50,20 +66,23 @@ const SignUp = () => {
                     onChangeText={(text) => setSignUpData((current) => ({...current, email: text}))}
                     placeholder='E-Mail'
                     style={styles.input}
+                    value={signUpData.email}
                 />
                 <TextInput 
                     onChangeText={(text) => setSignUpData((current) => ({...current, password: text}))}
                     placeholder='Contraseña' 
                     secureTextEntry={true} 
                     style={styles.input}
+                    value={signUpData.password}
                 />
                 <TextInput 
                     onChangeText={(text) => setSignUpData((current) => ({...current, repeatPassword: text}))}
                     placeholder='Repetir Contraseña' 
                     secureTextEntry={true} 
                     style={styles.input}
+                    value={signUpData.repeatPassword}
                 />
-                <ButtonCard color={colors.color3} text="Iniciar Sesión" buttonStyle={styles.button} onPressFunction={signUp}/>
+                <ButtonCard color={colors.color3} text="Crear Cuenta" buttonStyle={styles.button} onPressFunction={signUp}/>
             </View>
         </View>
     )

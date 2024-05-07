@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { apiKey, authUrl } from "../databases/firebase/auth";
+import { authUrl } from "../databases/firebase/auth";
+import { FIRABASE_API_KEY } from "../../environment";
 
 export const authApi = createApi({
     reducerPath: "authApi", 
@@ -7,14 +8,14 @@ export const authApi = createApi({
     endpoints: (builder) => ({
         signUp: builder.mutation({
             query: ({ ...auth }) => ({
-                url: `/accounts:signUp?key=${apiKey}`,
+                url: `/accounts:signUp?key=${FIRABASE_API_KEY}`,
                 method: "POST",
                 body: auth,
             }),
         }),
         signIn: builder.mutation({
             query: ({...auth}) => ({
-                url: `/accounts:signInWithPassword?key=${apiKey}`,
+                url: `/accounts:signInWithPassword?key=${FIRABASE_API_KEY}`,
                 method: "POST",
                 body: auth
             })

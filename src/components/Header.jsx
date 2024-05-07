@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchText } from '../features/searchSlice';
 import Menu from '../screens/Menu';
 import { menuFadeIn, menuFadeOut } from '../animations/animations';
+import { modal } from '../features/modal';
 
 const Header = ({navigation, route}) => {
    
@@ -15,6 +16,7 @@ const Header = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [searchTextInput, setSearchTextInput] = useState("");
     const cart = useSelector(state => state.cart);
+    const {registered} = useSelector(state => state.user.value);
     const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
        
     useEffect(() => {
@@ -32,6 +34,17 @@ const Header = ({navigation, route}) => {
             }, 500);
         }
     }
+
+    const handleCartIconPress = () =>  {
+        if (itemsInCartTotalQuantity > 0 && registered) {
+            navigation.navigate("Cart");
+        } else if (!registered) {;
+            dispatch(modal({show: true, text: "Debes iniciar sesión para ingresar al carrito", icon: "Info"}))
+            navigation.navigate("SignIn");
+        } else if (itemsInCartTotalQuantity === 0 && registered) {
+            dispatch(modal({show: true, text: "El carrito está vacío", icon: "Info"}))
+        }
+    }
            
     return (
         <>
@@ -39,7 +52,7 @@ const Header = ({navigation, route}) => {
                 <TouchableOpacity style={styles.headerIconsCont} onPress={handleMenu}>
                     <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
                 </TouchableOpacity>
-                {
+                {                                                                                                                                           //Ocultamos barra de busqueda si no estamos en la screen "ProductsList" o si está el menú abierto
                     route.name !== "ProductsList" || menu ?
                     (   
                         !menu &&
@@ -57,7 +70,7 @@ const Header = ({navigation, route}) => {
                 }
                 {
                     !menu &&
-                    <TouchableOpacity style={styles.headerIconsCont} onPress={() => itemsInCartTotalQuantity > 0 ? navigation.navigate("Cart") : null}>
+                    <TouchableOpacity style={styles.headerIconsCont} onPress={handleCartIconPress}>
                         <Image source={require('../../assets/images/icons/cart.png')} style={styles.headerIcons}/>
                         {  
                             itemsInCartTotalQuantity > 0

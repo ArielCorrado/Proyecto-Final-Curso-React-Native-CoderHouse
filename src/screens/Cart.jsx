@@ -44,9 +44,6 @@ const Cart = ({navigation}) => {
         return (
             cartData.itemsInCartTotalQuantity > 0 ?
             <View style={[generalStyles.screensContainer, styles.cartContainer]} >
-                {/* <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
-                    <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
-                </Pressable> */}
                 <FlatList
                     contentContainerStyle={styles.flatList}
                     showsVerticalScrollIndicator={false}
@@ -69,7 +66,7 @@ const Cart = ({navigation}) => {
                 <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null} />
             </View>
             :
-            <View style={styles.container}>
+            <View style={generalStyles.screensContainer}>
                 <Pressable onPress={() => navigation.goBack()} style={closeIconStyle.closeIconContainer}>
                     <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
                 </Pressable>

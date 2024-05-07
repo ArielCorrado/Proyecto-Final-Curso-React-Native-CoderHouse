@@ -30,13 +30,13 @@ const Cart = ({navigation}) => {
 
     if (isLoading) {
         return  (
-            <View style={styles.noResultsTextCont}>
+            <View style={generalStyles.screensContainer}>
                 <Text>Cargando...</Text>
             </View>
         )
     } else if (error) {
         return (
-            <View style={styles.noResultsTextCont}>
+            <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener datos de productos</Text>
             </View>
         )

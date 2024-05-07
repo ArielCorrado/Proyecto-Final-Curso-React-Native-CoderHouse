@@ -22,13 +22,13 @@ const ProductsList = ({navigation}) => {
 
     if (isLoading) {
         return  (
-            <View style={styles.noResultsTextCont}>
+            <View style={generalStyles.screensContainer}>
                 <Text>Cargando...</Text>
             </View>
         )
     } else if (error) {
         return (
-            <View style={styles.noResultsTextCont}>
+            <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener datos de productos</Text>
             </View>
         )
@@ -68,13 +68,6 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         width: "100%",
     },
-    noResultsTextCont: {
-        marginTop: HEADER_HEIGHT,
-        height: SCREEN_AVAILABLE_HEIGHT - 100,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    }
 })
 
 

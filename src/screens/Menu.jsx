@@ -44,7 +44,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                 <View style={styles.profileContainer}>
                     <View style={styles.profileIconContainer}>
                         <Image style={styles.profileIcon} source={require("../../assets/images/icons/user2.png")} />
-                        <Pressable style={styles.editIconContainer}>
+                        <Pressable style={styles.editIconContainer} onPressIn={() => navigation.navigate("EditProfile", {userId: user.localId})}>
                             <Image style={styles.editIcon} source={require("../../assets/images/icons/edit.png")} />
                         </Pressable>
                     </View>

@@ -9,6 +9,7 @@ import SignIn from '../screens/SignIn';
 import Header from '../components/Header';
 import SignUp from '../screens/SignUp';
 import MainModal from '../components/modals/MainModal';
+import EditProfile from '../screens/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,10 @@ const Navigation = () => {
                 <Stack.Screen
                     component={SignUp}
                     name='SignUp'
+                />
+                <Stack.Screen
+                    component={EditProfile}
+                    name='EditProfile'
                 />
                
             </Stack.Navigator>

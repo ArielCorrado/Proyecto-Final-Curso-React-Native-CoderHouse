@@ -17,13 +17,13 @@ const ProductDetail = ({navigation, route}) => {
 
     if (isLoading) {
         return (
-            <View style={styles.container}>
+            <View style={generalStyles.screensContainer}>
                 <Text>Cargando...</Text>
             </View>
         )
     } else if (error) {
         return (
-            <View style={styles.container}>
+            <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener los datos del producto</Text>
             </View>
         )

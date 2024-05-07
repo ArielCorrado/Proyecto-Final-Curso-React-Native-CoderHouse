@@ -37,7 +37,8 @@ const SignIn = ({navigation}) => {
                 idToken: result.data.idToken,
                 refreshToken: result.data.refreshToken,
                 expiresIn: result.data.expiresIn,
-                registered: result.data.registered
+                localId: result.data.localId,
+                registered: result.data.registered,
             }));
             setSignInData({email: '', password: ''});
             dispatch(modal({show: true, text: "Inicio de sesión exitoso", icon: "Success"}));

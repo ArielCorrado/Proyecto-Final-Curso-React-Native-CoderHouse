@@ -49,7 +49,8 @@ const SignUp = ({navigation}) => {
                 idToken: result.data.idToken,
                 refreshToken: result.data.refreshToken,
                 expiresIn: result.data.expiresIn,
-                registered: true
+                localId: result.data.localId,
+                registered: true,
             }));
         } else if (result.isError) {
             const errorMessage = result.error.data.error.message;

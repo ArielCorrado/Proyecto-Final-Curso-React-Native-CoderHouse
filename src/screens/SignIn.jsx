@@ -3,15 +3,33 @@ import React from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../features/userSlice'
 import { useSignInMutation } from '../services/firebaseAuth'
 import { useEffect, useState } from 'react'
 import { modal } from '../features/modal'
+// import { useGetUserDataQuery, useUpdateUserDataMutation } from '../services/firebaseDB'
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
     const [triggerSignIn, result] = useSignInMutation();
+
+
+
+    // const {registered} = useSelector(state => state.user.value);
+    // const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
+    // const {data: cartFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "cart"});
+    // useEffect(() => {
+    //     if (registered) {
+    //         if (!cartFromDB || (cartFromDB && cartFromDB.length)) {
+    //             triggerUpdateUserData({userId: localId, field: "cart", data: cart});
+    //         } else {
+    //             dispatch(cart(cartFromDB));
+    //         }
+    //     }
+    // }, [registered])
+
+
 
     const [signInData, setSignInData] = useState({
         email: '',

@@ -5,7 +5,7 @@ import Navigation  from './src/navigation/Navigation';
 import { Provider } from 'react-redux';
 import store from './src/store';
 
-export default function App() {
+export default function App () {
 
     const [fontsLoaded, fontError] = useFonts({
         "Poppins": require("./assets/fonts/Poppins-Regular.ttf"),

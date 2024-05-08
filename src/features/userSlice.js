@@ -8,6 +8,7 @@ export const userSlice = createSlice({
             idToken: "",
             refreshToken: "",
             expiresIn: "",
+            localId: "",
             registered: false,
         }
     },
@@ -21,6 +22,7 @@ export const userSlice = createSlice({
                 idToken: "",
                 refreshToken: "",
                 expiresIn: "",
+                localId: "",
                 registered: false,
             }
         }

@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { modal } from '../features/modal'
 import { useGetUserDataQuery } from '../services/firebaseDB'
 import { updateCart } from '../features/cartSlice'
+import { spinner } from '../features/spinner'
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
@@ -60,7 +61,8 @@ const SignIn = ({navigation}) => {
             } else {
                 dispatch(modal({show: true, text: `Error de inicio de sesión: ${errorMessage}`, icon: "Error"}));
             }
-        }
+        } 
+        result.isLoading ?dispatch(spinner({show: true})) : dispatch(spinner({show: false}))
     }, [result])
     
     return (

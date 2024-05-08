@@ -36,7 +36,6 @@ const SignUp = ({navigation}) => {
             triggerSignUp({email: signUpData.email, password: signUpData.password, returnSecureToken: true});
             setSignUpData({email: "", password: "", repeatPassword: ""});
             dispatch(modal({show: true, text: "Cuenta creada con éxito", icon: "Success"}));
-            navigation.navigate("ProductsList");
         } catch (error) {
             dispatch(modal({show: true, text: "Error al crear cuenta, intenta nuevamente", icon: "Error"}));
         }   
@@ -52,9 +51,11 @@ const SignUp = ({navigation}) => {
                 localId: result.data.localId,
                 registered: true,
             }));
+            navigation.navigate("ProductsList");
         } else if (result.isError) {
             const errorMessage = result.error.data.error.message;
             dispatch(modal({show: true, text: `Error al crear cuenta: ${errorMessage}`, icon: "Error"}));
+            navigation.navigate("ProductsList");
         }
     }, [result])
     

@@ -8,28 +8,21 @@ import { setUser } from '../features/userSlice'
 import { useSignInMutation } from '../services/firebaseAuth'
 import { useEffect, useState } from 'react'
 import { modal } from '../features/modal'
-// import { useGetUserDataQuery, useUpdateUserDataMutation } from '../services/firebaseDB'
+import { useGetUserDataQuery } from '../services/firebaseDB'
+import { updateCart } from '../features/cartSlice'
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
     const [triggerSignIn, result] = useSignInMutation();
-
-
-
-    // const {registered} = useSelector(state => state.user.value);
-    // const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
-    // const {data: cartFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "cart"});
-    // useEffect(() => {
-    //     if (registered) {
-    //         if (!cartFromDB || (cartFromDB && cartFromDB.length)) {
-    //             triggerUpdateUserData({userId: localId, field: "cart", data: cart});
-    //         } else {
-    //             dispatch(cart(cartFromDB));
-    //         }
-    //     }
-    // }, [registered])
-
-
+    const {registered, localId} = useSelector(state => state.user.value);
+    const {data: cartFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "cart"});
+       
+    useEffect(() => {
+        if (registered && cartFromDB) {
+            dispatch(updateCart(cartFromDB));
+            navigation.navigate('ProductsList');
+        }
+    }, [registered, cartFromDB])
 
     const [signInData, setSignInData] = useState({
         email: '',
@@ -60,7 +53,6 @@ const SignIn = ({navigation}) => {
             }));
             setSignInData({email: '', password: ''});
             dispatch(modal({show: true, text: "Inicio de sesión exitoso", icon: "Success"}));
-            navigation.navigate('ProductsList');
         } else if (result.isError) {
             const errorMessage = result.error.data.error.message;
             if (errorMessage === "INVALID_LOGIN_CREDENTIALS") {

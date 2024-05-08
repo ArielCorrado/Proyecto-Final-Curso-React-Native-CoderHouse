@@ -7,6 +7,8 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '../features/userSlice';
+import { useUpdateUserDataMutation } from '../services/firebaseDB';
+import { clearCart } from '../features/cartSlice';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -15,6 +17,9 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
 
     const dispatch = useDispatch();
     const {value: user} = useSelector(state => state.user);
+    const cart = useSelector(state => state.cart.value);
+    const {registered, localId} = useSelector(state => state.user.value);
+    const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
     
     const animatedStyles1 = {
         opacity: opacity,
@@ -30,8 +35,14 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         menuFadeOut(opacity, translateX, closeMenu);
     }
 
+    const saveCartInDB = () => {
+        triggerUpdateUserData({userId: localId, field: "cart", data: cart});
+    }
+
     const logOut = () => {
-        dispatch(clearUser())
+        saveCartInDB();
+        dispatch(clearCart());
+        dispatch(clearUser());
     }   
     
     return (

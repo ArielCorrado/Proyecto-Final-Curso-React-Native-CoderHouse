@@ -15,7 +15,7 @@ const Header = ({navigation, route}) => {
  
     const dispatch = useDispatch();
     const [searchTextInput, setSearchTextInput] = useState("");
-    const cart = useSelector(state => state.cart);
+    const cart = useSelector(state => state.cart.value);
     const {registered} = useSelector(state => state.user.value);
     const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
        

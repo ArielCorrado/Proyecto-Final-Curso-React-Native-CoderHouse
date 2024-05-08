@@ -12,7 +12,7 @@ import { spinner } from "../features/spinner";
 const Cart = ({navigation}) => {
 
     const dispatch = useDispatch();
-    const cart = useSelector(state => state.cart);
+    const cart = useSelector(state => state.cart.value);
     const [cartData, setCartData] = useState({
         cartItemsData: null,
         itemsInCartTotalQuantity: 0,

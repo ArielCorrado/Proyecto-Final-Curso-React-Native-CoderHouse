@@ -1,9 +1,9 @@
 import { StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { useFonts } from 'expo-font';
 import { STATUS_BAR_HEIGHT } from './src/constants/dimensions';
-import Navigation  from './src/navigation/Navigation';
 import { Provider } from 'react-redux';
 import store from './src/store';
+import Navigation from './src/navigation/Navigation';
 
 export default function App () {
 

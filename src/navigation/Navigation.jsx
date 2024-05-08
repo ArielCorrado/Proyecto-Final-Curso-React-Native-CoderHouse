@@ -10,6 +10,7 @@ import Header from '../components/Header';
 import SignUp from '../screens/SignUp';
 import MainModal from '../components/modals/MainModal';
 import EditProfile from '../screens/EditProfile';
+import MainSpinner from '../components/spinners/MainSpinner';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const Navigation = () => {
     return (
         <NavigationContainer>
                 <MainModal/>
+                <MainSpinner/>
             <Stack.Navigator
                 initialRouteName='ProductsList'
                 screenOptions={{
@@ -57,4 +59,3 @@ const Navigation = () => {
 
 export default Navigation
 
-const styles = StyleSheet.create({})

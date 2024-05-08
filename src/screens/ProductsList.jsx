@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import CardHardware from "../components/cards/CardHardware";
-import { SCREEN_AVAILABLE_HEIGHT, HEADER_HEIGHT } from "../constants/dimensions";
 import { useSelector } from "react-redux";
 import { useGetProductsQuery } from "../services/firebaseDB";
 import { generalStyles } from "../styles/generalStyles";

@@ -7,6 +7,7 @@ import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
 import { modal } from '../features/modal'
 import { useDispatch } from 'react-redux'
+import { spinner } from '../features/spinner'
 
 const EditProfile = ({navigation, route}) => {
 
@@ -33,10 +34,12 @@ const EditProfile = ({navigation, route}) => {
     useEffect(() => {
         if (result) {
             if(result.isSuccess) {
+                dispatch(spinner({show: false, size: 75}));
                 dispatch(modal({show: true, text: "Datos de perfil actualizados con éxito", icon: "Success"}));
             } else if (result.isLoading) {
-
+                dispatch(spinner({show: true, size: 75}));
             } else if (result.isError) {
+                dispatch(spinner({show: false, size: 75}));
                 const errorMessage = result.error.data.error.message;
                 dispatch(modal({show: true, text: `Error al actualizar datos de perfil: ${errorMessage}`, icon: "Error"}));
             }

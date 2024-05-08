@@ -1,15 +1,17 @@
 import { StyleSheet, View, Image, Text, Pressable, FlatList } from 'react-native';
 import { colors } from '../constants/coolors';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { closeIconStyle, generalStyles } from '../styles/generalStyles';
 import { CardCart } from '../components/cards/CardCart';
 import { insertDotsInPrice } from '../functions/utils';
 import ButtonCard from '../components/buttons/ButtonCard';
 import { useGetProductsQuery } from '../services/firebaseDB';
 import { useState, useEffect } from 'react';
+import { spinner } from "../features/spinner";
 
 const Cart = ({navigation}) => {
 
+    const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
     const [cartData, setCartData] = useState({
         cartItemsData: null,
@@ -28,13 +30,11 @@ const Cart = ({navigation}) => {
         }    
     }, [allProductsFromDB, cart])
 
-    if (isLoading) {
-        return  (
-            <View style={generalStyles.screensContainer}>
-                <Text>Cargando...</Text>
-            </View>
-        )
-    } else if (error) {
+    useEffect(() => {
+        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
+    }, [isLoading])
+
+    if (error) {
         return (
             <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener datos de productos</Text>

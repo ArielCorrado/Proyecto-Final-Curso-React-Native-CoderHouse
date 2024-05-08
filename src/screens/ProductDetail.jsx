@@ -8,6 +8,8 @@ import { addToCart } from '../features/cartSlice';
 import { insertDotsInPrice } from '../functions/utils';
 import { closeIconStyle } from '../styles/generalStyles';
 import { useGetProductByIdQuery } from '../services/firebaseDB';
+import { spinner } from "../features/spinner";
+import { useEffect } from 'react';
 
 const ProductDetail = ({navigation, route}) => {
 
@@ -15,13 +17,11 @@ const ProductDetail = ({navigation, route}) => {
     const dispatch = useDispatch();
     const {data: product, error, isLoading} = useGetProductByIdQuery(productId);
 
-    if (isLoading) {
-        return (
-            <View style={generalStyles.screensContainer}>
-                <Text>Cargando...</Text>
-            </View>
-        )
-    } else if (error) {
+    useEffect(() => {
+        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
+    }, [isLoading])
+
+    if (error) {
         return (
             <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener los datos del producto</Text>

@@ -10,7 +10,7 @@ const MainSpinner = () => {
     return (
         <Modal transparent={true} visible={spinnerState.show}>
             <View style={[generalStyles.screensContainer, styles.container]}>
-                <ActivityIndicator size={spinnerState.size} style={styles.spinner}/>   
+                <ActivityIndicator size={75} style={styles.spinner}/>   
             </View>
         </Modal>
     )

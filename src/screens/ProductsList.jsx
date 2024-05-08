@@ -4,9 +4,12 @@ import CardHardware from "../components/cards/CardHardware";
 import { useSelector } from "react-redux";
 import { useGetProductsQuery } from "../services/firebaseDB";
 import { generalStyles } from "../styles/generalStyles";
+import { useDispatch } from "react-redux";
+import { spinner } from "../features/spinner";
 
 const ProductsList = ({navigation}) => {
 
+    const dispatch = useDispatch();
     const [result, setResult] = useState(null);
     const searchText = useSelector(state => state.search.value);
     const {data: products, error, isLoading} = useGetProductsQuery();
@@ -19,13 +22,11 @@ const ProductsList = ({navigation}) => {
         } 
     }, [products, searchText])
 
-    if (isLoading) {
-        return  (
-            <View style={generalStyles.screensContainer}>
-                <Text>Cargando...</Text>
-            </View>
-        )
-    } else if (error) {
+    useEffect(() => {
+        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
+    }, [isLoading])
+     
+    if (error) {
         return (
             <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener datos de productos</Text>

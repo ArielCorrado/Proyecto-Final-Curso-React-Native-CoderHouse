@@ -6,7 +6,7 @@ export const generalStyles = {
     primaryFont: "Poppins",
     screensContainer: {
         marginTop: HEADER_HEIGHT,
-        height: SCREEN_AVAILABLE_HEIGHT,
+        minHeight: SCREEN_AVAILABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

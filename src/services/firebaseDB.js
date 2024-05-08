@@ -25,7 +25,9 @@ export const shopApi = createApi({
             invalidatesTags: ['userData']                                                           //<---- Para recibir datos actualizados con el get si los datos en la base cambian   
         }),
         getUserData: builder.query({
-            query: ({userId, field}) => `usersData/${userId}/${field}.json`,
+            query: ({userId, field}) => {
+                return field ? `usersData/${userId}/${field}.json` : `usersData/${userId}.json`
+            },                
             providesTags: ['userData']                                                              //<---- Para recibir datos actualizados con el get si los datos en la base cambian   
         }),
     })

@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ProductsList from '../screens/ProductsList';
@@ -11,10 +10,30 @@ import SignUp from '../screens/SignUp';
 import MainModal from '../components/modals/MainModal';
 import EditProfile from '../screens/EditProfile';
 import MainSpinner from '../components/spinners/MainSpinner';
+import { SQLite } from '../persistence';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/userSlice';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+
+    const dispatch = useDispatch();
+
+    (async ()=> {
+        try {
+            // await SQLite.dropTable();
+            await SQLite.createTableIfNotExits(); 
+            // await SQLite.insertData({email: "@ariel", localId: "id123", token: "token", idToken: "idtoken", expiresIn: 1234, refreshToken: "refresh", registered: true})
+            const sessionData = await SQLite.getData();
+            if (sessionData && sessionData.length) {
+                dispatch(setUser(sessionData[0]));
+            }
+        } catch (error) {
+            
+        }
+    })()
+
     return (
         <NavigationContainer>
                 <MainModal/>

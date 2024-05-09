@@ -11,6 +11,7 @@ import { modal } from '../features/modal'
 import { useGetUserDataQuery } from '../services/firebaseDB'
 import { updateCart } from '../features/cartSlice'
 import { spinner } from '../features/spinner'
+import { SQLite } from '../persistence'
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
@@ -21,8 +22,8 @@ const SignIn = ({navigation}) => {
     useEffect(() => {
         if (registered && cartFromDB) {
             dispatch(updateCart(cartFromDB));
-            navigation.navigate('ProductsList');
         }
+        if (registered) navigation.navigate('ProductsList');
     }, [registered, cartFromDB])
 
     const [signInData, setSignInData] = useState({
@@ -43,25 +44,36 @@ const SignIn = ({navigation}) => {
     }   
     
     useEffect(() => {
-        if (result.isSuccess) {
-            dispatch(setUser({
-                email: result.data.email,
-                idToken: result.data.idToken,
-                refreshToken: result.data.refreshToken,
-                expiresIn: result.data.expiresIn,
-                localId: result.data.localId,
-                registered: result.data.registered,
-            }));
-            setSignInData({email: '', password: ''});
-            dispatch(modal({show: true, text: "Inicio de sesión exitoso", icon: "Success"}));
-        } else if (result.isError) {
-            const errorMessage = result.error.data.error.message;
-            if (errorMessage === "INVALID_LOGIN_CREDENTIALS") {
-                dispatch(modal({show: true, text: "Credenciales incorrectas, intenta nuevamente", icon: "Warning"}));
-            } else {
-                dispatch(modal({show: true, text: `Error de inicio de sesión: ${errorMessage}`, icon: "Error"}));
-            }
-        } 
+        (async () => {
+            if (result.isSuccess) {
+                const sessionDataFromDB = {
+                    email: result.data.email,
+                    idToken: result.data.idToken,
+                    refreshToken: result.data.refreshToken,
+                    expiresIn: result.data.expiresIn,
+                    localId: result.data.localId,
+                    registered: result.data.registered,
+                }
+                dispatch(setUser(sessionDataFromDB));
+
+                try {
+                    await SQLite.clearTable();
+                    await SQLite.insertData(sessionDataFromDB);
+                } catch (err) {
+                    dispatch(modal({show: true, text: "Error al escribir base de datos local. Los datos de sesión no serán persistidos", icon: "Error"}));
+                }
+
+                setSignInData({email: '', password: ''});
+                dispatch(modal({show: true, text: "Inicio de sesión exitoso", icon: "Success"}));
+            } else if (result.isError) {
+                const errorMessage = result.error.data.error.message;
+                if (errorMessage === "INVALID_LOGIN_CREDENTIALS") {
+                    dispatch(modal({show: true, text: "Credenciales incorrectas, intenta nuevamente", icon: "Warning"}));
+                } else {
+                    dispatch(modal({show: true, text: `Error de inicio de sesión: ${errorMessage}`, icon: "Error"}));
+                }
+            } 
+        })();
         result.isLoading ?dispatch(spinner({show: true})) : dispatch(spinner({show: false}))
     }, [result])
     

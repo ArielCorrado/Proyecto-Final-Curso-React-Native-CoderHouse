@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { clearUser } from '../features/userSlice';
 import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { clearCart } from '../features/cartSlice';
+import { SQLite } from '../persistence';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -49,6 +50,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         saveCartInDB();
         dispatch(clearCart());
         dispatch(clearUser());
+        SQLite.clearTable();
     }   
     
     return (
@@ -59,6 +61,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
             {
                 user.registered && 
                 <View style={styles.profileContainer}>
+                    <Text style={styles.title}>Mi Perfil</Text>
                     <View style={styles.profileIconContainer}>
                         <Image style={{...styles.profileIcon, ...(avatarImage ? {} : {tintColor: colors.color2})}} source={avatarImage} />
                         <Pressable style={styles.editIconContainer} onPressIn={() => navigation.navigate("EditProfile", {userId: user.localId})}>
@@ -126,4 +129,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: colors.textColor
     },
+    title: {
+        fontSize: 17.5,
+        fontWeight: "bold",
+        color: colors.darkColor,
+    }
 })

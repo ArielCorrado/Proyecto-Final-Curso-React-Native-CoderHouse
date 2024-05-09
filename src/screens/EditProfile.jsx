@@ -52,8 +52,13 @@ const EditProfile = ({navigation, route}) => {
         const {granted} = await ImagePicker.requestCameraPermissionsAsync();
         return granted;
     }
+    
+    const verifyGalleryPermissions = async () => {
+        const {granted} = await ImagePicker.getMediaLibraryPermissionsAsync();
+        return granted;
+    }
 
-    const pickImage = async () => {
+    const pickImageFromCamera = async () => {
         try {
             const permissionCamera = await verifyCameraPermissions()
             
@@ -69,10 +74,37 @@ const EditProfile = ({navigation, route}) => {
                     const image = `data:image/jpeg;base64,${result.assets[0].base64}`;
                     setImage(image);
                 }
+            } else {
+                dispatch(modal({show: true, text: "La aplicación no tiene permiso para acceder a la cámara del dispositivo", icon: "Info"}));
             }
             
         } catch (error) {
-            console.log(error);
+            dispatch(modal({show: true, text: "Error al obtener imagen de la cámara", icon: "Error"}));
+        }
+    };
+    
+    const pickImageFromGallery = async () => {
+        try {
+            const permissionGallery = await verifyGalleryPermissions();
+            
+            if (permissionGallery) {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ImagePicker.MediaTypeOptions.All,
+                    allowsEditing: true,
+                    aspect: [1, 1],
+                    base64: true,
+                    quality: 0.2    
+                })
+                if (!result.canceled){
+                    const image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+                    setImage(image);
+                }
+            } else {
+                dispatch(modal({show: true, text: "La aplicación no tiene permiso para acceder a los archivos del dispositivo", icon: "Info"}));
+            }
+            
+        } catch (error) {
+            dispatch(modal({show: true, text: "Error al acceder a los archivos del dispositivo", icon: "Error"}));
         }
     };
 
@@ -94,6 +126,7 @@ const EditProfile = ({navigation, route}) => {
     } else {
         return (
             <View style={generalStyles.screensContainer} >
+                <Text style={styles.title}>Edición de Perfil</Text>
 
                 {(userProfile.avatarImage || image) &&  <Image source={{ uri: image ? image : userProfile.avatarImage }} style={styles.profileImage} />}
                 {
@@ -105,11 +138,11 @@ const EditProfile = ({navigation, route}) => {
                 }   
                                 
                 <Text style={styles.label}>Imagen de perfil</Text>
-                <Pressable style={[styles.input, styles.addImageButton]}>
-                    <Text style={styles.textAddImageButton}>Subir</Text>
+                <Pressable style={[styles.input, styles.addImageButton]} onPress={pickImageFromGallery}>
+                    <Text style={styles.textAddImageButton}>Subir Imagen</Text>
                     <Feather name="upload" size={24} color="white" />
                 </Pressable>
-                <Pressable style={[styles.input, styles.addImageButton, {marginBottom: 30}]} onPress={pickImage}>
+                <Pressable style={[styles.input, styles.addImageButton, {marginBottom: 30}]} onPress={pickImageFromCamera}>
                     <Text style={styles.textAddImageButton}>Sacar Foto</Text>
                     <Feather name="camera" size={24} color="white" />
                 </Pressable>
@@ -196,5 +229,11 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         marginVertical: 10,
+    },
+    title: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 20,
+        color: colors.darkColor,
     }
 })

@@ -1,5 +1,5 @@
 import { StyleSheet, Animated, Pressable, Image, Text, View } from 'react-native'
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { SCREEN_WIDTH } from '../constants/dimensions'
 import { closeIconStyle, generalStyles } from '../styles/generalStyles';
 import { colors } from '../constants/coolors';
@@ -7,7 +7,7 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '../features/userSlice';
-import { useUpdateUserDataMutation } from '../services/firebaseDB';
+import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { clearCart } from '../features/cartSlice';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
@@ -20,7 +20,13 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
     const cart = useSelector(state => state.cart.value);
     const {registered, localId} = useSelector(state => state.user.value);
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
-    
+    const {data: userAvatarDataFromDB, error, isLoading} = useGetUserDataQuery({userId: user.localId, field: "profile/avatarImage"});
+    const [avatarImage, setAvatarImage] = useState(require("../../assets/images/icons/user2.png"));
+ 
+    useEffect(() => {
+        if (userAvatarDataFromDB) setAvatarImage({uri: userAvatarDataFromDB});
+    }, [userAvatarDataFromDB])
+        
     const animatedStyles1 = {
         opacity: opacity,
         translateX: translateX
@@ -54,7 +60,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                 user.registered && 
                 <View style={styles.profileContainer}>
                     <View style={styles.profileIconContainer}>
-                        <Image style={styles.profileIcon} source={require("../../assets/images/icons/user2.png")} />
+                        <Image style={{...styles.profileIcon, ...(avatarImage ? {} : {tintColor: colors.color2})}} source={avatarImage} />
                         <Pressable style={styles.editIconContainer} onPressIn={() => navigation.navigate("EditProfile", {userId: user.localId})}>
                             <Image style={styles.editIcon} source={require("../../assets/images/icons/edit.png")} />
                         </Pressable>
@@ -112,9 +118,9 @@ const styles = StyleSheet.create({
     profileIcon: {
         width: 100,
         height: 100,
+        borderRadius: 50,
         objectFit: "contain",
         margin: 20,
-        tintColor: colors.color2,
     },
     text: {
         fontSize: 15,

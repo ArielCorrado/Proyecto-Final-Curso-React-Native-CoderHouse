@@ -13,8 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 
 const EditProfile = ({navigation, route}) => {
 
-    const [image, setImage] = useState(null);
-    const [imageConfirmed, setImageConfirmed] = useState(false);
+    const [image, setImage] = useState("");
     const dispatch = useDispatch();
     const {userId} = route.params;
     const {data: userProfileFromDB, error, isLoading} = useGetUserDataQuery({userId, field: "profile"});
@@ -28,6 +27,7 @@ const EditProfile = ({navigation, route}) => {
     })
 
     const saveChanges = () => {
+        setImage("");
         triggerUpdateUserData({userId: userId, field: "profile", data: userProfile});
     }
 
@@ -48,8 +48,6 @@ const EditProfile = ({navigation, route}) => {
 
     }, [result, isLoading, userProfileFromDB])
     
-
-
     const verifyCameraPermissions = async () => {
         const {granted} = await ImagePicker.requestCameraPermissionsAsync();
         return granted;
@@ -68,7 +66,6 @@ const EditProfile = ({navigation, route}) => {
                     quality: 0.2    
                 })
                 if (!result.canceled){
-                    setImageConfirmed(false);
                     const image = `data:image/jpeg;base64,${result.assets[0].base64}`;
                     setImage(image);
                 }
@@ -80,8 +77,12 @@ const EditProfile = ({navigation, route}) => {
     };
 
     const confirmImage = () => {
-        triggerUpdateUserData({userId: userId, field: "avatar", data: {imageData: image}});
-        setImageConfirmed(true);
+        setUserProfile((current) => ({...current, avatarImage: image}));
+        setImage("");
+    }
+
+    const cancelImImage = () => {
+        setImage("");
     }
      
     if (error) {
@@ -94,8 +95,15 @@ const EditProfile = ({navigation, route}) => {
         return (
             <View style={generalStyles.screensContainer} >
 
-                <Image source={{ uri: image }} style={styles.profileImage} />
-                {image && !imageConfirmed && <ButtonCard color={colors.color3} text="Confirmar" onPressFunction={confirmImage} buttonStyle={{marginBottom: 20, marginTop: 20}} height={40} width={120} textStyle={{fontSize: 15}}/>}
+                {(userProfile.avatarImage || image) &&  <Image source={{ uri: image ? image : userProfile.avatarImage }} style={styles.profileImage} />}
+                {
+                    image &&
+                    <View style={styles.imageButtonsCont}>
+                        <ButtonCard color={colors.color3} text="Confirmar Foto" onPressFunction={confirmImage} buttonStyle={{marginHorizontal: 5, paddingHorizontal: 10}} height={40} width={135} textStyle={{fontSize: 13.5, fontWeight: 400}}/>
+                        <ButtonCard color={colors.color3} text="Cancelar Foto" onPressFunction={cancelImImage} buttonStyle={{marginHorizontal: 5, paddingHorizontal: 10}} height={40} width={135} textStyle={{fontSize: 13.5, fontWeight: 400}}/>
+                    </View>
+                }   
+                                
                 <Text style={styles.label}>Imagen de perfil</Text>
                 <Pressable style={[styles.input, styles.addImageButton]}>
                     <Text style={styles.textAddImageButton}>Subir</Text>
@@ -141,7 +149,7 @@ const EditProfile = ({navigation, route}) => {
                     placeholder='Teléfono'
                     placeholderTextColor="#aaa"
                 />
-                <ButtonCard color={colors.color2} text="Guardar Cambios" onPressFunction={saveChanges}/>
+                <ButtonCard color={colors.color3} text="Guardar Cambios" onPressFunction={saveChanges}/>
             </View>
         )
     }
@@ -182,5 +190,11 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
+        marginBottom: 10,
+    },
+    imageButtonsCont: {
+        display: "flex",
+        flexDirection: "row",
+        marginVertical: 10,
     }
 })

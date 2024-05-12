@@ -8,7 +8,7 @@ import { setUser } from '../features/userSlice'
 import { useSignInMutation } from '../services/firebaseAuth'
 import { useEffect, useState } from 'react'
 import { modal } from '../features/modal'
-import { useGetUserDataQuery } from '../services/firebaseDB'
+import { getFirebaseDBUserData } from '../services/firebaseDBFetch'
 import { updateCart } from '../features/cartSlice'
 import { spinner } from '../features/spinner'
 import { SQLite } from '../persistence'
@@ -17,14 +17,25 @@ const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
     const [triggerSignIn, result] = useSignInMutation();
     const {registered, localId} = useSelector(state => state.user.value);
-    const {data: cartFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "cart"});
-       
+    
     useEffect(() => {
-        if (registered && cartFromDB) {
-            dispatch(updateCart(cartFromDB));
-        }
-        if (registered) navigation.navigate('ProductsList');
-    }, [registered, cartFromDB])
+        (async () => {
+            if (registered) {
+                dispatch(spinner({show: true}))
+                const response = await getFirebaseDBUserData(localId, "cart");
+                dispatch(spinner({show: false}))
+                if (response.success) {
+                    const cartFromDB = response.data;
+                    if (cartFromDB && cartFromDB.length) {
+                        dispatch(updateCart(cartFromDB));
+                        navigation.navigate('ProductsList');
+                    }
+                } else {
+                    dispatch(modal({show: true, text: "Error al obtener el carrito de la base de datos", icon: "Error"}));
+                }
+            }
+        })();
+    }, [registered])
 
     const [signInData, setSignInData] = useState({
         email: '',

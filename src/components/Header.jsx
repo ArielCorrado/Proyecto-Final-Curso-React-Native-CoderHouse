@@ -7,6 +7,7 @@ import { searchText } from '../features/searchSlice';
 import Menu from '../screens/Menu';
 import { menuFadeIn, menuFadeOut } from '../animations/animations';
 import { modal } from '../features/modal';
+import { useUpdateUserDataMutation } from '../services/firebaseDB';
 
 const Header = ({navigation, route}) => {
    
@@ -16,13 +17,18 @@ const Header = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [searchTextInput, setSearchTextInput] = useState("");
     const cart = useSelector(state => state.cart.value);
-    const {registered} = useSelector(state => state.user.value);
+    const {registered, localId} = useSelector(state => state.user.value);
     const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
        
     useEffect(() => {
         dispatch(searchText(searchTextInput));
     }, [searchTextInput]);
 
+    useEffect(() => {
+        triggerUpdateUserData({userId: localId, field: "cart", data: cart});
+    }, [cart])
+    
     const handleMenu = () => {
         if (!menuAnimating.current) {
             menuAnimating.current = true;

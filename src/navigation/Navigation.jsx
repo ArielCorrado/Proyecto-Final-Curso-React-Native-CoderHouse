@@ -11,23 +11,36 @@ import MainModal from '../components/modals/MainModal';
 import EditProfile from '../screens/EditProfile';
 import MainSpinner from '../components/spinners/MainSpinner';
 import { SQLite } from '../persistence';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../features/userSlice';
+import { getFirebaseDBUserData } from '../services/firebaseDBFetch';
+import { updateCart } from '../features/cartSlice';
+import { modal } from '../features/modal';
+import { spinner } from '../features/spinner';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
 
     const dispatch = useDispatch();
+    const userId = useSelector(state => state.user.value.localId);
 
     (async ()=> {
         try {
-            // await SQLite.dropTable();
             await SQLite.createTableIfNotExits(); 
-            // await SQLite.insertData({email: "@ariel", localId: "id123", token: "token", idToken: "idtoken", expiresIn: 1234, refreshToken: "refresh", registered: true})
             const sessionData = await SQLite.getData();
             if (sessionData && sessionData.length) {
                 dispatch(setUser(sessionData[0]));
+            }
+
+            dispatch(spinner({ show: true }))
+            const response = await getFirebaseDBUserData(userId, "cart");
+            dispatch(spinner({ show: false }))
+            if (response.success) {
+                const cartFromDB = response.data;
+                if (cartFromDB && cartFromDB.length) dispatch(updateCart(cartFromDB));
+            } else {
+                dispatch(modal({ show: true, text: "Error al obtener el carrito de la base de datos", icon: "Error" }));
             }
         } catch (error) {
             

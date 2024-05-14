@@ -1,15 +1,59 @@
-import React from 'react';
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { StyleSheet, Image, Text, View, Pressable } from 'react-native';
 import { colors } from '../../constants/coolors';
 import { generalStyles } from '../../styles/generalStyles';
 import ButtonCard from '../buttons/ButtonCard';
 import { insertDotsInPrice } from '../../functions/utils';
 import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
+
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    const handleFavorite = async() => {
+        try {
+            const favoritesStr = await AsyncStorage.getItem("favorites");
+            if (favoritesStr) {
+                const favoritesParsed = JSON.parse(favoritesStr);
+                const favoritesIndex = favoritesParsed.indexOf(id);
+                if (favoritesIndex !== -1) {
+                    favoritesParsed.splice(favoritesIndex, 1);
+                    await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
+                    setIsFavorite(false);
+                } else {
+                    favoritesParsed.push(id);
+                    await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
+                    setIsFavorite(true);
+                }
+            } else {
+                const favorites = [id];
+                await AsyncStorage.setItem("favorites", JSON.stringify(favorites));
+                setIsFavorite(true);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        (async() => {
+            const favoritesStr = await AsyncStorage.getItem("favorites");
+            if (favoritesStr) {
+                const favoritesParsed = JSON.parse(favoritesStr);
+                if (favoritesParsed && favoritesParsed.length) {
+                    const favoritesIndex = favoritesParsed.indexOf(id);
+                    favoritesIndex !== -1 ? setIsFavorite(true) : setIsFavorite(false);
+                }
+            }
+        })();
+    }, []);
+
     return (
         <View style={styles.container}>
-            <AntDesign name="hearto" size={24} color="black" style={styles.heart}/>
+            <Pressable style={styles.heartCont} onPress={handleFavorite}>
+                { isFavorite ? <AntDesign name="heart" size={24} color="#5F2CAF" style={styles.heart}/> : <AntDesign name="hearto" size={24} color="black" style={styles.heart}/> }
+            </Pressable>
             <Image style={styles.image} src={imgSrc} ></Image>
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>
@@ -57,10 +101,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 20
     },
-    heart: {
+    heartCont: {
         position: "absolute",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         top: 10,
         right: 10,
+        zIndex: 100,
     },
 })
 

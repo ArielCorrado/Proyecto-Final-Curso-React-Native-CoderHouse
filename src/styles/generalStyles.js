@@ -2,11 +2,11 @@ import { StyleSheet } from "react-native"
 import { HEADER_HEIGHT, SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions"
 import { colors } from "../constants/coolors"
 
-export const generalStyles = {
+export const generalStyles = StyleSheet.create({
     primaryFont: "Poppins",
     screensContainer: {
         marginTop: HEADER_HEIGHT,
-        minHeight: SCREEN_AVAILABLE_HEIGHT,
+        height: SCREEN_AVAILABLE_HEIGHT,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -16,7 +16,7 @@ export const generalStyles = {
         backgroundColor: colors.lightColor,
         padding: 20,
     },
-}
+});
 
 export const closeIconStyle = StyleSheet.create({
     closeIconContainer: {

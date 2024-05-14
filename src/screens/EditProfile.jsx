@@ -54,7 +54,7 @@ const EditProfile = ({navigation, route}) => {
     }
     
     const verifyGalleryPermissions = async () => {
-        const {granted} = await ImagePicker.getMediaLibraryPermissionsAsync();
+        const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync();
         return granted;
     }
 
@@ -140,11 +140,11 @@ const EditProfile = ({navigation, route}) => {
                 <Text style={styles.label}>Imagen de perfil</Text>
                 <Pressable style={[styles.input, styles.addImageButton]} onPress={pickImageFromGallery}>
                     <Text style={styles.textAddImageButton}>Subir Imagen</Text>
-                    <Feather name="upload" size={24} color="white" />
+                    <Feather name="upload" size={20} color="white" />
                 </Pressable>
                 <Pressable style={[styles.input, styles.addImageButton, {marginBottom: 30}]} onPress={pickImageFromCamera}>
                     <Text style={styles.textAddImageButton}>Sacar Foto</Text>
-                    <Feather name="camera" size={24} color="white" />
+                    <Feather name="camera" size={20} color="white" />
                 </Pressable>
 
                 <Text style={styles.label}>Nombre</Text>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: "80%",
         marginBottom: 20,
-        height: 50,
+        height: 40,
         padding: 10,
         fontSize: 15,
     },

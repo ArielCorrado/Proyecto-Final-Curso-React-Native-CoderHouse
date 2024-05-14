@@ -34,7 +34,7 @@ const ProductsList = ({navigation}) => {
         )
     } else if (result && result.length) {
         return (
-            <View style={generalStyles.screensContainer}>
+            <View style={[generalStyles.screensContainer, styles.productsListContainer]}>
                 <FlatList
                     contentContainerStyle={styles.flatList}
                     showsVerticalScrollIndicator={false}
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         width: "100%",
     },
+    productsListContainer: {
+        paddingVertical: 0,
+    }
 })
 
 

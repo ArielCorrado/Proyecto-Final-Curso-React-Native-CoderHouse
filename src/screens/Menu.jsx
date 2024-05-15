@@ -10,6 +10,33 @@ import { clearUser } from '../features/userSlice';
 import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { clearCart } from '../features/cartSlice';
 import { SQLite } from '../persistence';
+import { AntDesign } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Feather from '@expo/vector-icons/Feather';
+
+const optionList = [
+    {
+        text: "Inicio",
+        icon: <AntDesign name="home" size={24} color="black" />,
+        toScreen: "ProductsList"
+    },
+    {
+        text: "Favoritos",
+        icon: <AntDesign name="hearto" size={24} color="black" />
+    },
+    {
+        text: "Categorías",
+        icon: <Feather name="list" size={24} color="black" />
+    },
+    {
+        text: "Mis compras",
+        icon: <Feather name="shopping-bag" size={24} color="black" />
+    },
+    {
+        text: "Mis órdenes de compra",
+        icon: <Ionicons name="receipt-outline" size={24} color="black" />
+    },
+]
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -19,7 +46,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
     const dispatch = useDispatch();
     const {value: user} = useSelector(state => state.user);
     const cart = useSelector(state => state.cart.value);
-    const {registered, localId} = useSelector(state => state.user.value);
+    const {localId} = useSelector(state => state.user.value);
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
     const {data: userAvatarDataFromDB, error, isLoading} = useGetUserDataQuery({userId: user.localId, field: "profile/avatarImage"});
     const [avatarImage, setAvatarImage] = useState(require("../../assets/images/icons/user2.png"));
@@ -52,7 +79,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         dispatch(clearUser());
         SQLite.clearTable();
     }   
-    
+      
     return (
         <Animated.View style={[generalStyles.screensContainer, styles.container, animatedStyles1, user.registered ? {} : {justifyContent: "center"}]}>
             <Pressable onPress={() => menuFadeOut(opacity, translateX, closeMenu)} style={closeIconStyle.closeIconContainer}>
@@ -82,6 +109,17 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                 user.registered &&
                     <ButtonCard text="Cerrar Sesión" color={colors.color3} height={40} width='50%' buttonStyle={{marginTop: 15}} onPressFunction={logOut}/>
             }
+
+            <View style={styles.menuOptionsContainer}>
+                {
+                    optionList.map((option, index) => (
+                        <Pressable key={index} style={styles.menuButtonContainer} onPress={() => handleNavigation(option.toScreen)}>
+                            {option.icon}
+                            <Text style={styles.menuButtonText}>{option.text}</Text>
+                        </Pressable>
+                    ))
+                }
+            </View>    
         </Animated.View>
     )
 }
@@ -133,5 +171,27 @@ const styles = StyleSheet.create({
         fontSize: 17.5,
         fontWeight: "bold",
         color: colors.darkColor,
+    },
+    menuOptionsContainer: {
+        width: "100%",
+        marginTop: 35,
+        paddingHorizontal: 10,
+    },
+    menuButtonContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        width: "90%",
+        paddingVertical: 15,
+        borderColor: colors.borderColorGray,
+        borderBottomWidth: 0.5,
+    },
+    menuButtonText: {
+        fontSize: 15,
+        color: colors.textColor,
+        marginLeft: 10,
+        fontWeight: "500",
     }
+    
 })

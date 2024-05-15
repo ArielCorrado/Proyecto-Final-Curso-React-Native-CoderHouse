@@ -4,6 +4,7 @@ import searchReducer from "../features/searchSlice";
 import userReducer from "../features/userSlice";
 import modalReducer from "../features/modal";
 import spinnerReducer from "../features/spinner";
+import favoritesReducer from "../features/favoritesSlice";
 import { shopApi } from "../services/firebaseDB";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { authApi } from "../services/firebaseAuth";
@@ -15,6 +16,7 @@ export default store = configureStore({
         user: userReducer,
         modal: modalReducer,
         spinner: spinnerReducer,
+        favorites: favoritesReducer,
         [shopApi.reducerPath]: shopApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
     },

@@ -6,54 +6,66 @@ import { insertDotsInPrice } from '../../functions/utils';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleFavorites } from '../../features/favoritesSlice';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
 
     const [isFavorite, setIsFavorite] = useState(false);
+    const [isFavoriteError, setIsFavoriteError] = useState(false);
+    const favorites = useSelector((state) => state.favorites.value);
+    const dispatch = useDispatch(); 
 
     const handleFavorite = async() => {
-        try {
-            const favoritesStr = await AsyncStorage.getItem("favorites");
-            if (favoritesStr) {
-                const favoritesParsed = JSON.parse(favoritesStr);
-                const favoritesIndex = favoritesParsed.indexOf(id);
-                if (favoritesIndex !== -1) {
-                    favoritesParsed.splice(favoritesIndex, 1);
-                    await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
-                    setIsFavorite(false);
-                } else {
-                    favoritesParsed.push(id);
-                    await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
-                    setIsFavorite(true);
-                }
-            } else {
-                const favorites = [id];
-                await AsyncStorage.setItem("favorites", JSON.stringify(favorites));
-                setIsFavorite(true);
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        dispatch(handleFavorites(id));
+        setIsFavorite(!isFavorite);
+        // try {
+        //     const favoritesStr = await AsyncStorage.getItem("favorites");
+        //     if (favoritesStr) {
+        //         const favoritesParsed = JSON.parse(favoritesStr);
+        //         const favoritesIndex = favoritesParsed.indexOf(id);
+        //         if (favoritesIndex !== -1) {
+        //             favoritesParsed.splice(favoritesIndex, 1);
+        //             await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
+        //             setIsFavorite(false);
+        //         } else {
+        //             favoritesParsed.push(id);
+        //             await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
+        //             setIsFavorite(true);
+        //         }
+        //     } else {
+        //         const favorites = [id];
+        //         await AsyncStorage.setItem("favorites", JSON.stringify(favorites));
+        //         setIsFavorite(true);
+        //     }
+        // } catch (err) {
+        //     setIsFavoriteError(true);
+        // }
     }
 
     useEffect(() => {
-        (async() => {
-            const favoritesStr = await AsyncStorage.getItem("favorites");
-            if (favoritesStr) {
-                const favoritesParsed = JSON.parse(favoritesStr);
-                if (favoritesParsed && favoritesParsed.length) {
-                    const favoritesIndex = favoritesParsed.indexOf(id);
-                    favoritesIndex !== -1 ? setIsFavorite(true) : setIsFavorite(false);
-                }
-            }
-        })();
+        // (async() => {
+        //     const favoritesStr = await AsyncStorage.getItem("favorites");
+        //     if (favoritesStr) {
+        //         const favoritesParsed = JSON.parse(favoritesStr);
+        //         if (favoritesParsed && favoritesParsed.length) {
+        //             const favoritesIndex = favoritesParsed.indexOf(id);
+        //             favoritesIndex !== -1 ? setIsFavorite(true) : setIsFavorite(false);
+        //         }
+        //     }
+        // })();
+        const favoritesIndex = favorites.indexOf(id);
+        favoritesIndex !== -1 ? setIsFavorite(true) : setIsFavorite(false);
     }, []);
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.heartCont} onPress={handleFavorite}>
-                { isFavorite ? <AntDesign name="heart" size={24} color="#5F2CAF" style={styles.heart}/> : <AntDesign name="hearto" size={24} color="black" style={styles.heart}/> }
-            </Pressable>
+            {
+                !isFavoriteError &&
+                <Pressable style={styles.heartCont} onPress={handleFavorite}>
+                    { isFavorite ? <AntDesign name="heart" size={24} color="#5F2CAF" style={styles.heart}/> : <AntDesign name="hearto" size={24} color="gray" style={styles.heart}/> }
+                </Pressable>
+            }
             <Image style={styles.image} src={imgSrc} ></Image>
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>

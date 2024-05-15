@@ -6,16 +6,11 @@ export const favoritesSlice = createSlice({
         value: []
     },
     reducers: {
-        handleFavorites: (state, {payload}) => {
-            const favoriteIndex = state.value.indexOf(payload);
-            if (favoriteIndex !== -1) {
-                state.value.splice(favoriteIndex, 1);
-            } else {
-                state.value.push(payload);
-            }
-        },
+        setFavorites: (state, {payload}) => {
+            state.value = payload;
+        }
     },
 }); 
 
-export const { handleFavorites } = favoritesSlice.actions;
+export const { setFavorites } = favoritesSlice.actions;
 export default favoritesSlice.reducer;

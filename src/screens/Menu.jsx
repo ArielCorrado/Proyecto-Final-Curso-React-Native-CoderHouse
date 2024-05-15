@@ -50,6 +50,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
     const {data: userAvatarDataFromDB, error, isLoading} = useGetUserDataQuery({userId: user.localId, field: "profile/avatarImage"});
     const [avatarImage, setAvatarImage] = useState(require("../../assets/images/icons/user2.png"));
+    const favorites = useSelector(state => state.favorites.value);
  
     useEffect(() => {
         if (userAvatarDataFromDB) setAvatarImage({uri: userAvatarDataFromDB});
@@ -68,13 +69,9 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         navigation.navigate(route);
         menuFadeOut(opacity, translateX, closeMenu);
     }
-
-    const saveCartInDB = () => {
-        triggerUpdateUserData({userId: localId, field: "cart", data: cart});
-    }
-
+            
     const logOut = () => {
-        saveCartInDB();
+        triggerUpdateUserData({userId: localId, field: "cart", data: cart});                //Guardamos carrito en base de datos;
         dispatch(clearCart());
         dispatch(clearUser());
         SQLite.clearTable();

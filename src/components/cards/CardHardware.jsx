@@ -4,60 +4,36 @@ import { generalStyles } from '../../styles/generalStyles';
 import ButtonCard from '../buttons/ButtonCard';
 import { insertDotsInPrice } from '../../functions/utils';
 import { AntDesign } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { handleFavorites } from '../../features/favoritesSlice';
+import { setFavorites } from '../../features/favoritesSlice';
+import { useUpdateUserDataMutation } from '../../services/firebaseDB';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
 
-    const [isFavorite, setIsFavorite] = useState(false);
     const [isFavoriteError, setIsFavoriteError] = useState(false);
     const favorites = useSelector((state) => state.favorites.value);
+    const [isFavorite, setIsFavorite] = useState(false);
     const dispatch = useDispatch(); 
+    const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
+    const {localId} = useSelector((state) => state.user.value);
 
     const handleFavorite = async() => {
-        dispatch(handleFavorites(id));
-        setIsFavorite(!isFavorite);
-        // try {
-        //     const favoritesStr = await AsyncStorage.getItem("favorites");
-        //     if (favoritesStr) {
-        //         const favoritesParsed = JSON.parse(favoritesStr);
-        //         const favoritesIndex = favoritesParsed.indexOf(id);
-        //         if (favoritesIndex !== -1) {
-        //             favoritesParsed.splice(favoritesIndex, 1);
-        //             await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
-        //             setIsFavorite(false);
-        //         } else {
-        //             favoritesParsed.push(id);
-        //             await AsyncStorage.setItem("favorites", JSON.stringify(favoritesParsed));
-        //             setIsFavorite(true);
-        //         }
-        //     } else {
-        //         const favorites = [id];
-        //         await AsyncStorage.setItem("favorites", JSON.stringify(favorites));
-        //         setIsFavorite(true);
-        //     }
-        // } catch (err) {
-        //     setIsFavoriteError(true);
-        // }
+        const favoritesAux = [...favorites];
+        const favoriteIndex = favorites.indexOf(id);
+        if (favoriteIndex !== -1) {
+            favoritesAux.splice(favoriteIndex, 1);
+        } else {
+            favoritesAux.push(id);
+        }
+        dispatch(setFavorites(favoritesAux));
+        triggerUpdateUserData({userId: localId, field: "favorites", data: favoritesAux}); 
     }
 
     useEffect(() => {
-        // (async() => {
-        //     const favoritesStr = await AsyncStorage.getItem("favorites");
-        //     if (favoritesStr) {
-        //         const favoritesParsed = JSON.parse(favoritesStr);
-        //         if (favoritesParsed && favoritesParsed.length) {
-        //             const favoritesIndex = favoritesParsed.indexOf(id);
-        //             favoritesIndex !== -1 ? setIsFavorite(true) : setIsFavorite(false);
-        //         }
-        //     }
-        // })();
-        const favoritesIndex = favorites.indexOf(id);
-        favoritesIndex !== -1 ? setIsFavorite(true) : setIsFavorite(false);
-    }, []);
-
+        setIsFavorite(favorites.find((favorite) => favorite === id));
+    }, [favorites])
+    
     return (
         <View style={styles.container}>
             {

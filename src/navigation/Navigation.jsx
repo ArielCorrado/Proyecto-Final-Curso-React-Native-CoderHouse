@@ -17,6 +17,7 @@ import { getFirebaseDBUserData } from '../services/firebaseDBFetch';
 import { updateCart } from '../features/cartSlice';
 import { modal } from '../features/modal';
 import { spinner } from '../features/spinner';
+import { setFavorites } from '../features/favoritesSlice';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,16 +35,26 @@ const Navigation = () => {
             }
 
             dispatch(spinner({ show: true }))
-            const response = await getFirebaseDBUserData(userId, "cart");
+            const userResponse = await getFirebaseDBUserData(userId, "cart");
+            const favoritesResponse = await getFirebaseDBUserData(userId, "favorites");
             dispatch(spinner({ show: false }))
-            if (response.success) {
-                const cartFromDB = response.data;
+            if (userResponse.success) {
+                const cartFromDB = userResponse.data;
                 if (cartFromDB && cartFromDB.length) dispatch(updateCart(cartFromDB));
             } else {
                 dispatch(modal({ show: true, text: "Error al obtener el carrito de la base de datos", icon: "Error" }));
             }
+
+            if (favoritesResponse.success) {
+                const favoritesFromDB = favoritesResponse.data;
+                if (favoritesFromDB && favoritesFromDB.length) {
+                    dispatch(setFavorites(favoritesFromDB)) 
+                } 
+            } else {
+                dispatch(modal({ show: true, text: "Error al obtener el favoritos de la base de datos", icon: "Error" }));
+            }
         } catch (error) {
-            
+            dispatch(modal({ show: true, text: "Error al obtener datos de sesión", icon: "Error" }));
         }
     })()
 

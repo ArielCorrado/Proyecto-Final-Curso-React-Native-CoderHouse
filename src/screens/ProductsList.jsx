@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     productsListContainer: {
-        paddingVertical: 0,
+        padding: 0,
     }
 })
 

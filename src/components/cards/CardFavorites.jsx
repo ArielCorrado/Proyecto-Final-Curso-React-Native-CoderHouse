@@ -51,14 +51,13 @@ const styles = StyleSheet.create({
     },
     description: {
         textAlign: "left",
-        marginBottom: 5,
         fontFamily: generalStyles.primaryFont,
         width: "100%",
     },
     price: {
         fontWeight: "bold",
         fontSize: 20,
-        marginBottom: 20,
+        marginVertical: 10,
         width: "100%",
     },
     heartCont: {

@@ -46,7 +46,15 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>
                 <Text style={styles.price}>$ {insertDotsInPrice(price)}</Text>
-                <ButtonCard text="Ver detalles" color={colors.color2} height={55} width={"50%"} onPressFunction={() => navigation.navigate("ProductDetail", {productId: id})}/>
+                <ButtonCard 
+                    text="Ver detalles" 
+                    color={colors.color3} 
+                    height={40} 
+                    width={"65%"} 
+                    textStyle={{fontSize: 15}} 
+                    buttonStyle={{paddingHorizontal: 5, marginBottom: 0}} 
+                    onPressFunction={() => navigation.navigate("ProductDetail", {productId: id})}
+                />
             </View>
         </View>
     )
@@ -56,38 +64,40 @@ const styles = StyleSheet.create({
     container: {
         position: "relative",
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
+        flexDirection: "row",
         width: "100%",
-        height: 400,
-        marginTop: 30,
-        borderWidth: 1,
-        borderColor: colors.borderColorGray,
+        minHeight: 175,
+        borderBottomWidth: 0.75,
+        borderBottomColor: colors.borderColorGray,
         paddingHorizontal: 10,
         paddingVertical: 20,
         backgroundColor: colors.lightColor,
     },
+    image: {
+        width: "30%",
+        height: "100%",
+        objectFit: "contain",
+    },
     dataContainer: {
         display: "flex",
-        justifyContent: 'flex-start',
-        alignItems: "center",
-        width: "100%",
-    },
-    image: {
-        width: "100%",
-        height: "50%",
-        objectFit: "contain",
-        
+        justifyContent: 'center',
+        alignItems: "flex-start",
+        width: "70%",
+        paddingLeft: 15,
+        paddingRight: 35,
     },
     description: {
-        textAlign: "center",
-        marginBottom: 5,
+        textAlign: "left",
         fontFamily: generalStyles.primaryFont,
+        width: "100%",
     },
     price: {
         fontWeight: "bold",
         fontSize: 20,
-        marginBottom: 20
+        marginVertical: 10,
+        width: "100%",
     },
     heartCont: {
         position: "absolute",

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import ProductsList from '../screens/ProductsList';
 import ProductDetail from '../screens/ProductDetail';
+import Favorites from '../screens/Favorites';
 import Cart from '../screens/Cart';
 import SignIn from '../screens/SignIn';
 import Header from '../components/Header';
@@ -28,15 +29,15 @@ const Navigation = () => {
 
     (async ()=> {
         try {
-            await SQLite.createTableIfNotExits(); 
+            await SQLite.createTableIfNotExits();                                                                                            //Se guardan datos de sesión en base de datos local
             const sessionData = await SQLite.getData();
             if (sessionData && sessionData.length) {
                 dispatch(setUser(sessionData[0]));
             }
 
             dispatch(spinner({ show: true }))
-            const userResponse = await getFirebaseDBUserData(userId, "cart");
-            const favoritesResponse = await getFirebaseDBUserData(userId, "favorites");
+            const userResponse = await getFirebaseDBUserData(userId, "cart");                                                               //Obtenemos carrito de la firebase
+            const favoritesResponse = await getFirebaseDBUserData(userId, "favorites");                                                     //Obtenemos favoritos de la firebase
             dispatch(spinner({ show: false }))
             if (userResponse.success) {
                 const cartFromDB = userResponse.data;
@@ -93,6 +94,10 @@ const Navigation = () => {
                 <Stack.Screen
                     component={EditProfile}
                     name='EditProfile'
+                />
+                 <Stack.Screen
+                    component={Favorites}
+                    name='Favorites'
                 />
                
             </Stack.Navigator>

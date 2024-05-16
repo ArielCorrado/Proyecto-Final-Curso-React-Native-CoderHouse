@@ -22,7 +22,8 @@ const optionList = [
     },
     {
         text: "Favoritos",
-        icon: <AntDesign name="hearto" size={24} color="black" />
+        icon: <AntDesign name="hearto" size={24} color="black" />,
+        toScreen: "Favorites"
     },
     {
         text: "Categorías",

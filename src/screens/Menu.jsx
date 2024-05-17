@@ -27,7 +27,8 @@ const optionList = [
     },
     {
         text: "Categorías",
-        icon: <Feather name="list" size={24} color="black" />
+        icon: <Feather name="list" size={24} color="black" />,
+        toScreen: "Categories"
     },
     {
         text: "Mis compras",
@@ -51,7 +52,6 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
     const {data: userAvatarDataFromDB, error, isLoading} = useGetUserDataQuery({userId: user.localId, field: "profile/avatarImage"});
     const [avatarImage, setAvatarImage] = useState(require("../../assets/images/icons/user2.png"));
-    const favorites = useSelector(state => state.favorites.value);
  
     useEffect(() => {
         if (userAvatarDataFromDB) setAvatarImage({uri: userAvatarDataFromDB});

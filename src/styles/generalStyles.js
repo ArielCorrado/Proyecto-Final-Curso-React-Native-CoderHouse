@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { HEADER_HEIGHT, SCREEN_AVAILABLE_HEIGHT } from "../constants/dimensions"
+import { HEADER_HEIGHT, SCREEN_AVAILABLE_HEIGHT, SCREEN_BORDER_WIDTH } from "../constants/dimensions"
 import { colors } from "../constants/coolors"
 
 export const generalStyles = StyleSheet.create({
@@ -11,7 +11,7 @@ export const generalStyles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 10,
+        borderWidth: SCREEN_BORDER_WIDTH,
         borderColor: colors.borderColorGray,
         backgroundColor: colors.lightColor,
         padding: 20,

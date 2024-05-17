@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Microprocesadores",
+    "nameParsed" : "Microprocesadores",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fintel8.jpeg?alt=media&token=23226116-a1c4-4e59-b3b7-6e61a649b68a"
+  },
+  {
+    "name": "Motherboards",
+    "nameParsed": "Motherboards",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fmb4.jpeg?alt=media&token=e8f96243-8376-4acc-b9dc-dba7ea3a352a"
+  },
+  {
+    "name":"Memorias RAM",
+    "nameParsed": "memorias_ram",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fmr2.jpeg?alt=media&token=e098c348-7606-4e2b-a37f-eb6e39983aa2"
+  },
+  {
+    "name":"Placas de video",
+    "nameParsed": "placas_de_video",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fpv9.jpeg?alt=media&token=3b312967-05d4-44df-9afd-c9bd662de637"
+  },
+  {
+    "name":"Fuentes",
+    "nameParsed": "Fuentes",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Ffp7.jpeg?alt=media&token=48702915-4cd0-4cd1-9345-e778e292c771"
+  },
+  {
+    "name":"Air Coolers",
+    "nameParsed": "air_coolers",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fac3.jpeg?alt=media&token=2f6a5c77-7e3f-4939-9bd9-0c6b52688067"
+  },
+  {
+    "name":"Water Coolers",
+    "nameParsed": "water_coolers",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fwc1.jpeg?alt=media&token=19bff142-5ca6-4579-8c03-4b8c3fa868b5"
+  }
+]

@@ -30,8 +30,11 @@ export const shopApi = createApi({
             },                
             providesTags: ['userData']                                                              //<---- Para recibir datos actualizados con el get si los datos en la base cambian   
         }),
+        getCategories: builder.query({
+            query: () => `categories.json`
+        }),
     })
 })
 
-export const {useGetProductsQuery, useGetProductByIdQuery, useUpdateUserDataMutation, useGetUserDataQuery} = shopApi
+export const {useGetProductsQuery, useGetProductByIdQuery, useUpdateUserDataMutation, useGetUserDataQuery, useGetCategoriesQuery} = shopApi
 

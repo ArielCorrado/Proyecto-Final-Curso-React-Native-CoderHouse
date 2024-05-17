@@ -11,6 +11,7 @@ import SignUp from '../screens/SignUp';
 import MainModal from '../components/modals/MainModal';
 import EditProfile from '../screens/EditProfile';
 import MainSpinner from '../components/spinners/MainSpinner';
+import Categories from '../screens/Categories';
 import { SQLite } from '../persistence';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../features/userSlice';
@@ -19,6 +20,7 @@ import { updateCart } from '../features/cartSlice';
 import { modal } from '../features/modal';
 import { spinner } from '../features/spinner';
 import { setFavorites } from '../features/favoritesSlice';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -39,7 +41,7 @@ const Navigation = () => {
             const userResponse = await getFirebaseDBUserData(userId, "cart");                                                               //Obtenemos carrito de firebase
             const favoritesResponse = await getFirebaseDBUserData(userId, "favorites");                                                     //Obtenemos favoritos de firebase
             dispatch(spinner({ show: false }))
-            
+
             if (userResponse.success) {
                 const cartFromDB = userResponse.data;
                 if (cartFromDB && cartFromDB.length) dispatch(updateCart(cartFromDB));
@@ -96,9 +98,13 @@ const Navigation = () => {
                     component={EditProfile}
                     name='EditProfile'
                 />
-                 <Stack.Screen
+                <Stack.Screen
                     component={Favorites}
                     name='Favorites'
+                />
+                <Stack.Screen
+                    component={Categories}
+                    name='Categories'
                 />
                
             </Stack.Navigator>

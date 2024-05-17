@@ -12,11 +12,22 @@ const Categories = () => {
 
     const { data: categoriesFromDB, isLoading, isError } = useGetCategoriesQuery();
     const dispatch = useDispatch();
-    const [categoriesJSX, setCategoriesJSX] = useState(null);
+    const [categories, setCategories] = useState(null);
 
     useEffect(() => {
-        if (categoriesFromDB && categoriesFromDB.length) {
-            setCategoriesJSX(
+        if (categoriesFromDB && categoriesFromDB.length) setCategories(categoriesFromDB);
+        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
+    }, [categoriesFromDB, isLoading])
+                       
+    if (isError) 
+        return (
+            <View style={[generalStyles.screensContainer, styles.favoritesContainer]}>
+                <Text>Error al cargar las categorias</Text>
+            </View>
+        )
+    else if (categories)
+        return (
+            <View style={[generalStyles.screensContainer, styles.favoritesContainer]}>
                 <FlatList
                     contentContainerStyle={styles.favoritesContainer}
                     showsVerticalScrollIndicator={false}
@@ -29,22 +40,6 @@ const Categories = () => {
                         </Pressable>
                     }   
                 />
-            )
-        }
-
-        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [categoriesFromDB, isLoading])
-                       
-    if (isError) 
-        return (
-            <View style={[generalStyles.screensContainer, styles.favoritesContainer]}>
-                <Text>Error al cargar las categorias</Text>
-            </View>
-        )
-    else if (categoriesJSX)
-        return (
-            <View style={[generalStyles.screensContainer, styles.favoritesContainer]}>
-                {categoriesJSX}
             </View>
         )
 }

@@ -36,9 +36,10 @@ const Navigation = () => {
             }
 
             dispatch(spinner({ show: true }))
-            const userResponse = await getFirebaseDBUserData(userId, "cart");                                                               //Obtenemos carrito de la firebase
-            const favoritesResponse = await getFirebaseDBUserData(userId, "favorites");                                                     //Obtenemos favoritos de la firebase
+            const userResponse = await getFirebaseDBUserData(userId, "cart");                                                               //Obtenemos carrito de firebase
+            const favoritesResponse = await getFirebaseDBUserData(userId, "favorites");                                                     //Obtenemos favoritos de firebase
             dispatch(spinner({ show: false }))
+            
             if (userResponse.success) {
                 const cartFromDB = userResponse.data;
                 if (cartFromDB && cartFromDB.length) dispatch(updateCart(cartFromDB));

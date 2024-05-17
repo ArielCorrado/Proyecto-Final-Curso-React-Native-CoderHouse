@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import CardFavorites from "../components/cards/CardFavorites";
 import { useSelector } from "react-redux";
-import { useGetProductsQuery } from "../services/firebaseDB";
+import { useGetProductsQuery, useGetUserDataQuery } from "../services/firebaseDB";
 import { generalStyles } from "../styles/generalStyles";
 import { useDispatch } from "react-redux";
 import { spinner } from "../features/spinner";
@@ -11,25 +11,27 @@ const Favorites = ({navigation}) => {
 
     const dispatch = useDispatch();
     const [result, setResult] = useState(null);
-    const searchText = useSelector(state => state.search.value);
-    const {data: products, error, isLoading} = useGetProductsQuery();
+    const user = useSelector(state => state.user.value);
+    const {data: favorites, error: favoritesErr, isLoading: favoritesIsLoading} = useGetUserDataQuery({userId: user.localId, field: "favorites"});
+    const {data: products, error: productsErr, isLoading: productsIsLoading} = useGetProductsQuery();
 
     useEffect(() => {
-        if (products) {
-            let productsToFilter = [...products];
-            const productsFiltered = !searchText || searchText.length < 3 ? productsToFilter.sort((producta, productb) => producta - productb) : productsToFilter.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
-            productsFiltered.length > 0 ? setResult(productsFiltered) : setResult([]);
-        } 
-    }, [products, searchText])
+        if (products && products.length && favorites && favorites.length) {
+            const favoritesProducts = products.filter(product => favorites.includes(product.id));   
+            setResult(favoritesProducts);
+        } else if (!favorites || !favorites.length) {
+            setResult([]);
+        }
+    }, [products, favorites])
 
     useEffect(() => {
-        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [isLoading])
+        favoritesIsLoading || productsIsLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
+    }, [favoritesIsLoading, productsIsLoading])
      
-    if (error) {
+    if (favoritesErr || productsErr) {
         return (
             <View style={generalStyles.screensContainer}>
-                <Text>Error al obtener datos de productos</Text>
+                <Text>Error al obtener datos de favoritos</Text>
             </View>
         )
     } else if (result && result.length) {
@@ -52,10 +54,10 @@ const Favorites = ({navigation}) => {
                 />
             </View>
         )
-    } else if (result && !result.length) {
+    } else if (!result || !result.length) {
         return (
-            <View style={styles.noResultsTextCont}>
-                <Text>No hay resultados</Text>
+            <View style={[generalStyles.screensContainer, styles.favoritesContainer]}>
+                <Text style={styles.emptyFavoritesText}>No hay productos en favoritos</Text>
             </View>
         )
     }
@@ -70,7 +72,10 @@ const styles = StyleSheet.create({
     },
     favoritesContainer: {
         padding: 0,
-    }
+    },
+    emptyFavoritesText: {
+        fontSize: 17.5
+    },
 })
 
 

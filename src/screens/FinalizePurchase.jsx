@@ -1,29 +1,59 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { generalStyles } from '../styles/generalStyles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { clearCart } from '../features/cartSlice';
 import { useEffect } from 'react';
 import ButtonCard from '../components/buttons/ButtonCard';
 import { colors } from '../constants/coolors';
-import { useSelector } from 'react-redux';
+import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
+import { spinner } from '../features/spinner';
 
-const FinalizePurchase = () => {
+const FinalizePurchase = ({route}) => {
 
-    const cart = useSelector(state => state.cart.value);
+    const {localId} = useSelector((state) => state.user.value);
+    const cartItemsData = route.params ? route.params.cartItemsData : "";
     const dispatch = useDispatch();
+    const [triggerUpdateUserData,  resultUpdateUser] = useUpdateUserDataMutation();
+    const {data: ordersFromDB, error, isLoading, isSuccess} = useGetUserDataQuery({userId: localId, field: "orders"});
     
     useEffect(() => {
-        dispatch(clearCart());
-    }, [])
+        if (isSuccess) {
+            const orderItemsDataArr = cartItemsData.map((item) => (
+                {
+                    description: item.description,
+                    itemId: item.id,
+                    quantity: item.quantity,
+                    price: item.price,
+                }
+            ));
+            const order = {
+                id: Date.now(),
+                items: orderItemsDataArr,
+            }
+            const ordersUpdated = ordersFromDB ? [...ordersFromDB] : [];
+            ordersUpdated.push(order);
+            triggerUpdateUserData({userId: localId, field: "orders", data: ordersUpdated}); 
+            dispatch(clearCart());
+        }
+        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
+    }, [isSuccess, isLoading])
     
-    return (
-        <View style={generalStyles.screensContainer}>
-            <Text style={styles.text1}>Compra finalizada</Text>
-            <Text style={styles.text2}>Gracias por elgirnos!</Text>
-            <ButtonCard text="Ir a mis órdenes de compra" color={colors.color2} height={60} width={"80%"} textStyle={{textAlign: "center", fontSize: 17.5}}/>
-        </View>
-    );
+    if (error) {
+        return (
+            <View style={generalStyles.screensContainer}>
+                <Text style={styles.text1}>Ocurrió un error al finalizar la compra, intenta nuevamente</Text>
+            </View>
+        )
+    } else if (isSuccess) {
+        return (
+            <View style={generalStyles.screensContainer}>
+                <Text style={styles.text1}>Compra finalizada</Text>
+                <Text style={styles.text2}>Gracias por elgirnos!</Text>
+                <ButtonCard text="Ir a mis órdenes de compra" color={colors.color2} height={60} width={"80%"} textStyle={{textAlign: "center", fontSize: 17.5}}/>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

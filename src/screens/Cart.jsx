@@ -32,7 +32,7 @@ const Cart = ({navigation}) => {
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [allProductsFromDB, cart, isLoading])
  
-    const buyProducts = () => dispatch(modal({show: true, text: `Confirmas la compra por $${insertDotsInPrice(cartData.totalPrice)} ?`, icon: "Info", redirect: "FinalizePurchase"}));
+    const buyProducts = () => dispatch(modal({show: true, text: `Confirmas la compra por $${insertDotsInPrice(cartData.totalPrice)} ?`, icon: "Info", redirect: "FinalizePurchase", params: {cartItemsData: cartData.cartItemsData}}));
        
     if (error) {
         return (

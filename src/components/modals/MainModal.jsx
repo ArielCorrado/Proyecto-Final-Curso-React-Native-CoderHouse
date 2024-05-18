@@ -11,7 +11,7 @@ const MainModal = () => {
     const modalState = useSelector((state) => state.modal.value);
 
     const closeModal = () => {
-        if (modalState.redirect) navigation.navigate(modalState.redirect);
+        if (modalState.redirect) navigation.navigate(modalState.redirect, modalState.params);
         dispatch(modal({show: false, text: "", icon: ""}));
     }
 

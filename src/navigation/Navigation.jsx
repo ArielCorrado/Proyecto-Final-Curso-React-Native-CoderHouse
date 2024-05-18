@@ -20,6 +20,7 @@ import { updateCart } from '../features/cartSlice';
 import { modal } from '../features/modal';
 import { spinner } from '../features/spinner';
 import { setFavorites } from '../features/favoritesSlice';
+import FinalizePurchase from '../screens/FinalizePurchase';
 
 const Stack = createNativeStackNavigator();
 
@@ -104,6 +105,10 @@ const Navigation = () => {
                 <Stack.Screen
                     component={Categories}
                     name='Categories'
+                />
+                <Stack.Screen
+                    component={FinalizePurchase}
+                    name='FinalizePurchase'
                 />
                
             </Stack.Navigator>

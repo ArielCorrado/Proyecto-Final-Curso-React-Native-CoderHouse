@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const modalSlice = createSlice({
     name: "modal",
     initialState: {
-        value: {show: false, text: "", icon: ""}
+        value: {show: false, text: "", icon: "", redirect: ""}
     },
     reducers: {
         modal: (state, {payload}) => {

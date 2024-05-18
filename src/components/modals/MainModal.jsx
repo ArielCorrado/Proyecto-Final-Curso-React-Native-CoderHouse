@@ -3,13 +3,16 @@ import { Modal, StyleSheet, Text, Pressable, View, Image} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { modal } from '../../features/modal';
 import { colors } from '../../constants/coolors';
+import { useNavigation } from '@react-navigation/native';
 
 const MainModal = () => {
+    const navigation = useNavigation();
     const dispatch = useDispatch();
     const modalState = useSelector((state) => state.modal.value);
 
     const closeModal = () => {
-        dispatch(modal({show: false, text: "", icon: ""}))
+        if (modalState.redirect) navigation.navigate(modalState.redirect);
+        dispatch(modal({show: false, text: "", icon: ""}));
     }
 
     const selectIconImage = () => {

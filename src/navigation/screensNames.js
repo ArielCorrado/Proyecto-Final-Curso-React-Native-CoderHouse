@@ -5,5 +5,6 @@ export const screensNames = {
     SignUp: "Crear Cuenta",
     EditProfile: "Perfil",
     Favorites: "Mis Favoritos",
-    Categories: "Categorías"
+    Categories: "Categorías",
+    FinalizePurchase: "Compra Finalizada"
 }

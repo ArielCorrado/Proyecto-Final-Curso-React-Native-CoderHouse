@@ -8,6 +8,7 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { useGetProductsQuery } from '../services/firebaseDB';
 import { useState, useEffect } from 'react';
 import { spinner } from "../features/spinner";
+import { modal } from '../features/modal';
 
 const Cart = ({navigation}) => {
 
@@ -28,12 +29,11 @@ const Cart = ({navigation}) => {
             const totalPrice = cartItemsData.reduce((acc, item) => (item.quantity * item.price) + acc, 0);
             setCartData({cartItemsData, itemsInCartTotalQuantity, totalPrice});
         }    
-    }, [allProductsFromDB, cart])
-
-    useEffect(() => {
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [isLoading])
-
+    }, [allProductsFromDB, cart, isLoading])
+ 
+    const buyProducts = () => dispatch(modal({show: true, text: `Confirmas la compra por $${insertDotsInPrice(cartData.totalPrice)} ?`, icon: "Info", redirect: "FinalizePurchase"}));
+       
     if (error) {
         return (
             <View style={generalStyles.screensContainer}>
@@ -63,7 +63,7 @@ const Cart = ({navigation}) => {
                     <Text style={[styles.totalPrice, styles.totalPriceText]}>Total:  </Text>
                     <Text style={styles.totalPrice}>$ {insertDotsInPrice(cartData.totalPrice)}</Text>
                 </View>
-                <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => null} />
+                <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={buyProducts} />
             </View>
             :
             <View style={generalStyles.screensContainer}>

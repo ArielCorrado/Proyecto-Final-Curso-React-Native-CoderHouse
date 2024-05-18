@@ -62,7 +62,7 @@ const Header = ({navigation, route}) => {
                 {                                                                                                                                           
                     route.name !== "ProductsList" || menu ?                                                                 //Ocultamos barra de busqueda si no estamos en la screen "ProductsList" o si está el menú abierto
                     (   
-                        !menu &&
+                        (!menu && route.name !== "FinalizePurchase") &&
                         <>
                             <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
                                 <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              

@@ -36,7 +36,8 @@ const optionList = [
     },
     {
         text: "Mis órdenes de compra",
-        icon: <Ionicons name="receipt-outline" size={24} color="black" />
+        icon: <Ionicons name="receipt-outline" size={24} color="black" />,
+        toScreen: "Orders"
     },
 ]
 

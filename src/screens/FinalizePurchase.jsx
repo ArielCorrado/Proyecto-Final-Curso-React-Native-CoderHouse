@@ -9,7 +9,7 @@ import { colors } from '../constants/coolors';
 import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { spinner } from '../features/spinner';
 
-const FinalizePurchase = ({route}) => {
+const FinalizePurchase = ({navigation, route}) => {
 
     const {localId} = useSelector((state) => state.user.value);
     const cartItemsData = route.params ? route.params.cartItemsData : "";
@@ -50,7 +50,7 @@ const FinalizePurchase = ({route}) => {
             <View style={generalStyles.screensContainer}>
                 <Text style={styles.text1}>Compra finalizada</Text>
                 <Text style={styles.text2}>Gracias por elgirnos!</Text>
-                <ButtonCard text="Ir a mis órdenes de compra" color={colors.color2} height={60} width={"80%"} textStyle={{textAlign: "center", fontSize: 17.5}}/>
+                <ButtonCard text="Ir a mis órdenes de compra" color={colors.color2} height={60} width={"80%"} textStyle={{textAlign: "center", fontSize: 17.5}} onPressFunction={() => navigation.navigate("Orders")}/>
             </View>
         );
     }

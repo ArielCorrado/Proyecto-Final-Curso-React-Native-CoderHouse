@@ -8,7 +8,7 @@ import { spinner } from '../features/spinner'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 
-const Categories = () => {
+const Categories = ({navigation}) => {
 
     const { data: categoriesFromDB, isLoading, isError } = useGetCategoriesQuery();
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const Categories = () => {
                     numColumns={2}
                     data={categoriesFromDB}
                     renderItem={({ item }) => 
-                        <Pressable style={styles.categoryCard}>
+                        <Pressable style={styles.categoryCard} onPress={() => navigation.navigate("ProductsList", {category: item.nameParsed})}>
                             <Text style={styles.text}>{item.name}</Text>
                             <Image src={item.imgSrc} style={styles.image} />
                         </Pressable>

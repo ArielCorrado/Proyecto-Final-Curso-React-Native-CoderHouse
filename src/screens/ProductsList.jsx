@@ -2,29 +2,32 @@ import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import CardHardware from "../components/cards/CardHardware";
 import { useSelector } from "react-redux";
-import { useGetProductsQuery } from "../services/firebaseDB";
+import { useGetProductsQuery, useGetProductsByCategoryQuery } from "../services/firebaseDB";
 import { generalStyles } from "../styles/generalStyles";
 import { useDispatch } from "react-redux";
 import { spinner } from "../features/spinner";
 
-const ProductsList = ({navigation}) => {
+const ProductsList = ({navigation, route}) => {
 
+    const category = route.params ? route.params.category : "";
     const dispatch = useDispatch();
     const [result, setResult] = useState(null);
     const searchText = useSelector(state => state.search.value);
-    const {data: products, error, isLoading} = useGetProductsQuery();
+    const {data: products, error, isLoading} = category ? useGetProductsByCategoryQuery(category) : useGetProductsQuery();
 
     useEffect(() => {
         if (products) {
             let productsToFilter = [...products];
-            const productsFiltered = !searchText || searchText.length < 3 ? productsToFilter.sort((producta, productb) => producta - productb) : productsToFilter.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()))
+
+            const productsFiltered = 
+            !searchText || searchText.length < 3 ? 
+                productsToFilter.sort((producta, productb) => producta - productb) :                                                //Todos los productos ordenados alfabeticamente
+                productsToFilter.filter(product => product.description.toLowerCase().includes(searchText.toLowerCase()));           //Productos filtrados por palabras de busqueda
+
             productsFiltered.length > 0 ? setResult(productsFiltered) : setResult([]);
         } 
-    }, [products, searchText])
-
-    useEffect(() => {
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [isLoading])
+    }, [products, searchText, isLoading])
      
     if (error) {
         return (

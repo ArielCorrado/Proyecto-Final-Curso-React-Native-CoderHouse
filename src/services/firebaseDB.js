@@ -16,6 +16,14 @@ export const shopApi = createApi({
                 return null;
             }
         }),
+        getProductsByCategory: builder.query({
+            query: (category) => `products.json?orderBy="categoria"&equalTo="${category}"`,
+            transformResponse: (response) => {
+                const responseTransformed = Object.values(response);
+                if (responseTransformed.length) return responseTransformed;
+                return null;
+            }
+        }),
         updateUserData: builder.mutation({
             query: ({userId, field, data}) => ({
                 url: `usersData/${userId}/${field}.json`,
@@ -36,5 +44,5 @@ export const shopApi = createApi({
     })
 })
 
-export const {useGetProductsQuery, useGetProductByIdQuery, useUpdateUserDataMutation, useGetUserDataQuery, useGetCategoriesQuery} = shopApi
+export const {useGetProductsQuery, useGetProductByIdQuery, useUpdateUserDataMutation, useGetUserDataQuery, useGetCategoriesQuery, useGetProductsByCategoryQuery} = shopApi
 

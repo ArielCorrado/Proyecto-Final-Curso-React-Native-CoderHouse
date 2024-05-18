@@ -21,7 +21,6 @@ import { modal } from '../features/modal';
 import { spinner } from '../features/spinner';
 import { setFavorites } from '../features/favoritesSlice';
 
-
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {

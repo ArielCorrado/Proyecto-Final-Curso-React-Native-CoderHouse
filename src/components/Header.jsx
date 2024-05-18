@@ -8,6 +8,7 @@ import Menu from '../screens/Menu';
 import { menuFadeIn, menuFadeOut } from '../animations/animations';
 import { modal } from '../features/modal';
 import { useUpdateUserDataMutation } from '../services/firebaseDB';
+import { screensNames } from '../navigation/screensNames';
 
 const Header = ({navigation, route}) => {
    
@@ -58,13 +59,16 @@ const Header = ({navigation, route}) => {
                 <TouchableOpacity style={styles.headerIconsCont} onPress={handleMenu}>
                     <Image source={require('../../assets/images/icons/menu.png')} style={styles.headerIcons}/>
                 </TouchableOpacity>
-                {                                                                                                                                           //Ocultamos barra de busqueda si no estamos en la screen "ProductsList" o si está el menú abierto
-                    route.name !== "ProductsList" || menu ?
+                {                                                                                                                                           
+                    route.name !== "ProductsList" || menu ?                                                                 //Ocultamos barra de busqueda si no estamos en la screen "ProductsList" o si está el menú abierto
                     (   
                         !menu &&
-                        <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
-                            <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
-                        </Pressable>
+                        <>
+                            <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
+                                <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
+                            </Pressable>
+                            <Text style={styles.title}>{screensNames[route.name]}</Text>
+                        </>
                     )
                     :
                     <View style={styles.searchBarCont}>
@@ -97,6 +101,7 @@ export default Header
 
 const styles = StyleSheet.create({
     headerCont: {
+        position: "relative",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -169,17 +174,26 @@ const styles = StyleSheet.create({
         color: colors.lightColor
     },
     backIconCont: {
+        position: "absolute",
         display: "flex",
-        justifyContent: "flex-end",
+        justifyContent: "center",
         alignItems: "center",
         height: "100%",
         width: 30,
-        paddingBottom: 10,
+        left: 80,
+        top: 0,
+        bottom: 0,
+        margin: "auto",
     },
     backIcon: {
-        width: 30,
-        height: 30,
+        width: "90%",
+        height: "100%",
         objectFit: "contain",
         tintColor: "white",
+    },
+    title: {
+        color: "white",
+        fontSize: 17.5,
+        fontWeight: "bold",
     }
 })

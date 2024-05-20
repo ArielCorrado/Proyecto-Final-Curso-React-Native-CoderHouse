@@ -25,6 +25,7 @@ const FinalizePurchase = ({navigation, route}) => {
                     itemId: item.id,
                     quantity: item.quantity,
                     price: item.price,
+                    imgSrc: item.imgSrc,
                 }
             ));
             const order = {

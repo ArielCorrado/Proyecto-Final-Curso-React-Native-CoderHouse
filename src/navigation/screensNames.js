@@ -7,5 +7,6 @@ export const screensNames = {
     Favorites: "Mis Favoritos",
     Categories: "Categorías",
     FinalizePurchase: "Compra Finalizada",
-    Orders: "Mis Órdenes"
+    Orders: "Mis Órdenes",
+    Order: "Mi Órden de Compra"
 }

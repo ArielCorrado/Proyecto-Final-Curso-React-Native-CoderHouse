@@ -41,8 +41,22 @@ export const shopApi = createApi({
         getCategories: builder.query({
             query: () => `categories.json`
         }),
+        getUserOrder: builder.query({
+            query: ({userId, orderId}) => {
+                return `usersData/${userId}/orders.json?orderBy="id"&equalTo=${orderId}`
+            },                
+            providesTags: ['userData']                                                              //<---- Para recibir datos actualizados con el get si los datos en la base cambian   
+        }),
     })
 })
 
-export const {useGetProductsQuery, useGetProductByIdQuery, useUpdateUserDataMutation, useGetUserDataQuery, useGetCategoriesQuery, useGetProductsByCategoryQuery} = shopApi
+export const {
+    useGetProductsQuery, 
+    useGetProductByIdQuery, 
+    useUpdateUserDataMutation, 
+    useGetUserDataQuery, 
+    useGetCategoriesQuery, 
+    useGetProductsByCategoryQuery,
+    useGetUserOrderQuery
+} = shopApi
 

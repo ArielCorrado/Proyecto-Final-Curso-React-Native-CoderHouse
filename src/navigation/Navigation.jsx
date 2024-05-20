@@ -22,6 +22,7 @@ import { spinner } from '../features/spinner';
 import { setFavorites } from '../features/favoritesSlice';
 import FinalizePurchase from '../screens/FinalizePurchase';
 import Orders from '../screens/Orders';
+import Order from '../screens/Order';
 
 const Stack = createNativeStackNavigator();
 
@@ -111,9 +112,13 @@ const Navigation = () => {
                     component={FinalizePurchase}
                     name='FinalizePurchase'
                 />
-                  <Stack.Screen
+                <Stack.Screen
                     component={Orders}
                     name='Orders'
+                />
+                <Stack.Screen
+                    component={Order}
+                    name='Order'
                 />
                
             </Stack.Navigator>

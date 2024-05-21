@@ -7,17 +7,23 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { colors } from '../constants/coolors';
 import { spinner } from '../features/spinner';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Orders = ({navigation}) => {
 
     const dispatch = useDispatch();
     const {localId} = useSelector(state => state.user.value);
     const {data: ordersFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "orders"});
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
+        if (ordersFromDB && ordersFromDB.length) {
+            let ordersSort = [...ordersFromDB];
+            setOrders(ordersSort.sort((a, b) => b.id - a.id));
+        }
+
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [isLoading])
+    }, [isLoading, ordersFromDB])
     
     if (error) {
         return (
@@ -37,7 +43,7 @@ const Orders = ({navigation}) => {
                 <FlatList
                     contentContainerStyle={styles.flatList}
                     showsVerticalScrollIndicator={false}
-                    data={ordersFromDB}
+                    data={orders}
                     renderItem={({ item: order }) =>
                         <View style={styles.orderCardCont}>
                             <View style={styles.textContainer}>

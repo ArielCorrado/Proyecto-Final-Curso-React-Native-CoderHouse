@@ -23,7 +23,7 @@ const Order = ({route}) => {
                 contentContainerStyle={styles.flatList}
                 showsVerticalScrollIndicator={false}
                 data={itemsArr}
-                renderItem={({ item}) =>
+                renderItem={({item}) =>
                     <CardOder
                         price={item.price}
                         description={item.description}

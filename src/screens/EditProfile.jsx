@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux'
 import { spinner } from '../features/spinner'
 import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from "expo-image-picker";
+import { setTitle } from '../features/titleSlice';
 
 const EditProfile = ({navigation, route}) => {
 
@@ -32,6 +33,7 @@ const EditProfile = ({navigation, route}) => {
     }
 
     useEffect(() => {
+        dispatch(setTitle("Mi Perfil"));
         if (result) {
             if(result.isSuccess) {
                 dispatch(modal({show: true, text: "Datos de perfil actualizados con éxito", icon: "Success"}));
@@ -43,7 +45,6 @@ const EditProfile = ({navigation, route}) => {
         } 
 
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-
         if (userProfileFromDB) setUserProfile(userProfileFromDB)
 
     }, [result, isLoading, userProfileFromDB])

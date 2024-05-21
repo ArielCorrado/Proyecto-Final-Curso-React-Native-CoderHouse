@@ -12,6 +12,7 @@ import { getFirebaseDBUserData } from '../services/firebaseDBFetch'
 import { updateCart } from '../features/cartSlice'
 import { spinner } from '../features/spinner'
 import { SQLite } from '../persistence'
+import { setTitle } from '../features/titleSlice'
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const SignIn = ({navigation}) => {
     const {registered, localId} = useSelector(state => state.user.value);
     
     useEffect(() => {
+        dispatch(setTitle("Inicio de Sesión"));
         (async () => {
             if (registered) {
                 dispatch(spinner({show: true}))

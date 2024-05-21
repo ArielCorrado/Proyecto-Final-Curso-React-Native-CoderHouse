@@ -1,22 +1,26 @@
-import { StyleSheet, View, Text, FlatList} from 'react-native';
-import { useGetUserDataQuery } from '../services/firebaseDB';
-import { useSelector } from 'react-redux';
+import { View, FlatList, Text } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { generalStyles } from '../styles/generalStyles';
-import { formatDate,insertDotsInPrice } from '../functions/utils';
-import ButtonCard from '../components/buttons/ButtonCard';
+import { insertDotsInPrice } from '../functions/utils';
 import { colors } from '../constants/coolors';
-import { spinner } from '../features/spinner';
-import { useEffect } from 'react';
 import { CardOder } from '../components/cards/CardOrder';
 import { useGetUserOrderQuery } from '../services/firebaseDB';
+import { setTitle } from '../features/titleSlice';
+import { StyleSheet } from 'react-native';
+import { useEffect } from 'react';
 
 const Order = ({route}) => {
 
-    const {id: orderId} = route.params;
+    const dispatch = useDispatch();
+    const {id: orderId, title} = route.params;
     const {localId} = useSelector(state => state.user.value);
     const {data: order, error, isLoading} = useGetUserOrderQuery({userId: localId, orderId: orderId});
     const itemsArr = order ? Object.values(order)[0].items : [];
      
+    useEffect(() => {
+        dispatch(setTitle(title));              
+    }, []);
+
     return (
         <View style={[generalStyles.screensContainer, styles.orderContainer]}>
             <FlatList

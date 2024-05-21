@@ -23,6 +23,7 @@ import { setFavorites } from '../features/favoritesSlice';
 import FinalizePurchase from '../screens/FinalizePurchase';
 import Orders from '../screens/Orders';
 import Order from '../screens/Order';
+import Buy from '../screens/Buy';
 
 const Stack = createNativeStackNavigator();
 
@@ -119,6 +120,10 @@ const Navigation = () => {
                 <Stack.Screen
                     component={Order}
                     name='Order'
+                />
+                <Stack.Screen
+                    component={Buy}
+                    name='Buy'
                 />
                
             </Stack.Navigator>

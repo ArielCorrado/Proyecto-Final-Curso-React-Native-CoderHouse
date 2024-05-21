@@ -7,6 +7,7 @@ import { useGetCategoriesQuery } from '../services/firebaseDB'
 import { spinner } from '../features/spinner'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
+import { setTitle } from '../features/titleSlice'
 
 const Categories = ({navigation}) => {
 
@@ -15,6 +16,7 @@ const Categories = ({navigation}) => {
     const [categories, setCategories] = useState(null);
 
     useEffect(() => {
+        dispatch(setTitle("Categorías"));
         if (categoriesFromDB && categoriesFromDB.length) setCategories(categoriesFromDB);
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [categoriesFromDB, isLoading])

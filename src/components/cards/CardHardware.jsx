@@ -10,13 +10,13 @@ import { setFavorites } from '../../features/favoritesSlice';
 import { useUpdateUserDataMutation } from '../../services/firebaseDB';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
-
+   
     const [isFavoriteError, setIsFavoriteError] = useState(false);
     const favorites = useSelector((state) => state.favorites.value);
     const [isFavorite, setIsFavorite] = useState(false);
     const dispatch = useDispatch(); 
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
-    const {localId} = useSelector((state) => state.user.value);
+    const {localId, registered} = useSelector((state) => state.user.value);
 
     const handleFavorite = async() => {
         const favoritesAux = [...favorites];
@@ -37,7 +37,7 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
     return (
         <View style={styles.container}>
             {
-                !isFavoriteError &&
+                !isFavoriteError && registered &&
                 <Pressable style={styles.heartCont} onPress={handleFavorite}>
                     { isFavorite ? <AntDesign name="heart" size={24} color="#5F2CAF" style={styles.heart}/> : <AntDesign name="hearto" size={24} color="gray" style={styles.heart}/> }
                 </Pressable>

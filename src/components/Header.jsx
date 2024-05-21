@@ -18,6 +18,7 @@ const Header = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [searchTextInput, setSearchTextInput] = useState("");
     const cart = useSelector(state => state.cart.value);
+    const title = useSelector(state => state.title.value);
     const {registered, localId} = useSelector(state => state.user.value);
     const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
@@ -67,7 +68,7 @@ const Header = ({navigation, route}) => {
                             <Pressable onPress={() => navigation.goBack()} style={styles.backIconCont}>
                                 <Image source={require('../../assets/images/icons/back.png')} style={styles.backIcon}/>                              
                             </Pressable>
-                            <Text style={styles.title}>{screensNames[route.name]}</Text>
+                            <Text style={styles.title}>{title}</Text>
                         </>
                     )
                     :

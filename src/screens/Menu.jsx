@@ -32,7 +32,8 @@ const optionList = [
     },
     {
         text: "Mis compras",
-        icon: <Feather name="shopping-bag" size={24} color="black" />
+        icon: <Feather name="shopping-bag" size={24} color="black" />,
+        toScreen: "Buy"
     },
     {
         text: "Mis órdenes de compra",
@@ -111,6 +112,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
 
             <View style={styles.menuOptionsContainer}>
                 {
+                    user.registered &&
                     optionList.map((option, index) => (
                         <Pressable key={index} style={styles.menuButtonContainer} onPress={() => handleNavigation(option.toScreen)}>
                             {option.icon}

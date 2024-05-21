@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",                
         width: '100%',
-        height: 165,
+        height: 160,
         borderBottomWidth: 0.5,
         borderBottomColor: colors.borderColorGray,
         borderTopWidth: 0.5,
@@ -63,14 +63,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: "60%",
         width: "100%",
-        marginBottom: 10,
+        marginBottom: 5,
     },
     line2Container: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        // height: "20%",
         width: "100%",
     },
     line3Container: {
@@ -78,7 +77,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        // height: "20%",
         width: "100%",
     },
     column1: {
@@ -86,7 +84,6 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // padding: 5,
         marginRight: 10,
     },
     column2: {
@@ -94,7 +91,6 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // padding: 5
     },
     column3: {
         width: "45%",

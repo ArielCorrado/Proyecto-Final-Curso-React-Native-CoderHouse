@@ -1,14 +1,14 @@
 import { StyleSheet, View, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
 import { useDispatch } from 'react-redux'
 import { useSignUpMutation } from '../services/firebaseAuth'
-import { useEffect } from 'react'
 import { setUser } from '../features/userSlice'
 import { validateEmail, validatePassword } from '../validations/signForm'
 import { modal } from '../features/modal'
+import { setTitle } from '../features/titleSlice'
 
 const SignUp = ({navigation}) => {
 
@@ -21,6 +21,10 @@ const SignUp = ({navigation}) => {
         repeatPassword: ''
     });
 
+    useEffect(() => {
+        dispatch(setTitle("Crea tu Cuenta"));
+    }, [])
+    
     const signUp = () => {
         if (!validateEmail(signUpData.email)) {
             dispatch(modal({show: true, text: "E-mail no válido", icon: "Warning"}));

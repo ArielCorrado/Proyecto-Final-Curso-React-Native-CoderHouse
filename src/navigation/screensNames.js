@@ -8,5 +8,6 @@ export const screensNames = {
     Categories: "Categorías",
     FinalizePurchase: "Compra Finalizada",
     Orders: "Mis Órdenes",
-    Order: "Mi Órden de Compra"
+    Order: "Mi Órden de Compra",
+    Buy: "Mis Compras"
 }

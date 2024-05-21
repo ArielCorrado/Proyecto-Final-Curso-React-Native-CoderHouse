@@ -30,6 +30,7 @@ const FinalizePurchase = ({navigation, route}) => {
             ));
             const order = {
                 id: Date.now(),
+                inProgress: "true",
                 items: orderItemsDataArr,
             }
             const ordersUpdated = ordersFromDB ? [...ordersFromDB] : [];
@@ -49,8 +50,8 @@ const FinalizePurchase = ({navigation, route}) => {
     } else if (isSuccess) {
         return (
             <View style={generalStyles.screensContainer}>
-                <Text style={styles.text1}>Compra finalizada</Text>
                 <Text style={styles.text2}>Gracias por elgirnos!</Text>
+                <Text style={styles.text1}>Tu orden de compra está siendo procesada</Text>
                 <ButtonCard text="Ir a mis órdenes de compra" color={colors.color2} height={60} width={"80%"} textStyle={{textAlign: "center", fontSize: 17.5}} onPressFunction={() => navigation.navigate("Orders")}/>
             </View>
         );
@@ -61,13 +62,13 @@ const styles = StyleSheet.create({
     text1: {
         fontSize: 17.5,
         textAlign: 'center',
-        marginBottom: 10
+        marginBottom: 20,
     },
     text2: {
         fontSize: 20,
         textAlign: 'center',
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 10
     }
 })
 

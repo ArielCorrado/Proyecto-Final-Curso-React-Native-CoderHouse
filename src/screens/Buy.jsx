@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, FlatList} from 'react-native';
-import { useGetUserDataQuery, useUpdateUserDataMutation } from '../services/firebaseDB';
+import { useGetUserDataQuery } from '../services/firebaseDB';
 import { useSelector } from 'react-redux';
 import { generalStyles } from '../styles/generalStyles';
 import { formatDate,insertDotsInPrice } from '../functions/utils';
@@ -8,36 +8,26 @@ import { colors } from '../constants/coolors';
 import { spinner } from '../features/spinner';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { modal } from '../features/modal';
 import { setTitle } from '../features/titleSlice';
 
-const Orders = ({navigation}) => {
+const Buy = ({navigation}) => {
 
     const dispatch = useDispatch();
     const {localId} = useSelector(state => state.user.value);
     const {data: ordersFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "orders"});
-    const [triggerUpdateUserData,  resultUpdateUser] = useUpdateUserDataMutation();
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        dispatch(setTitle("Mis Órdenes"));
+        dispatch(setTitle("Mis Compras"));
 
         if (ordersFromDB && ordersFromDB.length) {
             let ordersSort = [...ordersFromDB];
-            ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === true);
+            ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === false);
             setOrders(ordersSort.sort((a, b) => b.id - a.id));
         }
 
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [isLoading, ordersFromDB])
-
-    const finalizePurchase = (orderId) => {
-        dispatch(modal({show: true, text: "Compra finalizada. Gracias por elegirnos!", icon: "Success"}));
-        const ordersFromDBAux = JSON.parse(JSON.stringify(ordersFromDB)); 
-        const orderIndexToFinalize = ordersFromDBAux.findIndex((order) => order.id === orderId);
-        ordersFromDBAux[orderIndexToFinalize].inProgress = "false";
-        triggerUpdateUserData({userId: localId, field: "orders", data: ordersFromDBAux}); 
-    }
     
     if (error) {
         return (
@@ -48,7 +38,7 @@ const Orders = ({navigation}) => {
     } else if (!orders || !orders.length ) {
         return (
             <View style={generalStyles.screensContainer}>
-                <Text style={styles.emptyCartText}>Todavía no tienes órdenes de compra</Text>
+                <Text style={styles.emptyCartText}>Todavía no tienes compras</Text>
             </View>
         )
     } else {
@@ -70,7 +60,7 @@ const Orders = ({navigation}) => {
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={styles.textBold}>Estado: </Text>
-                                <Text style={styles.text}>En proceso</Text>
+                                <Text style={styles.text}>Finalizada</Text>
                             </View>
                             <View style={styles.textContainer}>
                                 <Text style={styles.textBold}>TOTAL: $ </Text>
@@ -81,19 +71,10 @@ const Orders = ({navigation}) => {
                                     text="Detalles"
                                     color={colors.color2}
                                     height={40}
-                                    width={"35%"}
-                                    textStyle={{ textAlign: "center", fontSize: 16 }}
-                                    buttonStyle={{ alignSelf: "center", marginTop: 20, marginRight: 20, paddingHorizontal: 0}}
-                                    onPressFunction={() => navigation.navigate("Order", {id: order.id, title: "Mi orden de compra"})}
-                                />
-                                <ButtonCard
-                                    text="Recibí los productos"
-                                    color={colors.color3}
-                                    height={40}
                                     width={"60%"}
-                                    textStyle={{ textAlign: "center", fontSize: 16 }}
-                                    buttonStyle={{ alignSelf: "center", marginTop: 20, paddingHorizontal: 0}}
-                                    onPressFunction={() => finalizePurchase(order.id)}
+                                    textStyle={{ textAlign: "center", fontSize: 17.5 }}
+                                    buttonStyle={{ alignSelf: "center", marginTop: 20, marginRight: 20, paddingHorizontal: 0}}
+                                    onPressFunction={() => navigation.navigate("Order", {id: order.id, title: "Mi Compra"})}
                                 />
                             </View>
                         </View>
@@ -153,4 +134,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Orders;
+export default Buy;

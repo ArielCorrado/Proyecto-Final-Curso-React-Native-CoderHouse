@@ -6,6 +6,7 @@ import { useGetProductsQuery, useGetUserDataQuery } from "../services/firebaseDB
 import { generalStyles } from "../styles/generalStyles";
 import { useDispatch } from "react-redux";
 import { spinner } from "../features/spinner";
+import { setTitle } from "../features/titleSlice";
 
 const Favorites = ({navigation}) => {
 
@@ -25,6 +26,7 @@ const Favorites = ({navigation}) => {
     }, [products, favorites])
 
     useEffect(() => {
+        dispatch(setTitle("Mis Favoritos"));
         favoritesIsLoading || productsIsLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [favoritesIsLoading, productsIsLoading])
      

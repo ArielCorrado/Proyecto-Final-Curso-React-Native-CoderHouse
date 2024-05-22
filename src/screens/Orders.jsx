@@ -7,9 +7,10 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { colors } from '../constants/coolors';
 import { spinner } from '../features/spinner';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { modal } from '../features/modal';
 import { setTitle } from '../features/titleSlice';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Orders = ({navigation}) => {
 
@@ -18,10 +19,14 @@ const Orders = ({navigation}) => {
     const {data: ordersFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "orders"});
     const [triggerUpdateUserData,  resultUpdateUser] = useUpdateUserDataMutation();
     const [orders, setOrders] = useState([]);
+    
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Mis Órdenes"))
+        })
+    )
 
     useEffect(() => {
-        dispatch(setTitle("Mis Órdenes"));
-
         if (ordersFromDB && ordersFromDB.length) {
             let ordersSort = [...ordersFromDB];
             ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === true);
@@ -48,7 +53,7 @@ const Orders = ({navigation}) => {
     } else if (!orders || !orders.length ) {
         return (
             <View style={generalStyles.screensContainer}>
-                <Text style={styles.emptyCartText}>Todavía no tienes órdenes de compra</Text>
+                <Text style={styles.emptyCartText}>No tienes órdenes en proceso</Text>
             </View>
         )
     } else {

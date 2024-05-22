@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TextInput, Pressable, Image} from 'react-native'
 import React, { useState } from 'react'
 import { useGetUserDataQuery, useUpdateUserDataMutation } from '../services/firebaseDB'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
@@ -11,6 +11,7 @@ import { spinner } from '../features/spinner'
 import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from "expo-image-picker";
 import { setTitle } from '../features/titleSlice';
+import { useFocusEffect } from '@react-navigation/native'
 
 const EditProfile = ({navigation, route}) => {
 
@@ -32,8 +33,13 @@ const EditProfile = ({navigation, route}) => {
         triggerUpdateUserData({userId: userId, field: "profile", data: userProfile});
     }
 
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Mi Perfil"))
+        })
+    )
+
     useEffect(() => {
-        dispatch(setTitle("Mi Perfil"));
         if (result) {
             if(result.isSuccess) {
                 dispatch(modal({show: true, text: "Datos de perfil actualizados con éxito", icon: "Success"}));

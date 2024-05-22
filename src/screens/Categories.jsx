@@ -6,8 +6,9 @@ import { colors } from '../constants/coolors'
 import { useGetCategoriesQuery } from '../services/firebaseDB'
 import { spinner } from '../features/spinner'
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { setTitle } from '../features/titleSlice'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Categories = ({navigation}) => {
 
@@ -15,8 +16,13 @@ const Categories = ({navigation}) => {
     const dispatch = useDispatch();
     const [categories, setCategories] = useState(null);
 
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Categorías"))
+        })
+    )
+
     useEffect(() => {
-        dispatch(setTitle("Categorías"));
         if (categoriesFromDB && categoriesFromDB.length) setCategories(categoriesFromDB);
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [categoriesFromDB, isLoading])

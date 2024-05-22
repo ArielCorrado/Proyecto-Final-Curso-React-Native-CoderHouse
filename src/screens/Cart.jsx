@@ -6,10 +6,11 @@ import { CardCart } from '../components/cards/CardCart';
 import { insertDotsInPrice } from '../functions/utils';
 import ButtonCard from '../components/buttons/ButtonCard';
 import { useGetProductsQuery } from '../services/firebaseDB';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { spinner } from "../features/spinner";
 import { modal } from '../features/modal';
 import { setTitle } from '../features/titleSlice';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Cart = ({navigation}) => {
 
@@ -22,9 +23,14 @@ const Cart = ({navigation}) => {
     })
 
     const {data: allProductsFromDB, error, isLoading} = useGetProductsQuery();
+
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Mi Carrito"))
+        })
+    )
     
     useEffect(() => {
-        dispatch(setTitle("Mi Carrito"));
         if (allProductsFromDB) {
             const cartItemsData = cart.map((cartItem) => ({ ...allProductsFromDB.find((dBitem) => dBitem.id === cartItem.id), ...cartItem}));
             const itemsInCartTotalQuantity = cartItemsData.reduce((acc, product) => acc + product.quantity, 0);

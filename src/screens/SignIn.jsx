@@ -6,13 +6,14 @@ import ButtonCard from '../components/buttons/ButtonCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../features/userSlice'
 import { useSignInMutation } from '../services/firebaseAuth'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { modal } from '../features/modal'
 import { getFirebaseDBUserData } from '../services/firebaseDBFetch'
 import { updateCart } from '../features/cartSlice'
 import { spinner } from '../features/spinner'
 import { SQLite } from '../persistence'
 import { setTitle } from '../features/titleSlice'
+import { useFocusEffect } from '@react-navigation/native'
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
@@ -20,7 +21,6 @@ const SignIn = ({navigation}) => {
     const {registered, localId} = useSelector(state => state.user.value);
     
     useEffect(() => {
-        dispatch(setTitle("Inicio de Sesión"));
         (async () => {
             if (registered) {
                 dispatch(spinner({show: true}))
@@ -38,6 +38,12 @@ const SignIn = ({navigation}) => {
             }
         })();
     }, [registered])
+
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Inicio de Sesión"))
+        })
+    )
 
     const [signInData, setSignInData] = useState({
         email: '',
@@ -108,6 +114,7 @@ const SignIn = ({navigation}) => {
                     style={styles.input}
                 />
                 <ButtonCard color={colors.color3} text="Iniciar Sesión" buttonStyle={styles.button} onPressFunction={signIn}/>
+                <ButtonCard color={colors.color2} text="Crear Cuenta" buttonStyle={[styles.button, {marginTop: 0}]} onPressFunction={() => navigation.navigate("SignUp")}/>
             </View>
         </View>
     )

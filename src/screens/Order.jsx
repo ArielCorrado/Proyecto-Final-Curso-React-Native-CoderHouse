@@ -7,7 +7,8 @@ import { CardOder } from '../components/cards/CardOrder';
 import { useGetUserOrderQuery } from '../services/firebaseDB';
 import { setTitle } from '../features/titleSlice';
 import { StyleSheet } from 'react-native';
-import { useEffect } from 'react';
+import { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Order = ({route}) => {
 
@@ -17,9 +18,11 @@ const Order = ({route}) => {
     const {data: order, error, isLoading} = useGetUserOrderQuery({userId: localId, orderId: orderId});
     const itemsArr = order ? Object.values(order)[0].items : [];
      
-    useEffect(() => {
-        dispatch(setTitle(title));              
-    }, []);
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle(title))
+        })
+    )
 
     return (
         <View style={[generalStyles.screensContainer, styles.orderContainer]}>

@@ -1,5 +1,5 @@
 import { StyleSheet, View, TextInput } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
 import ButtonCard from '../components/buttons/ButtonCard'
@@ -9,6 +9,7 @@ import { setUser } from '../features/userSlice'
 import { validateEmail, validatePassword } from '../validations/signForm'
 import { modal } from '../features/modal'
 import { setTitle } from '../features/titleSlice'
+import { useFocusEffect } from '@react-navigation/native'
 
 const SignUp = ({navigation}) => {
 
@@ -21,9 +22,11 @@ const SignUp = ({navigation}) => {
         repeatPassword: ''
     });
 
-    useEffect(() => {
-        dispatch(setTitle("Crea tu Cuenta"));
-    }, [])
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Crea tu Cuenta"))
+        })
+    )
     
     const signUp = () => {
         if (!validateEmail(signUpData.email)) {
@@ -89,6 +92,7 @@ const SignUp = ({navigation}) => {
                     value={signUpData.repeatPassword}
                 />
                 <ButtonCard color={colors.color3} text="Crear Cuenta" buttonStyle={styles.button} onPressFunction={signUp}/>
+                <ButtonCard color={colors.color2} text="Iniciar Sesión" buttonStyle={[styles.button, {marginTop: 0}]} onPressFunction={() => navigation.navigate("SignIn")}/>
             </View>
         </View>
     )

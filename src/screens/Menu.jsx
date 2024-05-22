@@ -10,37 +10,7 @@ import { clearUser } from '../features/userSlice';
 import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { clearCart } from '../features/cartSlice';
 import { SQLite } from '../persistence';
-import { AntDesign } from '@expo/vector-icons';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import Feather from '@expo/vector-icons/Feather';
-
-const optionList = [
-    {
-        text: "Inicio",
-        icon: <AntDesign name="home" size={24} color="black" />,
-        toScreen: "ProductsList"
-    },
-    {
-        text: "Favoritos",
-        icon: <AntDesign name="hearto" size={24} color="black" />,
-        toScreen: "Favorites"
-    },
-    {
-        text: "Categorías",
-        icon: <Feather name="list" size={24} color="black" />,
-        toScreen: "Categories"
-    },
-    {
-        text: "Mis compras",
-        icon: <Feather name="shopping-bag" size={24} color="black" />,
-        toScreen: "Buy"
-    },
-    {
-        text: "Mis órdenes de compra",
-        icon: <Ionicons name="receipt-outline" size={24} color="black" />,
-        toScreen: "Orders"
-    },
-]
+import { menuOptionsList } from '../data/menuOptionsList';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -113,7 +83,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
             <View style={styles.menuOptionsContainer}>
                 {
                     user.registered &&
-                    optionList.map((option, index) => (
+                    menuOptionsList.map((option, index) => (
                         <Pressable key={index} style={styles.menuButtonContainer} onPress={() => handleNavigation(option.toScreen)}>
                             {option.icon}
                             <Text style={styles.menuButtonText}>{option.text}</Text>

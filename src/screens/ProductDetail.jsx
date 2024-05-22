@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { colors } from '../constants/coolors';
 import { generalStyles } from '../styles/generalStyles';
 import ButtonCard from '../components/buttons/ButtonCard';
@@ -11,6 +11,7 @@ import { useGetProductByIdQuery } from '../services/firebaseDB';
 import { spinner } from '../features/spinner';
 import { setTitle } from '../features/titleSlice';
 import { modal } from '../features/modal';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ProductDetail = ({navigation, route}) => {
 
@@ -26,8 +27,13 @@ const ProductDetail = ({navigation, route}) => {
         navigation.navigate("Cart");
     }
 
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Detalles de Producto"))
+        })
+    )
+
     useEffect(() => {
-        dispatch(setTitle("Detalles de producto"));
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [isLoading])
         

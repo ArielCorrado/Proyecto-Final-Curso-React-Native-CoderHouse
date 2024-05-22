@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FlatList, StyleSheet, Text, View} from "react-native";
 import CardFavorites from "../components/cards/CardFavorites";
 import { useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import { generalStyles } from "../styles/generalStyles";
 import { useDispatch } from "react-redux";
 import { spinner } from "../features/spinner";
 import { setTitle } from "../features/titleSlice";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Favorites = ({navigation}) => {
 
@@ -23,12 +24,14 @@ const Favorites = ({navigation}) => {
         } else if (!favorites || !favorites.length) {
             setResult([]);
         }
-    }, [products, favorites])
-
-    useEffect(() => {
-        dispatch(setTitle("Mis Favoritos"));
         favoritesIsLoading || productsIsLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [favoritesIsLoading, productsIsLoading])
+    }, [products, favorites, favoritesIsLoading, productsIsLoading])
+
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Mis Favoritos"))
+        })
+    )
      
     if (favoritesErr || productsErr) {
         return (

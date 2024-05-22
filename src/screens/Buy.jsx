@@ -7,8 +7,9 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { colors } from '../constants/coolors';
 import { spinner } from '../features/spinner';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { setTitle } from '../features/titleSlice';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Buy = ({navigation}) => {
 
@@ -17,8 +18,13 @@ const Buy = ({navigation}) => {
     const {data: ordersFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "orders"});
     const [orders, setOrders] = useState([]);
 
+    useFocusEffect (
+        useCallback(() => {
+           dispatch(setTitle("Mis Compras"))
+        })
+    )
+
     useEffect(() => {
-        dispatch(setTitle("Mis Compras"));
 
         if (ordersFromDB && ordersFromDB.length) {
             let ordersSort = [...ordersFromDB];

@@ -11,6 +11,7 @@ import { spinner } from "../features/spinner";
 import { modal } from '../features/modal';
 import { setTitle } from '../features/titleSlice';
 import { useFocusEffect } from '@react-navigation/native';
+import { GLOBAL_PRICE_MULTIPLIER } from '../constants/globalPriceMultiplier';
 
 const Cart = ({navigation}) => {
 
@@ -40,7 +41,7 @@ const Cart = ({navigation}) => {
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [allProductsFromDB, cart, isLoading])
  
-    const buyProducts = () => dispatch(modal({show: true, text: `Confirmas la compra por $${insertDotsInPrice(cartData.totalPrice)} ?`, icon: "Info", redirect: "FinalizePurchase", params: {cartItemsData: cartData.cartItemsData}}));
+    const buyProducts = () => dispatch(modal({show: true, text: `Confirmas la compra por $${insertDotsInPrice(cartData.totalPrice * GLOBAL_PRICE_MULTIPLIER)} ?`, icon: "Info", redirect: "FinalizePurchase", params: {cartItemsData: cartData.cartItemsData}, showCancelButton: true}));
        
     if (error) {
         return (
@@ -69,7 +70,7 @@ const Cart = ({navigation}) => {
                 />
                 <View style={styles.totalPriceCont}>
                     <Text style={[styles.totalPrice, styles.totalPriceText]}>Total:  </Text>
-                    <Text style={styles.totalPrice}>$ {insertDotsInPrice(cartData.totalPrice)}</Text>
+                    <Text style={styles.totalPrice}>$ {insertDotsInPrice(cartData.totalPrice * GLOBAL_PRICE_MULTIPLIER)}</Text>
                 </View>
                 <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={buyProducts} />
             </View>

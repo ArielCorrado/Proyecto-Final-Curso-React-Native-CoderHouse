@@ -8,6 +8,7 @@ import ButtonCard from '../components/buttons/ButtonCard';
 import { colors } from '../constants/coolors';
 import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { spinner } from '../features/spinner';
+import { GLOBAL_PRICE_MULTIPLIER } from '../constants/globalPriceMultiplier';
 
 const FinalizePurchase = ({navigation, route}) => {
 
@@ -24,7 +25,7 @@ const FinalizePurchase = ({navigation, route}) => {
                     description: item.description,
                     itemId: item.id,
                     quantity: item.quantity,
-                    price: item.price,
+                    price: item.price * GLOBAL_PRICE_MULTIPLIER,
                     imgSrc: item.imgSrc,
                 }
             ));

@@ -2,7 +2,7 @@
 ## Documentation
 
 "E-Hard" es un E-commerce desarrollado para Smartphones con React Native y Expo
-el cual cuenta con un total de 95 productos distribuidos en 7 categorias.
+el cual cuenta con un total de 95 productos de hardware distribuidos en 7 categorias.
 
 #### Features
 * Inicio de sesión y creación de usuarios

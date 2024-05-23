@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput } from 'react-native'
+import { StyleSheet, View, TextInput, Text, Pressable } from 'react-native'
 import React, { useState, useEffect, useCallback } from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
@@ -10,6 +10,7 @@ import { validateEmail, validatePassword } from '../validations/signForm'
 import { modal } from '../features/modal'
 import { setTitle } from '../features/titleSlice'
 import { useFocusEffect } from '@react-navigation/native'
+import { AntDesign } from '@expo/vector-icons';
 
 const SignUp = ({navigation}) => {
 
@@ -68,7 +69,7 @@ const SignUp = ({navigation}) => {
     
 
     return (
-        <View style={generalStyles.screensContainer}>
+        <View style={[generalStyles.screensContainer, styles.mainContainer]}>
             <View style={styles.formContainer}>
                 <TextInput 
                     textContentType='emailAddress'
@@ -92,7 +93,11 @@ const SignUp = ({navigation}) => {
                     value={signUpData.repeatPassword}
                 />
                 <ButtonCard color={colors.color3} text="Crear Cuenta" buttonStyle={styles.button} onPressFunction={signUp}/>
-                <ButtonCard color={colors.color2} text="Iniciar Sesión" buttonStyle={[styles.button, {marginTop: 0}]} onPressFunction={() => navigation.navigate("SignIn")}/>
+                <ButtonCard color={colors.color2} text="Iniciar Sesión" buttonStyle={{...styles.button, ...{marginTop: 0}}} onPressFunction={() => navigation.navigate("SignIn")}/>
+                <Pressable style={styles.menuButtonContainer} onPress={() => navigation.navigate("ProductsList")}>
+                    <AntDesign name="home" size={24} color="black" />
+                    <Text style={styles.menuButtonText}>Inicio</Text>
+                </Pressable>
             </View>
         </View>
     )
@@ -101,9 +106,13 @@ const SignUp = ({navigation}) => {
 export default SignUp
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        paddingBottom: 0,
+        paddingHorizontal: 0,
+    },
     input: {
         height: 60,
-        width: '90%',
+        width: '80%',
         borderWidth: 1,
         borderRadius: 10,
         padding: 10,
@@ -113,6 +122,7 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 10,
+        width: '60%',
     },
     formContainer: {
         display: "flex",
@@ -120,5 +130,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
+    },
+    menuButtonContainer: {
+        position: "absolute",
+        left: 0,
+        bottom: 0,
+        right: 0,
+        margin: "auto",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        paddingVertical: 15,
+        borderColor: colors.borderColorGray,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+    },
+    menuButtonText: {
+        fontSize: 15,
+        color: colors.textColor,
+        marginLeft: 10,
+        fontWeight: "500",
     }
 })

@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFavorites } from '../../features/favoritesSlice';
 import { useUpdateUserDataMutation } from '../../services/firebaseDB';
+import { GLOBAL_PRICE_MULTIPLIER } from '../../constants/globalPriceMultiplier';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
    
@@ -45,7 +46,7 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
             <Image style={styles.image} src={imgSrc} ></Image>
             <View style={styles.dataContainer}>
                 <Text style={styles.description}>{description}</Text>
-                <Text style={styles.price}>$ {insertDotsInPrice(price)}</Text>
+                <Text style={styles.price}>$ {insertDotsInPrice(price * GLOBAL_PRICE_MULTIPLIER)}</Text>
                 <ButtonCard 
                     text="Ver detalles" 
                     color={colors.color3} 

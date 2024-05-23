@@ -1,4 +1,4 @@
-import { StyleSheet, View, TextInput } from 'react-native'
+import { StyleSheet, View, TextInput, Pressable, Text } from 'react-native'
 import React from 'react'
 import { generalStyles } from '../styles/generalStyles'
 import { colors } from '../constants/coolors'
@@ -14,6 +14,7 @@ import { spinner } from '../features/spinner'
 import { SQLite } from '../persistence'
 import { setTitle } from '../features/titleSlice'
 import { useFocusEffect } from '@react-navigation/native'
+import { AntDesign } from '@expo/vector-icons';
 
 const SignIn = ({navigation}) => {
     const dispatch = useDispatch();
@@ -97,7 +98,7 @@ const SignIn = ({navigation}) => {
     }, [result])
     
     return (
-        <View style={generalStyles.screensContainer}>
+        <View style={[generalStyles.screensContainer, styles.mainContainer]}>
             <View style={styles.formContainer}>
                 <TextInput 
                     textContentType='emailAddress'
@@ -114,7 +115,11 @@ const SignIn = ({navigation}) => {
                     style={styles.input}
                 />
                 <ButtonCard color={colors.color3} text="Iniciar Sesión" buttonStyle={styles.button} onPressFunction={signIn}/>
-                <ButtonCard color={colors.color2} text="Crear Cuenta" buttonStyle={[styles.button, {marginTop: 0}]} onPressFunction={() => navigation.navigate("SignUp")}/>
+                <ButtonCard color={colors.color2} text="Crear Cuenta" buttonStyle={{...styles.button, ...{marginTop: 0}}} onPressFunction={() => navigation.navigate("SignUp")}/>
+                <Pressable style={styles.menuButtonContainer} onPress={() => navigation.navigate("ProductsList")}>
+                    <AntDesign name="home" size={24} color="black" />
+                    <Text style={styles.menuButtonText}>Inicio</Text>
+                </Pressable>
             </View>
         </View>
     )
@@ -123,9 +128,13 @@ const SignIn = ({navigation}) => {
 export default SignIn
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        paddingBottom: 0,
+        paddingHorizontal: 0,
+    },
     input: {
         height: 60,
-        width: '90%',
+        width: '80%',
         borderWidth: 1,
         borderRadius: 10,
         padding: 10,
@@ -135,6 +144,7 @@ const styles = StyleSheet.create({
     },
     button: {
         margin: 10,
+        width: '60%',
     },
     formContainer: {
         display: "flex",
@@ -142,5 +152,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
+    },
+    menuButtonContainer: {
+        position: "absolute",
+        left: 0,
+        bottom: 0,
+        right: 0,
+        margin: "auto",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        paddingVertical: 15,
+        borderColor: colors.borderColorGray,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+    },
+    menuButtonText: {
+        fontSize: 15,
+        color: colors.textColor,
+        marginLeft: 10,
+        fontWeight: "500",
     }
 })

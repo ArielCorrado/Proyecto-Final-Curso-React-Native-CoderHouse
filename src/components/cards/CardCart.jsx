@@ -3,6 +3,7 @@ import { colors } from '../../constants/coolors';
 import { insertDotsInPrice } from '../../functions/utils';
 import { useDispatch } from 'react-redux';
 import { addToCart, subtractToCart, deleteItem } from '../../features/cartSlice';
+import { GLOBAL_PRICE_MULTIPLIER } from '../../constants/globalPriceMultiplier';
 
 export const CardCart = ({imgSrc, description, price, quantity, id}) => {
 
@@ -36,7 +37,7 @@ export const CardCart = ({imgSrc, description, price, quantity, id}) => {
             </View>
             <View style={styles.line3Container}>
                 <View style={[styles.column1]}>
-                    <Text style={styles.price}>$ {insertDotsInPrice(price)}</Text>
+                    <Text style={styles.price}>$ {insertDotsInPrice(price * GLOBAL_PRICE_MULTIPLIER)}</Text>
                 </View>
                 <View style={[styles.column2, styles.quantityCont]}>
                     <Pressable style={styles.quantityButton} onPress={() => dispatch(subtractToCart(id))}>
@@ -48,7 +49,7 @@ export const CardCart = ({imgSrc, description, price, quantity, id}) => {
                     </Pressable>
                 </View>
                 <View style={[styles.column3]}>
-                    <Text style={styles.subtotal}>$ {insertDotsInPrice(price * quantity)}</Text>
+                    <Text style={styles.subtotal}>$ {insertDotsInPrice(price * GLOBAL_PRICE_MULTIPLIER * quantity)}</Text>
                 </View>
             </View>
         </View>

@@ -11,6 +11,7 @@ import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/fire
 import { clearCart } from '../features/cartSlice';
 import { SQLite } from '../persistence';
 import { menuOptionsList } from '../data/menuOptionsList';
+import { AntDesign } from '@expo/vector-icons';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -49,9 +50,14 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         dispatch(clearUser());
         SQLite.clearTable();
     }   
+
+    const closeAndRedirectToHome = () => {
+        menuFadeOut(opacity, translateX, closeMenu);
+        navigation.navigate("ProductsList");
+    }
       
     return (
-        <Animated.View style={[generalStyles.screensContainer, styles.container, animatedStyles1, user.registered ? {} : {justifyContent: "center"}]}>
+        <Animated.View style={[generalStyles.screensContainer, styles.container, animatedStyles1]}>
             <Pressable onPress={() => menuFadeOut(opacity, translateX, closeMenu)} style={closeIconStyle.closeIconContainer}>
                 <Image style={closeIconStyle.closeIcon} source={require("../../assets/images/icons/close.png")} />
             </Pressable>
@@ -72,7 +78,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                 !user.registered &&
                     <>
                         <ButtonCard text="Iniciar Sesión" color={colors.color2} onPressFunction={() => handleNavigation("SignIn")}/>
-                        <ButtonCard text="Crear Cuenta" color={colors.color3} onPressFunction={() => handleNavigation("SignUp")}/>
+                        <ButtonCard text="Crear Cuenta" color={colors.color3} buttonStyle={{marginBottom: 0}} onPressFunction={() => handleNavigation("SignUp")}/>
                     </>
             }
             {   
@@ -91,6 +97,13 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                     ))
                 }
             </View>    
+            {
+                !user.registered &&
+                <Pressable style={styles.menuButtonsContainer} onPress={closeAndRedirectToHome}>
+                    <AntDesign name="home" size={24} color="black" />
+                    <Text style={styles.menuButtonsText}>Inicio</Text>
+                </Pressable>
+            }
         </Animated.View>
     )
 }
@@ -99,8 +112,9 @@ export default Menu
 
 const styles = StyleSheet.create({
     container: {
-       marginTop: 0,
-       justifyContent: "flex-start",
+        marginTop: 0,
+        paddingVertical: 0,
+        width: "100%",
     },
     profileContainer: {
         display: "flex",
@@ -145,15 +159,15 @@ const styles = StyleSheet.create({
     },
     menuOptionsContainer: {
         width: "100%",
-        marginTop: 35,
-        paddingHorizontal: 10,
+        marginTop: 40,
+        paddingHorizontal: 20,
     },
     menuButtonContainer: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        width: "90%",
+        width: "100%",
         paddingVertical: 15,
         borderColor: colors.borderColorGray,
         borderBottomWidth: 0.5,
@@ -163,6 +177,26 @@ const styles = StyleSheet.create({
         color: colors.textColor,
         marginLeft: 10,
         fontWeight: "500",
+    },
+    menuButtonsContainer: {
+        position: "absolute",
+        left: 0,
+        bottom: 0,
+        right: 0,
+        margin: "auto",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 15,
+        borderColor: colors.borderColorGray,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+    },
+    menuButtonsText: {
+        fontSize: 15,
+        color: colors.textColor,
+        marginLeft: 10,
+        fontWeight: "500",
     }
-    
 })

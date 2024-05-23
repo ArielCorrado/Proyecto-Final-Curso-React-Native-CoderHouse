@@ -12,6 +12,7 @@ import { spinner } from '../features/spinner';
 import { setTitle } from '../features/titleSlice';
 import { modal } from '../features/modal';
 import { useFocusEffect } from '@react-navigation/native';
+import { GLOBAL_PRICE_MULTIPLIER } from '../constants/globalPriceMultiplier';
 
 const ProductDetail = ({navigation, route}) => {
 
@@ -51,7 +52,7 @@ const ProductDetail = ({navigation, route}) => {
                 </Pressable>
                 <Image style={styles.productImage} src={product.imgSrc} />
                 <Text style={styles.text}>{product.description}</Text>
-                <Text style={styles.price}>$ {insertDotsInPrice(product.price)}</Text>
+                <Text style={styles.price}>$ {insertDotsInPrice(product.price * GLOBAL_PRICE_MULTIPLIER)}</Text>
                 <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => registered ? dispatch(addToCart(product.id)) : dispatch(modal({show: true, text: "Debes iniciar sesión para usar el carrito", icon: "Info", redirect: "SignIn"}))} />
                 <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => registered ? addToCardIfNotExistsAndRedirect() : dispatch(modal({show: true, text: "Debes iniciar sesión realizar compras", icon: "Info", redirect: "SignIn"}))} />
             </View>

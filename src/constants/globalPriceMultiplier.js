@@ -1,0 +1,1 @@
+export const GLOBAL_PRICE_MULTIPLIER = 10;

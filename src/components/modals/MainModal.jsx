@@ -10,10 +10,14 @@ const MainModal = () => {
     const dispatch = useDispatch();
     const modalState = useSelector((state) => state.modal.value);
 
-    const closeModal = () => {
+    const confirmModal = () => {
         if (modalState.redirect) navigation.navigate(modalState.redirect, modalState.params);
-        dispatch(modal({show: false, text: "", icon: ""}));
+        dispatch(modal({show: false, text: "", icon: "", showCancelButton: false}));
     }
+
+    const cancelModal = () => {
+        dispatch(modal({show: false, text: "", icon: "", showCancelButton: false}));
+    }   
 
     const selectIconImage = () => {
         switch (modalState.icon) {
@@ -35,11 +39,20 @@ const MainModal = () => {
                     <View style={styles.modalView}>
                         <Image source={selectIconImage()} style={[styles.icon, {tintColor: colors["icon" + modalState.icon]}]}/>
                         <Text style={styles.modalText}>{modalState.text}</Text>
-                        <Pressable
-                            style={[styles.button]}
-                            onPress={closeModal}>
-                            <Text style={styles.textStyle}>OK</Text>
-                        </Pressable>
+                        <View style={{...styles.buttonsCont, ...{justifyContent: modalState.showCancelButton ? "space-between" : "center"}}}>
+                            <Pressable
+                                style={[styles.buttonConfirm]}
+                                onPress={confirmModal}>
+                                <Text style={styles.textStyle}>{modalState.showCancelButton ? "Confirmar" : "OK"}</Text>
+                            </Pressable>
+                            {   modalState.showCancelButton &&
+                                <Pressable
+                                    style={[styles.buttonConfirm, styles.buttonCancel]}
+                                    onPress={cancelModal}>
+                                    <Text style={styles.textStyle}>Cancelar</Text>
+                                </Pressable>
+                            }
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -63,25 +76,36 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,
-        paddingHorizontal: 35,
+        paddingHorizontal: 25,
         paddingVertical: 25,
         alignItems: 'center',
         width: "75%",
     },
-    button: {
+    buttonsCont: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 25,
+        width: "100%",
+    },
+    buttonConfirm: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         elevation: 2,
         borderRadius: 25,
         height: 50,
-        width: 100,
+        width: 120,
         backgroundColor: colors.color2,
     },
+    buttonCancel: {
+        backgroundColor: colors.color3,
+    },  
     textStyle: {
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
+        fontSize: 17.5,
     },
     modalText: {
         fontSize: 17.5,

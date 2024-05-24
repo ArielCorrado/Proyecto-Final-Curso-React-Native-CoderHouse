@@ -12,6 +12,7 @@ import { clearCart } from '../features/cartSlice';
 import { SQLite } from '../persistence';
 import { menuOptionsList } from '../data/menuOptionsList';
 import { AntDesign } from '@expo/vector-icons';
+import { spinner } from '../features/spinner';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -23,12 +24,22 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
     const cart = useSelector(state => state.cart.value);
     const {localId} = useSelector(state => state.user.value);
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
-    const {data: userAvatarDataFromDB, error, isLoading} = useGetUserDataQuery({userId: user.localId, field: "profile/avatarImage"});
-    const [avatarImage, setAvatarImage] = useState(require("../../assets/images/icons/user2.png"));
+    const {data: userAvatarDataFromDB, error, isLoading, isSuccess} = useGetUserDataQuery({userId: user.localId, field: "profile/avatarImage"});
+    const [avatarImage, setAvatarImage] = useState("");
  
     useEffect(() => {
-        if (userAvatarDataFromDB) setAvatarImage({uri: userAvatarDataFromDB});
-    }, [userAvatarDataFromDB])
+      
+        if (isLoading) {
+            dispatch(spinner({show: true}));
+        } else if (isSuccess) {
+            dispatch(spinner({show:false}));
+            setAvatarImage(userAvatarDataFromDB ? {uri: userAvatarDataFromDB} : null);
+        } else if (error) {
+            dispatch(spinner({show:false}));
+            setAvatarImage(require("../../assets/images/icons/user2.png"));
+        }
+        
+    }, [userAvatarDataFromDB, isLoading, isSuccess, error])
         
     const animatedStyles1 = {
         opacity: opacity,
@@ -66,7 +77,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                 <View style={styles.profileContainer}>
                     <Text style={styles.title}>Mi Perfil</Text>
                     <View style={styles.profileIconContainer}>
-                        <Image style={{...styles.profileIcon, ...(avatarImage ? {} : {tintColor: colors.color2})}} source={avatarImage} />
+                        <Image style={{...styles.profileIcon, ...(avatarImage ? {} : {tintColor: colors.color2})}} source={avatarImage || require("../../assets/images/icons/user2.png")} />
                         <Pressable style={styles.editIconContainer} onPressIn={() => navigation.navigate("EditProfile", {userId: user.localId})}>
                             <Image style={styles.editIcon} source={require("../../assets/images/icons/edit.png")} />
                         </Pressable>

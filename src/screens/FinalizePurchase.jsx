@@ -9,18 +9,19 @@ import { colors } from '../constants/coolors';
 import { useUpdateUserDataMutation, useGetUserDataQuery } from '../services/firebaseDB';
 import { spinner } from '../features/spinner';
 import { GLOBAL_PRICE_MULTIPLIER } from '../constants/globalPriceMultiplier';
+import { modal } from '../features/modal';
 
 const FinalizePurchase = ({navigation, route}) => {
 
     const {localId} = useSelector((state) => state.user.value);
     const cartItemsData = route.params ? route.params.cartItemsData : "";
     const dispatch = useDispatch();
-    const [triggerUpdateUserData,  resultUpdateUser] = useUpdateUserDataMutation();
+    const [triggerUpdateUserData, resultUpdateUser] = useUpdateUserDataMutation();
     const {data: ordersFromDB, error, isLoading, isSuccess} = useGetUserDataQuery({userId: localId, field: "orders"});
     
     useEffect(() => {
         if (isSuccess) {
-            const orderItemsDataArr = cartItemsData.map((item) => (
+            const orderItemsDataArr = cartItemsData.map((item) => (                                 //Obtenemos los datos de la orden de compra a guardar en la base de datos (por parametros de ruta)
                 {
                     description: item.description,
                     itemId: item.id,
@@ -37,10 +38,17 @@ const FinalizePurchase = ({navigation, route}) => {
             const ordersUpdated = ordersFromDB ? [...ordersFromDB] : [];
             ordersUpdated.push(order);
             triggerUpdateUserData({userId: localId, field: "orders", data: ordersUpdated}); 
-            dispatch(clearCart());
         }
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [isSuccess, isLoading])
+
+    useEffect(() => {
+        if (resultUpdateUser.isSuccess) {
+            dispatch(clearCart());
+        } else if (resultUpdateUser.isError) {
+            dispatch(modal({show: true, text: "Error al actualizar datos de órdenes en la base de datos", icon: "Error"}));
+        }
+    }, [resultUpdateUser]);
     
     if (error) {
         return (

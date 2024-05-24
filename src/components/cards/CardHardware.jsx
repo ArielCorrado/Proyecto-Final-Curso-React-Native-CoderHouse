@@ -4,21 +4,25 @@ import { generalStyles } from '../../styles/generalStyles';
 import ButtonCard from '../buttons/ButtonCard';
 import { insertDotsInPrice } from '../../functions/utils';
 import { AntDesign } from '@expo/vector-icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFavorites } from '../../features/favoritesSlice';
 import { useUpdateUserDataMutation } from '../../services/firebaseDB';
 import { GLOBAL_PRICE_MULTIPLIER } from '../../constants/globalPriceMultiplier';
+import { modal } from '../../features/modal';
+import { spinner}  from '../../features/spinner';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
    
+    
     const [isFavoriteError, setIsFavoriteError] = useState(false);
     const favorites = useSelector((state) => state.favorites.value);
     const [isFavorite, setIsFavorite] = useState(false);
     const dispatch = useDispatch(); 
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
     const {localId, registered} = useSelector((state) => state.user.value);
-
+    const favoritesAuxRef = useRef ();
+    
     const handleFavorite = async() => {
         const favoritesAux = [...favorites];
         const favoriteIndex = favorites.indexOf(id);
@@ -27,10 +31,22 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
         } else {
             favoritesAux.push(id);
         }
-        dispatch(setFavorites(favoritesAux));
+        favoritesAuxRef.current = [...favoritesAux];
         triggerUpdateUserData({userId: localId, field: "favorites", data: favoritesAux}); 
+        dispatch(spinner({show: true}));
     }
-
+    
+    useEffect(() => {
+        if (resultUserUpdate.isSuccess) {
+            dispatch(spinner({show: false}));
+            dispatch(setFavorites(favoritesAuxRef.current));
+            dispatch(modal({show: true, text: "Favoritos actualizados", icon: "Success"}));
+        } else if (resultUserUpdate.isError) {
+            dispatch(spinner({show: false}));
+            dispatch(modal({show: true, text: "Error al actualizar favoritos", icon: "Error"}));
+        }
+    }, [resultUserUpdate])
+    
     useEffect(() => {
         setIsFavorite(favorites.find((favorite) => favorite === id));
     }, [favorites])

@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
     image: {
         width: "100%",
         height: "60%",
-        objectFit: "contain"
+        objectFit: "contain",
+        maxWidth: "85%",
     },
     text: {
         fontSize: 17.5,

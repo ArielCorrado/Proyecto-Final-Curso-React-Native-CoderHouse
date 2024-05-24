@@ -37,7 +37,12 @@ const ProductDetail = ({navigation, route}) => {
     useEffect(() => {
         isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [isLoading])
-        
+    
+    const updateCart = () => {
+        dispatch(addToCart(product.id))
+        dispatch(modal({show: true, text: "Producto agregado. Puedes modificicar su cantidad en el carrito", icon: "Info"}))
+    };
+    
     if (error) {
         return (
             <View style={generalStyles.screensContainer}>
@@ -53,7 +58,7 @@ const ProductDetail = ({navigation, route}) => {
                 <Image style={styles.productImage} src={product.imgSrc} />
                 <Text style={styles.text}>{product.description}</Text>
                 <Text style={styles.price}>$ {insertDotsInPrice(product.price * GLOBAL_PRICE_MULTIPLIER)}</Text>
-                <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => registered ? dispatch(addToCart(product.id)) : dispatch(modal({show: true, text: "Debes iniciar sesión para usar el carrito", icon: "Info", redirect: "SignIn"}))} />
+                <ButtonCard text="Agregar al carrito" color={colors.color2} height={60} width={"70%"} onPressFunction={() => registered ? updateCart() : dispatch(modal({show: true, text: "Debes iniciar sesión para usar el carrito", icon: "Info", redirect: "SignIn"}))} />
                 <ButtonCard text="Comprar ahora" color={colors.color3} height={60} width={"70%"} onPressFunction={() => registered ? addToCardIfNotExistsAndRedirect() : dispatch(modal({show: true, text: "Debes iniciar sesión realizar compras", icon: "Info", redirect: "SignIn"}))} />
             </View>
         )

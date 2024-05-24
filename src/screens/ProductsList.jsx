@@ -13,7 +13,7 @@ const ProductsList = ({navigation, route}) => {
     const dispatch = useDispatch();
     const [result, setResult] = useState(null);
     const searchText = useSelector(state => state.search.value);
-    const {data: products, error, isLoading} = category ? useGetProductsByCategoryQuery(category) : useGetProductsQuery();
+    const {data: products, error, isLoading, isSuccess} = category ? useGetProductsByCategoryQuery(category) : useGetProductsQuery();
 
     useEffect(() => {
         if (products) {
@@ -26,13 +26,19 @@ const ProductsList = ({navigation, route}) => {
 
             productsFiltered.length > 0 ? setResult(productsFiltered) : setResult([]);
         } 
-        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [products, searchText, isLoading])
+
+        if (isLoading) {
+            dispatch(spinner({show: true}))
+        } else if (isSuccess) {
+            dispatch(spinner({show: false}));
+        }  
+    }, [products, searchText, isLoading, isSuccess])
      
     if (error) {
+        dispatch(spinner({show: false}));
         return (
             <View style={generalStyles.screensContainer}>
-                <Text>Error al obtener datos de productos</Text>
+                <Text style={styles.text}>Error al obtener datos de productos</Text>
             </View>
         )
     } else if (result && result.length) {
@@ -57,8 +63,14 @@ const ProductsList = ({navigation, route}) => {
         )
     } else if (result && !result.length) {
         return (
-            <View style={styles.noResultsTextCont}>
-                <Text>No hay resultados</Text>
+            <View style={generalStyles.screensContainer}>
+                <Text style={styles.text}>No hay resultados</Text>
+            </View>
+        )
+    } else {
+        return (
+            <View style={generalStyles.screensContainer}>
+                <Text style={styles.text}>No se pudieron cargar los productos</Text>
             </View>
         )
     }
@@ -73,7 +85,10 @@ const styles = StyleSheet.create({
     },
     productsListContainer: {
         padding: 0,
-    }
+    },
+    text: {
+        fontSize: 17.5,
+    },
 })
 
 

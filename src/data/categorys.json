@@ -33,5 +33,10 @@
     "name":"Water Coolers",
     "nameParsed": "water_coolers",
     "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fwc1.jpeg?alt=media&token=19bff142-5ca6-4579-8c03-4b8c3fa868b5"
+  },
+  {
+    "name":"Todos los Productos",
+    "nameParsed": "",
+    "imgSrc": "https://firebasestorage.googleapis.com/v0/b/e-hard.appspot.com/o/imagenes%2Fproductos%2Fall.webp?alt=media&token=7a042604-af1c-4e37-b3ed-f6a1b4bfa7f1"
   }
 ]

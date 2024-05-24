@@ -1,7 +1,7 @@
 import { Animated } from "react-native";
 import { SCREEN_WIDTH } from "../constants/dimensions";
 
-export const menuFadeIn = (opacity, translateX) => {
+export const menuFadeIn = (opacity, translateX) => {                        //Animación de entrada del menú
     Animated.parallel([
         Animated.timing(opacity, {
             toValue: 1,
@@ -16,7 +16,7 @@ export const menuFadeIn = (opacity, translateX) => {
     ])
 }
 
-export const menuFadeOut = (opacity, translateX, cb) => {
+export const menuFadeOut = (opacity, translateX, cb) => {                   //Animación de salida del menú
     Animated.parallel([
         Animated.timing(opacity, {
             toValue: 1,

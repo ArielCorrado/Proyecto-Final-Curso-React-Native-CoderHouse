@@ -8,7 +8,6 @@ import Menu from '../screens/Menu';
 import { menuFadeIn, menuFadeOut } from '../animations/animations';
 import { modal } from '../features/modal';
 import { useUpdateUserDataMutation } from '../services/firebaseDB';
-import { screensNames } from '../navigation/screensNames';
 
 const Header = ({navigation, route}) => {
    
@@ -30,7 +29,13 @@ const Header = ({navigation, route}) => {
     useEffect(() => {
         triggerUpdateUserData({userId: localId, field: "cart", data: cart});
     }, [cart])
-    
+
+    useEffect(() => {
+        if (resultUserUpdate.isError) {
+            dispatch(modal({show: true, text: "Error al actualizar carrito", icon: "Error"}));
+        }
+    }, [resultUserUpdate])
+        
     const handleMenu = () => {
         if (!menuAnimating.current) {
             menuAnimating.current = true;

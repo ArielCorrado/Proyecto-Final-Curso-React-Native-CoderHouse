@@ -16,8 +16,8 @@ const Orders = ({navigation}) => {
 
     const dispatch = useDispatch();
     const {localId} = useSelector(state => state.user.value);
-    const {data: ordersFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "orders"});
-    const [triggerUpdateUserData,  resultUpdateUser] = useUpdateUserDataMutation();
+    const {data: ordersFromDB, error, isLoading, isSuccess} = useGetUserDataQuery({userId: localId, field: "orders"});
+    const [triggerUpdateUserData, resultUpdateUser] = useUpdateUserDataMutation();
     const [orders, setOrders] = useState([]);
     
     useFocusEffect (
@@ -33,11 +33,25 @@ const Orders = ({navigation}) => {
             setOrders(ordersSort.sort((a, b) => b.id - a.id));
         }
 
-        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
-    }, [isLoading, ordersFromDB])
+        if (!resultUpdateUser.isLoading) {
+            if (isLoading) {
+                dispatch(spinner({show: true}))
+            } else if (isSuccess) {
+                dispatch(spinner({show: false}));
+            } 
+        }
+
+        if (resultUpdateUser.isSuccess) {
+            dispatch(spinner({show: false}))
+            dispatch(modal({show: true, text: "Compra finalizada. Gracias por elegirnos!", icon: "Success"}));
+        } else if (resultUpdateUser.isError) {
+            dispatch(spinner({show: false}))
+            dispatch(modal({show: true, text: "Error al guardar datos de compra. Intenta nuevamente", icon: "Error"}));
+        }
+    }, [isLoading, ordersFromDB, resultUpdateUser])
 
     const finalizePurchase = (orderId) => {
-        dispatch(modal({show: true, text: "Compra finalizada. Gracias por elegirnos!", icon: "Success"}));
+        dispatch(spinner({show: true}))
         const ordersFromDBAux = JSON.parse(JSON.stringify(ordersFromDB)); 
         const orderIndexToFinalize = ordersFromDBAux.findIndex((order) => order.id === orderId);
         ordersFromDBAux[orderIndexToFinalize].inProgress = "false";

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { spinner } from "../features/spinner";
 import { setTitle } from "../features/titleSlice";
 import { useFocusEffect } from "@react-navigation/native";
+import { GLOBAL_PRICE_MULTIPLIER } from "../constants/globalPriceMultiplier";
 
 const Favorites = ({navigation}) => {
 
@@ -49,7 +50,7 @@ const Favorites = ({navigation}) => {
                     data={result}
                     renderItem={({ item }) => 
                         <CardFavorites 
-                            price={item.price} 
+                            price={item.price * GLOBAL_PRICE_MULTIPLIER} 
                             description={item.description} 
                             imgSrc={item.imgSrc} 
                             id={item.id}

@@ -8,25 +8,38 @@ import { useGetUserDataQuery, useUpdateUserDataMutation } from '../../services/f
 import { setFavorites } from '../../features/favoritesSlice';
 import { spinner } from '../../features/spinner';
 import { useEffect } from 'react';
+import { modal } from '../../features/modal';
 
 const CardFavorites = ({price, description, imgSrc, id, navigation}) => {
 
     const dispatch = useDispatch();
     const user = useSelector(state => state.user.value);
-    const {data: favorites, error: favoritesErr, isLoading: favoritesIsLoading} = useGetUserDataQuery({userId: user.localId, field: "favorites"});
+    const {data: favorites, error: favoritesErr} = useGetUserDataQuery({userId: user.localId, field: "favorites"});
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
 
+    useEffect(() => {
+        if (resultUserUpdate.isError) {
+            dispatch(spinner({show: false}));
+            dispatch(modal({show: true, text: "Error al actualizar los favoritos", icon: "Error"}));
+        } else if (resultUserUpdate.isSuccess && !favoritesErr) {
+            dispatch(spinner({show: false}));
+            dispatch(modal({show: true, text: "Favoritos actualizados", icon: "Success"}));
+            const newFavorites = favorites.filter(favorite => favorite !== id);
+            dispatch(setFavorites(newFavorites));
+        } else if (favoritesErr) {
+            dispatch(spinner({show: false}));
+            dispatch(modal({show: true, text: "Error al obtener los favoritos de la base de datos", icon: "Error"}));
+        } else if (resultUserUpdate.isLoading) {
+            dispatch(spinner({show: true}));
+        } 
+    }, [resultUserUpdate, favoritesErr])
+        
     const updateFavorites = () => {
         dispatch(spinner({show: true}));
         const newFavorites = favorites.filter(favorite => favorite !== id);
         triggerUpdateUserData({userId: user.localId, field: "favorites", data: newFavorites});
-        dispatch(setFavorites(newFavorites));
     };
-
-    useEffect(() => {
-        dispatch(spinner({show: false}));
-    }, [favorites])
-         
+             
     return (
         <View style={styles.container}>
             <Image style={styles.image} src={imgSrc} ></Image>
@@ -109,7 +122,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         width: "100%",
-    }
+    },
+    errorContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    errorText: {
+        fontSize: 17.5
+    },
 })
 
 export default CardFavorites;

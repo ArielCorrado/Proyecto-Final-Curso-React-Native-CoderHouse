@@ -12,7 +12,7 @@ import { clearCart } from '../features/cartSlice';
 import { SQLite } from '../persistence';
 import { menuOptionsList } from '../data/menuOptionsList';
 import { AntDesign } from '@expo/vector-icons';
-import { spinner } from '../features/spinner';
+import { modal } from '../features/modal';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -28,19 +28,23 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
     const [avatarImage, setAvatarImage] = useState("");
  
     useEffect(() => {
-      
-        if (isLoading) {
-            dispatch(spinner({show: true}));
-        } else if (isSuccess) {
-            dispatch(spinner({show:false}));
-            setAvatarImage(userAvatarDataFromDB ? {uri: userAvatarDataFromDB} : null);
+    
+        if (resultUserUpdate.isSuccess) {
+            dispatch(clearCart());
+            dispatch(clearUser());
+            SQLite.clearTable();
+            dispatch(modal({show: true, text: "Sesión cerrada con éxito", icon: "Success"}));
+        } else if (resultUserUpdate.isError) {
+            dispatch(modal({show: true, text: "Error: no se pudo cerrar sesión", icon: "Error"}));
+        }
+                
+        if (isSuccess) {
+            setAvatarImage(userAvatarDataFromDB ? { uri: userAvatarDataFromDB } : null);
         } else if (error) {
-            dispatch(spinner({show:false}));
             setAvatarImage(require("../../assets/images/icons/user2.png"));
         }
-        
-    }, [userAvatarDataFromDB, isLoading, isSuccess, error])
-        
+    }, [resultUserUpdate, isLoading, isSuccess, error, userAvatarDataFromDB])
+                    
     const animatedStyles1 = {
         opacity: opacity,
         translateX: translateX
@@ -57,9 +61,6 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
             
     const logOut = () => {
         triggerUpdateUserData({userId: localId, field: "cart", data: cart});                //Guardamos carrito en base de datos;
-        dispatch(clearCart());
-        dispatch(clearUser());
-        SQLite.clearTable();
     }   
 
     const closeAndRedirectToHome = () => {

@@ -13,6 +13,7 @@ import { SQLite } from '../persistence';
 import { menuOptionsList } from '../data/menuOptionsList';
 import { AntDesign } from '@expo/vector-icons';
 import { modal } from '../features/modal';
+import { setFavorites } from '../features/favoritesSlice';
 
 const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) => {
         
@@ -32,6 +33,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         if (resultUserUpdate.isSuccess) {                                                   //Acciones al cerrar sesión
             dispatch(clearCart());
             dispatch(clearUser());
+            dispatch(setFavorites([]));
             SQLite.clearTable();
             dispatch(modal({show: true, text: "Sesión cerrada con éxito", icon: "Success"}));
         } else if (resultUserUpdate.isError) {
@@ -54,8 +56,8 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         handleMenuFunction(opacity, translateX, closeMenu);
     }, [handleMenuFunction])
 
-    const handleNavigation = (route) => {                                                   //Cerramos el menu y navegamos a otra screen según la opcion seleccionada
-        navigation.navigate(route);
+    const handleNavigation = (route, params) => {                                                   //Cerramos el menu y navegamos a otra screen según la opcion seleccionada
+        navigation.navigate(route, params);
         menuFadeOut(opacity, translateX, closeMenu);
     }
             
@@ -102,7 +104,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
                 {
                     user.registered &&
                     menuOptionsList.map((option, index) => (
-                        <Pressable key={index} style={styles.menuButtonContainer} onPress={() => handleNavigation(option.toScreen)}>
+                        <Pressable key={index} style={styles.menuButtonContainer} onPress={() => handleNavigation(option.toScreen, option.params ? {userId: user.localId} : {})}>
                             {option.icon}
                             <Text style={styles.menuButtonText}>{option.text}</Text>
                         </Pressable>

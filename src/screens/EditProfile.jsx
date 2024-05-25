@@ -13,12 +13,12 @@ import * as ImagePicker from "expo-image-picker";
 import { setTitle } from '../features/titleSlice';
 import { useFocusEffect } from '@react-navigation/native'
 
-const EditProfile = ({navigation, route}) => {
+const EditProfile = ({route}) => {
 
     const [image, setImage] = useState("");
     const dispatch = useDispatch();
     const {userId} = route.params;
-    const {data: userProfileFromDB, error, isLoading} = useGetUserDataQuery({userId, field: "profile"});
+    const {data: userProfileFromDB, error, isLoading, isSuccess} = useGetUserDataQuery({userId, field: "profile"});
     const [triggerUpdateUserData, result] = useUpdateUserDataMutation();
     const [userProfile, setUserProfile] = useState({
         firstName: "",
@@ -40,20 +40,27 @@ const EditProfile = ({navigation, route}) => {
     )
 
     useEffect(() => {
-        if (result) {
-            if(result.isSuccess) {
-                dispatch(modal({show: true, text: "Datos de perfil actualizados con éxito", icon: "Success"}));
-            } else if (result.isError) {
-                const errorMessage = result.error.data.error.message;
-                dispatch(modal({show: true, text: `Error al actualizar datos de perfil: ${errorMessage}`, icon: "Error"}));
-            }
-            result.isLoading ? dispatch(spinner({show:true})) : dispatch(spinner({show:false}));
+        
+        if(result.isSuccess) {
+            dispatch(spinner({show:false}));
+            dispatch(modal({show: true, text: "Datos de perfil actualizados con éxito", icon: "Success"}));
+        } else if (result.isError) {
+            dispatch(spinner({show:false}));
+            const errorMessage = result.error.data.error.message;
+            dispatch(modal({show: true, text: `Error al actualizar datos de perfil: ${errorMessage}`, icon: "Error"}));
+        } else if (result.isLoading) {
+            dispatch(spinner({show:true}))
+        }
+                 
+        if (isLoading) {
+            dispatch(spinner({show: true}))
+        } else if (isSuccess) {
+            dispatch(spinner({show: false}))
         } 
 
-        isLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
         if (userProfileFromDB) setUserProfile(userProfileFromDB)
 
-    }, [result, isLoading, userProfileFromDB])
+    }, [result, isLoading, isSuccess, userProfileFromDB])
     
     const verifyCameraPermissions = async () => {
         const {granted} = await ImagePicker.requestCameraPermissionsAsync();
@@ -125,6 +132,7 @@ const EditProfile = ({navigation, route}) => {
     }
      
     if (error) {
+        dispatch(spinner({show: false}))
         return (
             <View style={generalStyles.screensContainer}>
                 <Text>Error al obtener datos de Perfil</Text>

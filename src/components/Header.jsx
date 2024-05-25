@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: "100%",
         width: 30,
-        left: 80,
+        left: 70,
         top: 0,
         bottom: 0,
         margin: "auto",

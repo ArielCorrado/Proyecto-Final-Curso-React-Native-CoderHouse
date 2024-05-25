@@ -1,6 +1,7 @@
 import { AntDesign } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export const menuOptionsList = [                                                                    //Lista de opciones que aparecen en el menu
     {
@@ -9,14 +10,20 @@ export const menuOptionsList = [                                                
         toScreen: "ProductsList"
     },
     {
+        text: "Categorías",
+        icon: <Feather name="list" size={24} color="black" />,
+        toScreen: "Categories"
+    },
+    {
         text: "Favoritos",
         icon: <AntDesign name="hearto" size={24} color="black" />,
         toScreen: "Favorites"
     },
     {
-        text: "Categorías",
-        icon: <Feather name="list" size={24} color="black" />,
-        toScreen: "Categories"
+        text: "Mi Perfil",
+        icon: <FontAwesome name="user-o" size={24} color="black" />,
+        toScreen: "EditProfile",
+        params: true
     },
     {
         text: "Mis compras",

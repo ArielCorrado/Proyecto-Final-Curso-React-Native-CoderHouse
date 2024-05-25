@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native"
 import { HEADER_HEIGHT, SCREEN_AVAILABLE_HEIGHT, SCREEN_BORDER_WIDTH } from "../constants/dimensions"
 import { colors } from "../constants/coolors"
 
-export const generalStyles = StyleSheet.create({
+export const generalStyles = StyleSheet.create({                                                //Estilos compartidos por varios componentes
     primaryFont: "Poppins",
     screensContainer: {
         marginTop: HEADER_HEIGHT,

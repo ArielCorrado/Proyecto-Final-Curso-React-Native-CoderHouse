@@ -25,7 +25,7 @@ const SignIn = ({navigation}) => {
         (async () => {
             if (registered) {
                 dispatch(spinner({show: true}))
-                const response = await getFirebaseDBUserData(localId, "cart");
+                const response = await getFirebaseDBUserData(localId, "cart");                               //Cuando el usuario se registra obtenemos el carrito de la base de datos
                 dispatch(spinner({show: false}))
                 if (response.success) {
                     const cartFromDB = response.data;
@@ -40,7 +40,7 @@ const SignIn = ({navigation}) => {
         })();
     }, [registered])
 
-    useFocusEffect (
+    useFocusEffect (                                                                                        //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle("Inicio de Sesión"))
         })
@@ -85,6 +85,7 @@ const SignIn = ({navigation}) => {
 
                 setSignInData({email: '', password: ''});
                 dispatch(modal({show: true, text: "Inicio de sesión exitoso", icon: "Success"}));
+                navigation.navigate('ProductsList');
             } else if (result.isError) {
                 const errorMessage = result.error.data.error.message;
                 if (errorMessage === "INVALID_LOGIN_CREDENTIALS") {

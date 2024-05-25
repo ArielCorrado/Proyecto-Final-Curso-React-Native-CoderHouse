@@ -5,7 +5,7 @@ import { modal } from '../../features/modal';
 import { colors } from '../../constants/coolors';
 import { useNavigation } from '@react-navigation/native';
 
-const MainModal = () => {
+const MainModal = () => {                                                                           //Modal global al que tienen acceso todos los componentes
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const modalState = useSelector((state) => state.modal.value);
@@ -19,7 +19,7 @@ const MainModal = () => {
         dispatch(modal({show: false, text: "", icon: "", showCancelButton: false}));
     }   
 
-    const selectIconImage = () => {
+    const selectIconImage = () => {                                                                 //Icono de modal seteable
         switch (modalState.icon) {
             case "Success":
                 return require(`../../../assets/images/icons/Success.png`);

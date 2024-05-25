@@ -34,7 +34,7 @@ const Navigation = () => {
 
     (async ()=> {
         try {
-            await SQLite.createTableIfNotExits();                                                                                            //Se guardan datos de sesión en base de datos local
+            await SQLite.createTableIfNotExits();                                                                                           //Se guardan datos de sesión en base de datos local
             const sessionData = await SQLite.getData();
             if (sessionData && sessionData.length) {
                 dispatch(setUser(sessionData[0]));
@@ -65,9 +65,9 @@ const Navigation = () => {
         }
     })()
 
-    return (
+    return (                        /* El modal para mostrar mensajes al cliente y el spinner pueden ser abiertos desde cualquier componente */ 
         <NavigationContainer>
-                <MainModal/>
+                <MainModal/>                                                                            
                 <MainSpinner/>
             <Stack.Navigator
                 initialRouteName='ProductsList'

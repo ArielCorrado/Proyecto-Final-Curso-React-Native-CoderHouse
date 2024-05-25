@@ -11,14 +11,14 @@ import { useEffect, useState, useCallback } from 'react';
 import { setTitle } from '../features/titleSlice';
 import { useFocusEffect } from '@react-navigation/native';
 
-const Buy = ({navigation}) => {
+const Buy = ({navigation}) => {                                                                            //Seccion "Mis Compras"
 
     const dispatch = useDispatch();
     const {localId} = useSelector(state => state.user.value);
     const {data: ordersFromDB, error, isLoading} = useGetUserDataQuery({userId: localId, field: "orders"});
     const [orders, setOrders] = useState([]);
 
-    useFocusEffect (
+    useFocusEffect (                                                                                       //Seteamos el titulo de la sección en el header cuando la screen obtiene el focus
         useCallback(() => {
            dispatch(setTitle("Mis Compras"))
         })
@@ -26,9 +26,9 @@ const Buy = ({navigation}) => {
 
     useEffect(() => {
 
-        if (ordersFromDB && ordersFromDB.length) {
+        if (ordersFromDB && ordersFromDB.length) {                                                        //Solo mostramos las órdenes no finalizadas  
             let ordersSort = [...ordersFromDB];
-            ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === false);
+            ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === false);              
             setOrders(ordersSort.sort((a, b) => b.id - a.id));
         }
 

@@ -29,7 +29,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
  
     useEffect(() => {
     
-        if (resultUserUpdate.isSuccess) {
+        if (resultUserUpdate.isSuccess) {                                                   //Acciones al cerrar sesión
             dispatch(clearCart());
             dispatch(clearUser());
             SQLite.clearTable();
@@ -54,7 +54,7 @@ const Menu = ({closeMenu, handleMenuFunction, menuFadeOut, navigation, route}) =
         handleMenuFunction(opacity, translateX, closeMenu);
     }, [handleMenuFunction])
 
-    const handleNavigation = (route) => {
+    const handleNavigation = (route) => {                                                   //Cerramos el menu y navegamos a otra screen según la opcion seleccionada
         navigation.navigate(route);
         menuFadeOut(opacity, translateX, closeMenu);
     }

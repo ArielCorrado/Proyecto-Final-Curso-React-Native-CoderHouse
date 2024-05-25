@@ -30,7 +30,7 @@ const SignUp = ({navigation}) => {
     )
     
     const signUp = () => {
-        if (!validateEmail(signUpData.email)) {
+        if (!validateEmail(signUpData.email)) {                                                                 //Validación de campos de alta de usuario
             dispatch(modal({show: true, text: "E-mail no válido", icon: "Warning"}));
             return;
         } else if (!validatePassword(signUpData.password)) {

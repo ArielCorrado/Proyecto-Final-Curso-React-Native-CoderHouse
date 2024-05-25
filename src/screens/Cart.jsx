@@ -33,7 +33,7 @@ const Cart = ({navigation}) => {
     
     useEffect(() => {
         if (allProductsFromDB) {
-            const cartItemsData = cart.map((cartItem) => ({ ...allProductsFromDB.find((dBitem) => dBitem.id === cartItem.id), ...cartItem}));
+            const cartItemsData = cart.map((cartItem) => ({ ...allProductsFromDB.find((dBitem) => dBitem.id === cartItem.id), ...cartItem}));       //Obtemos los datos de productos en carrito desde la base de datos
             const itemsInCartTotalQuantity = cartItemsData.reduce((acc, product) => acc + product.quantity, 0);
             const totalPrice = cartItemsData.reduce((acc, item) => (item.quantity * item.price) + acc, 0);
             setCartData({cartItemsData, itemsInCartTotalQuantity, totalPrice});

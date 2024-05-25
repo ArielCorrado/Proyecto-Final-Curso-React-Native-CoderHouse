@@ -20,7 +20,7 @@ const Orders = ({navigation}) => {
     const [triggerUpdateUserData, resultUpdateUser] = useUpdateUserDataMutation();
     const [orders, setOrders] = useState([]);
     
-    useFocusEffect (
+    useFocusEffect (                                                                                            //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle("Mis Órdenes"))
         })
@@ -29,7 +29,7 @@ const Orders = ({navigation}) => {
     useEffect(() => {
         if (ordersFromDB && ordersFromDB.length) {
             let ordersSort = [...ordersFromDB];
-            ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === true);
+            ordersSort = ordersSort.filter((order) => JSON.parse(order.inProgress) === true);                  //Filtramos órdenes de compra por estado "en progreso"
             setOrders(ordersSort.sort((a, b) => b.id - a.id));
         }
 

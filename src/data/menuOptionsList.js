@@ -2,7 +2,7 @@ import { AntDesign } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 
-export const menuOptionsList = [
+export const menuOptionsList = [                                                                    //Lista de opciones que aparecen en el menu
     {
         text: "Inicio",
         icon: <AntDesign name="home" size={24} color="black" />,

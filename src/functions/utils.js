@@ -1,4 +1,4 @@
-export const insertDotsInPrice = (price) => {
+export const insertDotsInPrice = (price) => {                                           //Función que inserta un punto cada 3 números en los precios
     const priceArr = price.toString().split("");
     for (let i = priceArr.length - 3; i > 0; i -= 3) {
         priceArr.splice(i, 0, ".");
@@ -6,7 +6,7 @@ export const insertDotsInPrice = (price) => {
     return priceArr.join("");
 }
 
-export const  formatDate = (timestamp) => {
+export const  formatDate = (timestamp) => {                                             //Función que convierte un timestamp del tipo Date.now() a formato de fecha y hora
     // Crea un objeto Date a partir del timestamp
     const date = new Date(timestamp);
 

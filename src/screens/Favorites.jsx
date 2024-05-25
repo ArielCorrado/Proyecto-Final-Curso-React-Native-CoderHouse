@@ -19,7 +19,7 @@ const Favorites = ({navigation}) => {
     const {data: products, error: productsErr, isLoading: productsIsLoading} = useGetProductsQuery();
 
     useEffect(() => {
-        if (products && products.length && favorites && favorites.length) {
+        if (products && products.length && favorites && favorites.length) {                                 //Obtenemos lista de productos favoritos para ser renderizados por la flatlist
             const favoritesProducts = products.filter(product => favorites.includes(product.id));   
             setResult(favoritesProducts);
         } else if (!favorites || !favorites.length) {
@@ -28,7 +28,7 @@ const Favorites = ({navigation}) => {
         favoritesIsLoading || productsIsLoading ? dispatch(spinner({show: true})) : dispatch(spinner({show: false}));
     }, [products, favorites, favoritesIsLoading, productsIsLoading])
 
-    useFocusEffect (
+    useFocusEffect (                                                                                        //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle("Mis Favoritos"))
         })

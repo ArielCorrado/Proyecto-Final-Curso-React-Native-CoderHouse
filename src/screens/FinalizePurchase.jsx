@@ -11,7 +11,7 @@ import { spinner } from '../features/spinner';
 import { GLOBAL_PRICE_MULTIPLIER } from '../constants/globalPriceMultiplier';
 import { modal } from '../features/modal';
 
-const FinalizePurchase = ({navigation, route}) => {
+const FinalizePurchase = ({navigation, route}) => {                                                 //Screen de compra finalizada
 
     const {localId} = useSelector((state) => state.user.value);
     const cartItemsData = route.params ? route.params.cartItemsData : "";

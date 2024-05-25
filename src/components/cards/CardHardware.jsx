@@ -13,9 +13,7 @@ import { modal } from '../../features/modal';
 import { spinner}  from '../../features/spinner';
 
 const CardHardware = ({price, description, imgSrc, id, navigation}) => {
-   
-    
-    const [isFavoriteError, setIsFavoriteError] = useState(false);
+      
     const favorites = useSelector((state) => state.favorites.value);
     const [isFavorite, setIsFavorite] = useState(false);
     const dispatch = useDispatch(); 
@@ -26,13 +24,13 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
     const handleFavorite = async() => {
         const favoritesAux = [...favorites];
         const favoriteIndex = favorites.indexOf(id);
-        if (favoriteIndex !== -1) {
+        if (favoriteIndex !== -1) {                                                                             //Si el favorito existe lo eliminamos, de lo contrario se pushea
             favoritesAux.splice(favoriteIndex, 1);
         } else {
             favoritesAux.push(id);
         }
         favoritesAuxRef.current = [...favoritesAux];
-        triggerUpdateUserData({userId: localId, field: "favorites", data: favoritesAux}); 
+        triggerUpdateUserData({userId: localId, field: "favorites", data: favoritesAux});                       //Se guardan favoritos en la base de datos
         dispatch(spinner({show: true}));
     }
     
@@ -54,7 +52,7 @@ const CardHardware = ({price, description, imgSrc, id, navigation}) => {
     return (
         <View style={styles.container}>
             {
-                !isFavoriteError && registered &&
+                registered &&
                 <Pressable style={styles.heartCont} onPress={handleFavorite}>
                     { isFavorite ? <AntDesign name="heart" size={24} color="#5F2CAF" style={styles.heart}/> : <AntDesign name="hearto" size={24} color="gray" style={styles.heart}/> }
                 </Pressable>

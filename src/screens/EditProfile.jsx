@@ -30,10 +30,10 @@ const EditProfile = ({navigation, route}) => {
 
     const saveChanges = () => {
         setImage("");
-        triggerUpdateUserData({userId: userId, field: "profile", data: userProfile});
+        triggerUpdateUserData({userId: userId, field: "profile", data: userProfile});                                           //Guardamos datos de perfil en la base de datos
     }
 
-    useFocusEffect (
+    useFocusEffect (                                                                                                            //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle("Mi Perfil"))
         })

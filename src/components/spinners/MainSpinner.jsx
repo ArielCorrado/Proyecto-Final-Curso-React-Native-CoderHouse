@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { modal } from '../../features/modal'
 import { useDispatch } from 'react-redux'
 
-const MainSpinner = () => {
+const MainSpinner = () => {                                                                                                 //Spinner global al que tienen acceso todos los componentes
 
     const dispatch = useDispatch();
     const spinnerState = useSelector((state) => state.spinner.value);
@@ -18,7 +18,7 @@ const MainSpinner = () => {
 
         if (spinnerState.show) {
             timer = setTimeout(() => {                                                                                      //El spinner se cierra a los 5 segundos de carga y se muestra un mensaje
-                setShowSpinner(false);
+                setShowSpinner(false);                                                                                      // de tiempo de espera agotado
                 dispatch(modal({ show: true, text: "Tiempo de espera agotado", icon: "Warning" }));
             }, 5000);
         }  

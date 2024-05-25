@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const titleSlice = createSlice({
+export const titleSlice = createSlice({                                                 //Titulo de sección que aparece en el menú
     name: "title",
     initialState: {
         value: ""

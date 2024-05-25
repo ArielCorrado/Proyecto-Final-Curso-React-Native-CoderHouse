@@ -22,13 +22,13 @@ const ProductDetail = ({navigation, route}) => {
     const {data: product, error, isLoading} = useGetProductByIdQuery(productId);
     const cart = useSelector(state => state.cart.value);
        
-    const addToCardIfNotExistsAndRedirect = () => {
-        const exists = cart.find((item) => item.id === product.id);
-        if (!exists) dispatch(addToCart(product.id));
+    const addToCardIfNotExistsAndRedirect = () => {                                     //Seleccionamos "Comprar Ahora"...
+        const exists = cart.find((item) => item.id === product.id);                     //Verificamos si el producto ya existe en el carrito
+        if (!exists) dispatch(addToCart(product.id));                                   //Si nó existe lo agregamos    
         navigation.navigate("Cart");
     }
 
-    useFocusEffect (
+    useFocusEffect (                                                                    //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle("Detalles de Producto"))
         })

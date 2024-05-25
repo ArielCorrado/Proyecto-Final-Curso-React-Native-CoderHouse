@@ -9,21 +9,34 @@ import { setTitle } from '../features/titleSlice';
 import { StyleSheet } from 'react-native';
 import { useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import { spinner } from '../features/spinner';
+import { useEffect } from 'react';
 
 const Order = ({route}) => {
 
     const dispatch = useDispatch();
     const {id: orderId, title} = route.params;
     const {localId} = useSelector(state => state.user.value);
-    const {data: order, error, isLoading} = useGetUserOrderQuery({userId: localId, orderId: orderId});
-    const itemsArr = order ? Object.values(order)[0].items : [];
+    const {data: order, error, isLoading, isSuccess} = useGetUserOrderQuery({userId: localId, orderId: orderId});
+    const itemsArr = order ? Object.values(order)[0].items : [];                                    //itemsArr: array con los items de la orden
      
-    useFocusEffect (
+    useFocusEffect (                                                                                //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle(title))
         })
     )
 
+    useEffect(() => {
+        if (error) {
+            dispatch(spinner({show: false}));
+            dispatch(modal({show: true, text: "Error: no se pudo cargar la orden", icon: "Error"}));
+        } else if (isLoading) {
+            dispatch(spinner({show: true}));
+        } else if (isSuccess) {
+            dispatch(spinner({show: false}));
+        }
+    }, [error, isLoading, isSuccess])
+    
     return (
         <View style={[generalStyles.screensContainer, styles.orderContainer]}>
             <FlatList

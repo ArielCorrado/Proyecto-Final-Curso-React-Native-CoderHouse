@@ -16,7 +16,7 @@ const Categories = ({navigation}) => {
     const dispatch = useDispatch();
     const [categories, setCategories] = useState(null);
 
-    useFocusEffect (
+    useFocusEffect (                                                                                        //Setemos título de screen en el header
         useCallback(() => {
            dispatch(setTitle("Categorías"))
         })

@@ -9,7 +9,7 @@ import { menuFadeIn, menuFadeOut } from '../animations/animations';
 import { modal } from '../features/modal';
 import { useUpdateUserDataMutation } from '../services/firebaseDB';
 
-const Header = ({navigation, route}) => {
+const Header = ({navigation, route}) => {                                                                   //Header de la aplicación siempre visible
    
     const [menu, setMenu] = useState(null);
     let menuAnimating = useRef(false);
@@ -22,11 +22,11 @@ const Header = ({navigation, route}) => {
     const itemsInCartTotalQuantity = cart.reduce((acc, item) => acc + item.quantity, 0);
     const [triggerUpdateUserData, resultUserUpdate] = useUpdateUserDataMutation();
        
-    useEffect(() => {
+    useEffect(() => {                                                                                     //El texto del buscador es un estado que lee la screen de productos para el filtrado      
         dispatch(searchText(searchTextInput));
     }, [searchTextInput]);
 
-    useEffect(() => {
+    useEffect(() => {                                                                                     //Cada vez que cambia el contenido del carrito lo guardamos en la base de datos  
         triggerUpdateUserData({userId: localId, field: "cart", data: cart});
     }, [cart])
 
@@ -36,8 +36,8 @@ const Header = ({navigation, route}) => {
         }
     }, [resultUserUpdate])
         
-    const handleMenu = () => {
-        if (!menuAnimating.current) {
+    const handleMenu = () => {                                                                              
+        if (!menuAnimating.current) {                                                                     //Manejo de la apertura y cierre del menú
             menuAnimating.current = true;
             menu ? 
             setMenu( <Menu closeMenu={() => setMenu(null)} handleMenuFunction={menuFadeOut} menuFadeOut={menuFadeOut} navigation={navigation} route={route} /> ) :

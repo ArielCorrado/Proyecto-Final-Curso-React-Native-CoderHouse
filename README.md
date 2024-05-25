@@ -1,10 +1,11 @@
 
-## Documentation
+## Documentación
 
 "E-Hard" es un E-commerce desarrollado para Smartphones con React Native y Expo
-el cual cuenta con un total de 95 productos de hardware distribuidos en 7 categorias.
+el cual cuenta con un total de 95 productos de hardware distribuidos en 7 categorías. 
+El objetivo del proyecto es brindar al usuario una plataforma de compras, simple y de fácil uso.
 
-#### Features
+#### Funcionalidades
 * Inicio de sesión y creación de usuarios
 * Edición de perfil
 * Sección de productos favoritos
@@ -15,7 +16,7 @@ el cual cuenta con un total de 95 productos de hardware distribuidos en 7 catego
 * Menú desplegable animado
 * Listado de productos
 * Detalle de Producto
-* Barra superior de busqueda de productos con resultados en tiempo real
+* Barra superior de búsqueda de productos con resultados en tiempo real
 
 #### Recursos utilizados
 
@@ -55,7 +56,7 @@ el cual cuenta con un total de 95 productos de hardware distribuidos en 7 catego
 * Una vez clonado el repositorio o descargado el proyecto
 * Instalar las dependencias utilizando el comando de consola: 
     * "**npm i**" 
-* Insertar en la raiz del proyecto el archivo .env proporcionado por el autor
+* Insertar en la raíz del proyecto el archivo .env proporcionado por el autor
 * Descargar Android Studio y ejecutar el emulador de Smartphones
 * Instalar "Expo Go" en el dispositivo virtual desde el store
 * Ejecutar en la consola el comando:
